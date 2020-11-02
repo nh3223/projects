@@ -21,3 +21,17 @@ There will be a progress bar to measure the progress made in each level.  Fifty 
 ## Technology Stack
 
 The back end will be written in python using Django with a SQlite database.  The front end will just use basic HTML, CSS and vanilla Javascript.
+
+## Development Process
+
+1. Create Models
+2. Create Problems
+3. Add basic login features
+4. Update database upon new registration
+4. Develop basic templates
+5. Load problems
+6. Time answers
+7. Upload results and modify database
+8. Add progress bar
+9. Add speech recognition
+10. Add roses and prettify everything

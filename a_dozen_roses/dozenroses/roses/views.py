@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from . import util
 from .models import User, Problem, Score
 
 def index(request):
@@ -56,8 +57,11 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
+        util.create_user_scores(user)
         return redirect(reverse("index"))
     else:
         return render(request, "roses/register.html")
+
+
 
 
