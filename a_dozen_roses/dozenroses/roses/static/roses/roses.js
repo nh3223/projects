@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function() {  
     current_user = await get_current_user()
-    console.log('after_return', current_user)
     if (current_user) {
         logged_in_welcome()
     } else {
@@ -20,9 +19,7 @@ async function get_current_user() {
     .then(response => response.json())
     .then(response => {
         current_user = response.user
-        console.log('in fetch', current_user)
     })
-    console.log('in function', current_user)
     return current_user
 }
 
@@ -39,6 +36,15 @@ async function log_in_welcome() {
     document.getElementById('log_in_welcome').style.display = 'block'
 }
 
+async function play_game() {
+    problems = await get_problems()
+    console.log(problems)
+    //problems.foreach(problem => {
+}
 
+function get_problems() {
+    return fetch('/problems')
+    .then(response => response.json())    
+}
 
 

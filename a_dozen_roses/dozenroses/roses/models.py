@@ -4,7 +4,7 @@ from django.db.models import Model, CharField, IntegerField, ForeignKey, CASCADE
 # Create your models here.
 
 class User(AbstractUser):
-    pass
+    level = IntegerField(default=1)
 
 class Problem(Model):
     problem = CharField(max_length = 8)

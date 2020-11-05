@@ -67,5 +67,14 @@ def user(request):
     user = get_user(request)
     return JsonResponse({'user': user.username})
 
+def problems(request):
+    user = get_user(request)
+    problems = util.get_problems(user)
+    response = [{'problem': item.problem, 'answer': item.answer} for item in problems]
+    return JsonResponse(response, safe=False)
+    
+
+
+
 
 
