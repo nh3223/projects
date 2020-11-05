@@ -1,0 +1,26 @@
+{% extends "roses/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <div id="progress_bar">
+    </div>    
+    
+    <div id="logged_in_welcome">    
+        <h2>Hello {{ user.username }}, welcome to A Dozen Roses!</h2>
+        <button id="play_game">Play A Dozen Roses</button>
+    </div>
+    
+    <div id="log_in_welcome">
+        <h2>Welcome to A Dozen Roses!</h2>
+        <h2>Please <a href="{% url 'login' %}"">Login</a> or <a href="{% url 'register' %}">Register</a></h2>
+    </div>
+
+    <div id="problems">
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'roses/roses.js' %}"></script>
+{% endblock %}

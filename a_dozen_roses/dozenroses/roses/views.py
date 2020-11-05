@@ -1,6 +1,7 @@
 import json
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, get_user, login, logout
 from django.db import IntegrityError
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -8,7 +9,7 @@ from . import util
 from .models import User, Problem, Score
 
 def index(request):
-    return render(request, "network/index.html")
+    return render(request, "roses/index.html")
 
 def login_view(request):
     if request.method == "POST":
@@ -57,11 +58,14 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        util.create_user_scores(user)
+        util.create_user_problems(user)
         return redirect(reverse("index"))
     else:
         return render(request, "roses/register.html")
 
+def user(request):
+    user = get_user(request)
+    return JsonResponse({'user': user.username})
 
 
 
