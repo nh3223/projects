@@ -10,13 +10,23 @@
         <h2>Hello {{ user.username }}, welcome to A Dozen Roses!</h2>
         <button id="play_game">Play A Dozen Roses</button>
     </div>
-    
+
     <div id="log_in_welcome">
         <h2>Welcome to A Dozen Roses!</h2>
         <h2>Please <a href="{% url 'login' %}"">Login</a> or <a href="{% url 'register' %}">Register</a></h2>
     </div>
 
     <div id="problems">
+        <h1 id="show_problem"></h1>
+        <form id="problem_entry_form" method="POST">
+            {% csrf_token %}
+            <div class="form-group" id="answer_value_div">
+                <input class="form-control" id="answer_value" name="answer" placeholder="Answer">
+            </div>
+            <div class="form-group" id="answer_button_div">
+                <input class="form-control" id="answer_button" type="button" value="Answer">
+            </div>
+        </form>
     </div>
 
 {% endblock %}
