@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from . import util
 from .models import User, Problem, Score
@@ -73,8 +74,19 @@ def problems(request):
     response = [{'id': item.id, 'problem': item.problem, 'answer': item.answer} for item in problems]
     return JsonResponse(response, safe=False)
     
+def grammar(request):
+    return JsonResponse(util.get_written_numbers())
 
+@csrf_exempt
+def results(request):
+    user = get_user(request)
+    problems = json.loads(request.body)
+    util.update_results(user, problems)
+    return JsonResponse({'message': 'Scores Updated'})
 
+def progress(request):
+    user = get_user(request)
+    return JsonResponse({'progress': util.get_progress(user)})
 
 
 

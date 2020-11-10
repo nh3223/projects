@@ -3,7 +3,8 @@
 
 {% block body %}
 
-    <div id="progress_bar">
+    <div id="progress_bar_container" class="progress">
+        <div id="progress_bar" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>
     </div>    
     
     <div id="logged_in_welcome">    
@@ -18,19 +19,11 @@
 
     <div id="problems">
         <h1 id="show_problem"></h1>
-        <form id="problem_entry_form" method="POST">
-            {% csrf_token %}
-            <div class="form-group" id="answer_value_div">
-                <input class="form-control" id="answer_value" name="answer" placeholder="Answer">
-            </div>
-            <div class="form-group" id="answer_button_div">
-                <input class="form-control" id="answer_button" type="button" value="Answer">
-            </div>
-        </form>
     </div>
 
 {% endblock %}
 
 {% block script %}
+    <script src="{% static 'roses/speech.js' %}"></script>
     <script src="{% static 'roses/roses.js' %}"></script>
 {% endblock %}
