@@ -31,8 +31,8 @@ The back end will be written in python using Django with a SQlite database.  The
 4. Develop basic templates
 5. Load problems
 6. Time answers
----------> Currently Here <---------
 7. Upload results and modify database
+----------> Currently Here <-----------
 8. Add progress bar
 9. Add speech recognition
 10. Move login to Navbar and add security for login process
