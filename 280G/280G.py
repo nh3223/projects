@@ -1,6 +1,6 @@
 import os
 from app import create_app, db
-from app.models import Company, Executive, BaseAmount, NonEquityPayment, Option, RestrictedStock
+from app.models import Company, Executive, Compensation, NonEquityPayment, Option, RestrictedStock
 from flask_migrate import Migrate 
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
