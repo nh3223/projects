@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from . import db
 
 class Company(db.Model):
@@ -9,22 +9,22 @@ class Company(db.Model):
     executives = db.relationship('Executive', backref='company', lazy=True)
 
     def __repr__(self):
-        return f'<Company {name}>'
+        return f'<Company: {self.name}>'
 
 class Executive(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    commpany = db.Column(db.Integer, db.ForeignKey('company.id'))
+    commpany_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     name = db.Column(db.String(32))
     title = db.Column(db.String(32))
     start_date = db.Column(db.DateTime)
     first_year_non_recurring_compensation = db.Column(db.Float, default = 0)
-    compensation = db.relationship('Compensation', backref='executive', lazy=True)
+    executive_compensation = db.relationship('Compensation', backref='executive', lazy=True)
     non_equity_payments = db.relationship('NonEquityPayment', backref='executive', lazy=True)
     options = db.relationship('Option', backref='executive', lazy=True)
     restricted_stock = db.relationship('RestrictedStock', backref='executive', lazy=True)
 
     def __repr__(self):
-        return f'<Executive: {name}, {title}>'
+        return f'<Executive: {self.name}, {self.title}, {self.company}, {self.start_date}, {self.first_year_non_recurring_compensation}>'
 
     @property
     def parachute_threshold(self):
@@ -32,37 +32,37 @@ class Executive(db.Model):
     
     @property
     def base_amount(self):
-        start_year = self.start_date.year()
-        if start_year == self.company.transaction_date.year():
-            worked_days = datetime.today() - self.start_date + 1
-            current_year_compensation = self.compensation.compensation
-            return annualized_compensation(worked_days, compensation)
+        start_year = self.start_date.year
+        if start_year == self.company.transaction_date.year:
+            worked_days = (self.company.transaction_date.date() - self.start_date.date()).days + 1
+            current_year_compensation = self.executive_compensation[0].compensation
+            return self.annualized_compensation(worked_days, current_year_compensation)
         compensation = []
-        for item in self.compensation:
+        for item in self.executive_compensation:
             if item.year != start_year:
                 compensation.append(item.compensation)
             else:
-                worked_days = datetime.date(start_year, 12, 31) - self.start_date + 1
-                compensation.append(annualized_compensation(worked_days, item.compensation))
-        return average(compensation)
+                worked_days = (date(start_year, 12, 31) - self.start_date.date()).days + 1
+                compensation.append(self.annualized_compensation(worked_days, item.compensation))
+        return sum(compensation)/len(compensation)
 
     def annualized_compensation(self, worked_days, compensation):
         non_recurring_compensation = self.first_year_non_recurring_compensation
-        percentage_of_days_worked = worked_days / days_in_year()
+        percentage_of_days_worked = worked_days / self.days_in_year()
         return (compensation - non_recurring_compensation) / percentage_of_days_worked + non_recurring_compensation
 
     def days_in_year(self):
-        return datetime.date(self.start_date.year(), 12, 31) - datetime.date(self.start_date.year(), 1, 1) + 1
+        return (date(self.start_date.year, 12, 31) - date(self.start_date.year, 1, 1)).days + 1
 
 class Compensation(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    executive = db.Column(db.Integer, db.ForeignKey('executive.id'))
+    executive_id = db.Column(db.Integer, db.ForeignKey('executive.id'))
     year = db.Column(db.Integer)
     compensation = db.Column(db.Float)
 
 class NonEquityPayment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    executive = db.Column(db.Integer, db.ForeignKey('executive.id'))
+    executive_id = db.Column(db.Integer, db.ForeignKey('executive.id'))
     amount = db.Column(db.Float)
     description = db.Column(db.String(64))
     reasonable_compensation_before_change = db.Column(db.Boolean, default = False)
@@ -70,7 +70,7 @@ class NonEquityPayment(db.Model):
 
 class Option(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    executive = db.Column(db.Integer, db.ForeignKey('executive.id'))
+    executive_id = db.Column(db.Integer, db.ForeignKey('executive.id'))
     number = db.Column(db.Float)
     grant_date = db.Column(db.Date)
     vesting_date = db.Column(db.Date)
@@ -81,7 +81,7 @@ class Option(db.Model):
 
 class RestrictedStock(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    executive = db.Column(db.Integer, db.ForeignKey('executive.id'))
+    executive_id = db.Column(db.Integer, db.ForeignKey('executive.id'))
     number = db.Column(db.Float)
     grant_date = db.Column(db.Date)
     vesting_date = db.Column(db.Date)

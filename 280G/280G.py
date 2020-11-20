@@ -8,7 +8,7 @@ migrate = Migrate(app, db)
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, Company=Company, Executive=Executive, BaseAmount=BaseAmount, 
+    return dict(db=db, Company=Company, Executive=Executive, Compensation=Compensation, 
                 NonEquityPayment=NonEquityPayment, Option=Option, RestrictedStock=RestrictedStock)
 
 @app.cli.command()
