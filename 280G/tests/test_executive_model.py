@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 from flask import current_app
 from app import create_app, db
-from app.models import Company, Executive, Compensation
+from app.models import Company, Executive, Compensation, NonEquityPayment
 
 
 class ExecutiveModelTestCase(unittest.TestCase):
@@ -14,6 +14,7 @@ class ExecutiveModelTestCase(unittest.TestCase):
         self.create_company()
         self.create_executives()
         self.add_executive_compensation()
+        self.add_non_equity_payments()
 
     def tearDown(self):
         db.session.remove()
@@ -47,7 +48,22 @@ class ExecutiveModelTestCase(unittest.TestCase):
             for year in executive:
                 db.session.add(Compensation(executive = Executive.query.get(i+1), year = year[0], compensation = year[1]))
         db.session.commit()
-    
+
+    def add_non_equity_payments(self):
+        payment_details = [(Executive.query.get(1), 500000, 'Bonus 1', False, False),
+                           (Executive.query.get(1), 500000, 'Bonus 2', False, False),
+                           (Executive.query.get(2), 100000, 'Bonus 1', False, False),
+                           (Executive.query.get(2), 100000, 'Bonus 2', True, False),
+                           (Executive.query.get(3), 100000, 'Bonus 1', False, False),
+                           (Executive.query.get(3), 100000, 'Bonus 2', False, True)]
+        for payment in payment_details:
+            db.session.add(NonEquityPayment(executive = payment[0],
+                                            amount = payment[1],
+                                            description = payment[2],
+                                            reasonable_compensation_before_change = payment[3],
+                                            reasonable_compensation_after_change = payment[4]))
+        db.session.commit()
+        
     def test_company_executive_relationship(self):
         executive_1 = Executive.query.get(1)
         self.assertTrue(executive_1.company.name == 'abc')
@@ -65,3 +81,22 @@ class ExecutiveModelTestCase(unittest.TestCase):
     def test_parachute_threshold(self):
         executive_1 = Executive.query.get(1)
         self.assertTrue(executive_1.parachute_threshold - 1200000 < 0.01)
+
+    def test_total_non_equity_payments(self):
+        executive_1 = Executive.query.get(1)
+        executive_2 = Executive.query.get(2)
+        executive_3 = Executive.query.get(3)
+        self.assertTrue(executive_1.total_non_equity_payments == 1000000)
+        self.assertTrue(executive_2.total_non_equity_payments == 200000)
+        self.assertTrue(executive_3.total_non_equity_payments == 200000)
+
+    def test_reasonable_compensation_amounts(self):
+        executive_1 = Executive.query.get(1)
+        executive_2 = Executive.query.get(2)
+        executive_3 = Executive.query.get(3)
+        self.assertTrue(executive_1.total_reasonable_compensation_before_change == 0)
+        self.assertTrue(executive_1.total_reasonable_compensation_after_change == 0)
+        self.assertTrue(executive_2.total_reasonable_compensation_before_change == 100000)
+        self.assertTrue(executive_2.total_reasonable_compensation_after_change == 0)
+        self.assertTrue(executive_3.total_reasonable_compensation_before_change == 0)
+        self.assertTrue(executive_3.total_reasonable_compensation_after_change == 100000)

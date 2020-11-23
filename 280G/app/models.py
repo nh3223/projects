@@ -54,6 +54,18 @@ class Executive(db.Model):
     def days_in_year(self):
         return (date(self.start_date.year, 12, 31) - date(self.start_date.year, 1, 1)).days + 1
 
+    @property
+    def total_non_equity_payments(self):
+        return sum([payment.amount for payment in self.non_equity_payments])
+
+    @property
+    def total_reasonable_compensation_before_change(self):
+        return sum([payment.amount for payment in self.non_equity_payments if payment.reasonable_compensation_before_change])
+
+    @property
+    def total_reasonable_compensation_after_change(self):
+        return sum([payment.amount for payment in self.non_equity_payments if payment.reasonable_compensation_after_change])
+
 class Compensation(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     executive_id = db.Column(db.Integer, db.ForeignKey('executive.id'))
