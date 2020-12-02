@@ -1,22 +1,28 @@
+import os, pathlib
 from pdfquery import PDFQuery
+
 
 class Spread_Factor:
 
-    def get_spread_factors(self):
-        pdf = self.get_pdf()
-        pdf.load(5)
-        bbox_bounds = self.get_bbox_bounds(pdf)
-        return self.get_factors(pdf, bbox_bounds)
+    @staticmethod
+    def get_spread_factors():
+        pdf = Spread_Factor.get_pdf()
+        pdf.load(11)
+        bbox_bounds = Spread_Factor.get_bbox_bounds(pdf)
+        return Spread_Factor.get_factors(pdf, bbox_bounds)
 
-    def get_pdf(self):
-        return PDFQuery("revenue_procedure_2002-13.pdf")
+    @staticmethod
+    def get_pdf():
+        return PDFQuery(os.path.join(pathlib.Path(__file__).parent.absolute(), "revenue_procedure_2003-68.pdf"))
 
-    def get_bbox_bounds(self, pdf):
+    @staticmethod
+    def get_bbox_bounds(pdf):
         lines = pdf.extract([('spread_ratio',f'LTTextLineHorizontal:contains("0%")')])
-        bbox_bounds = list(set([(168, float(pdf.pq(line).attr('y0')), 466, float(pdf.pq(line).attr('y1'))) for line in lines['spread_ratio']]))
+        bbox_bounds = list(set([(168, float(pdf.pq(line).attr('y0')), 472, float(pdf.pq(line).attr('y1'))) for line in lines['spread_ratio']]))
         return sorted(bbox_bounds, key=lambda x: x[1], reverse=True)
 
-    def get_factors(self, pdf, bbox_bounds):
+    @staticmethod
+    def get_factors(pdf, bbox_bounds):
         spread_factors = {'low': {}, 'medium': {}, 'high': {}}
         spread_ratios = [200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0, -20, -40, -60]
         i = 0
@@ -29,5 +35,3 @@ class Spread_Factor:
                 spread_factors[volatility][ratio] = factors
                 i += 1
         return spread_factors
-
-

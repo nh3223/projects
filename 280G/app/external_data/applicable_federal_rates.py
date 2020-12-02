@@ -1,6 +1,4 @@
-import requests
 import os, pathlib
-from lxml import html
 from pdfquery import PDFQuery
 
 class Applicable_Federal_Rates:

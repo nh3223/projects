@@ -14,7 +14,7 @@ To ensure proper test results, the value of the rates (120% compounded semi-annu
 class ExternalDataTestCase(unittest.TestCase):
 
     def test_treasury_rate(self):
-        current_rate = 0.08
+        current_rate = 0.075
         self.assertTrue(utilities.update_treasury_rate() == current_rate)
 
     def test_afrs(self):
@@ -24,3 +24,15 @@ class ExternalDataTestCase(unittest.TestCase):
         self.assertTrue(utilities.get_applicable_federal_rate(30) == short_term) # Short term is 36 months or less
         self.assertTrue(utilities.get_applicable_federal_rate(50) == mid_term)   # Mid term is 36 to 108 months
         self.assertTrue(utilities.get_applicable_federal_rate(120) == long_term) # Long term is greater than 108 months
+
+    def test_option_valuation_rev_proc(self):
+        spread_factors = utilities.update_spread_factors()
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 20, 130, 0) == 'N/A')
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 20, 60, 300) == 'N/A')
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 20, 60, -80) == 'N/A')
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 20, 60, 100) == 0.579)
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 50, 60, 100) == 0.637)
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 80, 60, 100) == 0.706)
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 20, 50, 100) == 0.564)
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 20, 60, 90) == 0.543)
+        self.assertTrue(utilities.get_spread_factor(spread_factors, 20, 50, 90) == 0.526)
