@@ -1,3 +1,6 @@
+from math import log, exp, sqrt
+from scipy.stats import norm
+
 from .external_data import Get_External_Data_Files, Treasury_Rate, Applicable_Federal_Rates, Spread_Factor
 
 def update_spread_factors():
@@ -46,4 +49,18 @@ def get_applicable_federal_rate(term):
     else:
         return rates['long-term']
 
-     
+def black_scholes(spot_price, exercise_price, volatility, remaining_term):
+    volatility /= 100
+    risk_free_rate = update_treasury_rate() / 100
+    remaining_term /= 12
+    d_1 = (log(spot_price / exercise_price) + (risk_free_rate + volatility**2 / 2)*remaining_term) / (volatility * sqrt(remaining_term))
+    d_2 = d_1 - volatility * sqrt(remaining_term)
+    return spot_price * norm.cdf(d_1) - exercise_price * exp(-risk_free_rate * remaining_term) * norm.cdf(d_2)
+
+def option_valuation(spread_factors, spot_price, exercise_price, volatility, remaining_term):
+    spread_factor = 100 * (spot_price / exercise_price - 1)
+    valuation_rev_proc = get_spread_factor(spread_factors, volatility, remaining_term, spread_factor)
+    if valuation_rev_proc == 'N/A':
+        return black_scholes(spot_price, exercise_price, volatility, remaining_term)
+    else:
+        return spot_price * valuation_rev_proc
