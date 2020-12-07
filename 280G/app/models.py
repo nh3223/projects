@@ -26,46 +26,6 @@ class Executive(db.Model):
     def __repr__(self):
         return f'<Executive: {self.name}, {self.title}, {self.company}, {self.start_date}, {self.first_year_non_recurring_compensation}>'
 
-    @property
-    def parachute_threshold(self):
-        return 3 * self.base_amount
-    
-    @property
-    def base_amount(self):
-        start_year = self.start_date.year
-        if start_year == self.company.transaction_date.year:
-            worked_days = (self.company.transaction_date.date() - self.start_date.date()).days + 1
-            current_year_compensation = self.executive_compensation[0].compensation
-            return self.annualized_compensation(worked_days, current_year_compensation)
-        compensation = []
-        for item in self.executive_compensation:
-            if item.year != start_year:
-                compensation.append(item.compensation)
-            else:
-                worked_days = (date(start_year, 12, 31) - self.start_date.date()).days + 1
-                compensation.append(self.annualized_compensation(worked_days, item.compensation))
-        return sum(compensation)/len(compensation)
-
-    def annualized_compensation(self, worked_days, compensation):
-        non_recurring_compensation = self.first_year_non_recurring_compensation
-        percentage_of_days_worked = worked_days / self.days_in_year()
-        return (compensation - non_recurring_compensation) / percentage_of_days_worked + non_recurring_compensation
-
-    def days_in_year(self):
-        return (date(self.start_date.year, 12, 31) - date(self.start_date.year, 1, 1)).days + 1
-
-    @property
-    def total_non_equity_payments(self):
-        return sum([payment.amount for payment in self.non_equity_payments])
-
-    @property
-    def total_reasonable_compensation_before_change(self):
-        return sum([payment.amount for payment in self.non_equity_payments if payment.reasonable_compensation_before_change])
-
-    @property
-    def total_reasonable_compensation_after_change(self):
-        return sum([payment.amount for payment in self.non_equity_payments if payment.reasonable_compensation_after_change])
-
 class Compensation(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     executive_id = db.Column(db.Integer, db.ForeignKey('executive.id'))

@@ -20,6 +20,8 @@ In general, this is a very straightforward application with web forms for data i
 
 The back end will be written in Python using Flask with a SQLite database.  The front end will use basic HTML, CSS and vanilla Javascript.  Javascript will only be used for interface enhancements, such as explanatory pop-ups.
 
+Revised 12/5 --> Business logic and calculations will be moved to the client-side with the back end being solely for storing company and executive information and accessing external data.
+
 # Process
 
 1. Develop Models
