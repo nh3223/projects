@@ -44,14 +44,14 @@ class Option(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     executive_id = db.Column(db.Integer, db.ForeignKey('executive.id'))
     number = db.Column(db.Float)
-    grant_date = db.Column(db.Date)
+    grant_date = db.Column(db.Date) # Need to add a grant id to distinguish between two grants on the same date
     vesting_date = db.Column(db.Date)
     strike_price = db.Column(db.Float)
-    change_of_control = db.Column(db.Boolean, default = False)
-    accelerated = db.Column(db.Boolean, default = True)
+    change_of_control = db.Column(db.Boolean, default = False) # Set default = True if grant_date within 1 year of transaction_date, allow toggle for presumption to be rebutted
+    accelerated = db.Column(db.Boolean, default = True) # Need to allow for partial acceleration - next to vest, last to vest, pro rata, custom, acceleration to a date other than transaction date
     roll_over = db.Column(db.Boolean, default = False)
 
-class RestrictedStock(db.Model):
+class RestrictedStock(db.Model): # Same fixes as for options
     id = db.Column(db.Integer, primary_key = True)
     executive_id = db.Column(db.Integer, db.ForeignKey('executive.id'))
     number = db.Column(db.Float)
