@@ -22,10 +22,9 @@ const black_scholes = (spot_price, exercise_price, volatility, remaining_term) =
     return spot_price * cdf(d_1) - exercise_price * Math.exp(-risk_free_rate * remaining_term) * cdf(d_2)
 };
 
-const mathjs = require('mathjs')
-
 const cdf = (x, mean, standardDeviation) => {
-  return (1 - mathjs.erf( -x / Math.sqrt(2) )) / 2;
+    const mathjs = require('mathjs')
+    return (1 - mathjs.erf( -x / Math.sqrt(2) )) / 2;
 };
     
 
