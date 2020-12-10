@@ -1,4 +1,4 @@
-const option_value_280G = () => {
+const equity_value_280G = () => {
     payment_date_difference = new_vesting_date - transaction_date
     daily_rate = get_daily_rate()
     present_value_adjustment = (1 + daily_rate)**payment_date_difference
@@ -8,10 +8,6 @@ const option_value_280G = () => {
         return acceleration_value() * present_value_adjustment;
     }
 };
-
-const restricted_stock_value_280G = () => {
-
-}
 
 const get_daily_rate = (days, afrs) => {
     if (days < 3 * 365) {

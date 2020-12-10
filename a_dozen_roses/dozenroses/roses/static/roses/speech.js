@@ -7,12 +7,12 @@ function get_number_text() {
 .then(response => response.json())
 }
 
-function get_number_list(number_text) {
+async function get_number_list() {
+    number_text = await get_number_text()
     const numbers = Object.keys(number_text)
     grammar = '#JSGF V1.0; grammar numbers; public <number> = ' + numbers.join(' | ') + ' ;'
     number_list = new SpeechGrammarList();
     number_list.addFromString(grammar, 1);
-    console.log(number_list)
     return number_list
 }
 

@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', async function() {  
     const current_user = await get_current_user();
+    const number_list = await get_number_list();
     if (current_user) {
-        logged_in_welcome()
+        logged_in_welcome(number_list)
     } else {
         log_in_welcome()
     }
@@ -23,11 +24,11 @@ async function get_current_user() {
     return current_user
 }
 
-async function logged_in_welcome() {
+async function logged_in_welcome(number_list) {
     await clear_view()
     document.getElementById('logged_in_welcome').style.display = 'block'
     document.getElementById('log_in_welcome').style.display = 'none'
-    document.getElementById('play_game').addEventListener('click', () => play_game())
+    document.getElementById('play_game').addEventListener('click', () => play_game(number_list))
 }
 
 async function log_in_welcome() {
@@ -36,25 +37,21 @@ async function log_in_welcome() {
     document.getElementById('log_in_welcome').style.display = 'block'
 }
 
-async function play_game() {
+async function play_game(number_list) {
     document.getElementById('logged_in_welcome').style.display = 'none'
     document.getElementById('problems').style.display = 'block'
-    document.getElementById('progress_bar_container').style.display = 'block'
-    const progress = await get_progress()
-    await show_progress_bar(progress.progress)
-    const number_text = await get_number_text()
-    const number_list = await get_number_list(number_text)
+    await show_progress_bar()
     const problems = await get_problems()
     let results = []
     for (const problem of problems) {
-        const time = await solve_problem(problem, number_list, number_text);
+        const time = await solve_problem(problem, number_list);
         results.push({'id': problem.id, 'time': time})
     }
     fetch('/results', {
         method: 'PUT',
         body: JSON.stringify(results)
     })
-    .then(logged_in_welcome())
+    .then(logged_in_welcome(number_list))
 }
 
 function get_problems() {
@@ -62,14 +59,14 @@ function get_problems() {
     .then(response => response.json())
 }
 
-async function solve_problem(current_problem, number_list, number_text) {
+async function solve_problem(current_problem, number_list) {
     recognition = await get_speech_recognition(number_list)
     document.getElementById('show_problem').innerHTML = current_problem.problem
     start_time = performance.now()
     recognition.start()
     console.log('speech on')
     return new Promise((resolve) => {
-        time = get_time(current_problem, start_time, recognition, number_text)
+        time = get_time(current_problem, start_time, recognition)
         resolve(time)
     });
 }
@@ -105,6 +102,8 @@ function get_progress() {
 }
 
 function show_progress_bar(progress) {
+    document.getElementById('progress_bar_container').style.display = 'block'
+    const progress = await get_progress()
     progress_bar = document.getElementById('progress_bar')
     console.log(progress)
     progress_bar.setAttribute('aria-valuenow', progress)
