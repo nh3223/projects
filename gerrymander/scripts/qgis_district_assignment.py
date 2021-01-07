@@ -23,10 +23,9 @@ from qgis.core import (QgsProcessing,
                        QgsProcessingParameterFeatureSink)
 from qgis import processing
 
-import random
-import math
+from .model import Model
 
-class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
+class DistrictAssignmentProcessingAlgorithm(QgsProcessingAlgorithm):
     """
     This algorithm is used with US census tract information to create
     non-gerrymandered congressional and legislative districts.  The
@@ -50,7 +49,7 @@ class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
         return QCoreApplication.translate('Processing', string)
 
     def createInstance(self):
-        return ConstrainedKMeansProcessingAlgorithm()
+        return DistrictAssignmentProcessingAlgorithm()
 
     def name(self):
         """
@@ -60,14 +59,14 @@ class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
         lowercase alphanumeric characters only and no spaces or other
         formatting characters.
         """
-        return 'constrained_k_means'
+        return 'district_assignment'
 
     def displayName(self):
         """
         Returns the translated algorithm name, which should be used for any
         user-visible display of the algorithm name.
         """
-        return self.tr('Constrained K Means')
+        return self.tr('District Assignment')
 
     def group(self):
         """
@@ -92,7 +91,7 @@ class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
         should provide a basic description about what the algorithm does and the
         parameters and outputs associated with it..
         """
-        return self.tr("K Means Clustering Algorithm with Constraint")
+        return self.tr("Assigns Census Tracts to Districts")
 
     def initAlgorithm(self, config=None):
         """
@@ -171,20 +170,21 @@ class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
         # total = 100.0 / source.featureCount() if source.featureCount() else 0
             
         def get_census_tracts():
-            return {
-                feature['GEOID_Data']: {
+            return [
+                {   
+                    'id': feature['GEOID_Data'],
                     'center': get_location(feature), 
                     'population': feature['B01001e1']
                 }
                 for feature in source.getFeatures()
-            }
+            ]
         
         def get_location(feature):
             return {
                 'latitude': float(feature['INTPTLAT']),
                 'longitude': float(feature['INTPTLON'])
             }
-
+        '''
         def get_target_district_population(census_tracts, number_of_districts):
             total_population = sum([tract['population'] for tract in census_tracts.values()])
             return total_population / number_of_districts
@@ -193,12 +193,12 @@ class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
             return [tract['center'] for tract in census_tracts.values()]
             
         def initialize_districts(tract_centers, number_of_districts, target_district_population):
-            '''
+            
             For each district:
                 (1) Randomly assign one of the census tracte locations to be the initial district center
                 (2) Assign the target district population to the district
                 (3) Create an empty list for census tracts assigned to district
-            '''
+            
             
             centers = random.sample(tract_centers, number_of_districts)
             return {
@@ -211,9 +211,9 @@ class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
             }
         
         def initialize_tract_assignments(census_tracts):
-            '''
+            
             Assign all census tracts to non-existent district 0
-            '''
+            
             return {
                 id: {
                     'old_assignment': 0,
@@ -409,8 +409,26 @@ class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
         target_district_population = get_target_district_population(census_tracts, number_of_districts)
         districts, census_tract_district_assignment = k_means(census_tracts, tract_centers, number_of_districts, target_district_population)
         districts, census_tract_district_assignment = population_adjustment(census_tracts, districts, census_tract_district_assignment, state_center)
-
+        '''
         
+        feedback.pushInfo('pre-census_tracts')
+        
+
+
+        #features = [feature for feature in source.getFeatures]
+        census_tracts = get_census_tracts()
+        
+        feedback.pushInfo('features done')
+
+        number_of_districts = 8 # NEED TO FIGURE OUT HOW TO IMPORT # OF DISTRICTS TO AUTOMATE DIFFERENT STATES
+        
+        feedback.pushInfo('pre-model')
+        
+        model = Model(features, number_of_districts)
+        census_tract_district_assignment = {tract.id: tract.new_assignment for tract in model.census_tracts}
+        
+        feedback.pushInfo('post-model')
+
         # Create the Output Sink
         for feature in source.getFeatures():
             f = QgsFeature()
@@ -418,7 +436,7 @@ class ConstrainedKMeansProcessingAlgorithm(QgsProcessingAlgorithm):
             f.setGeometry(feature.geometry())
             f['id'] = feature['GEOID_Data']
             f['population'] = feature['B01001e1']
-            f['district'] = census_tract_district_assignment[f['id']]['new_assignment']
+            f['district'] = census_tract_district_assignment[f['id']]
             sink.addFeature(f, QgsFeatureSink.FastInsert)
         
         

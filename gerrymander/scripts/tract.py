@@ -1,25 +1,18 @@
 class Tract:
 
-    def __init__(feature):
+    def __init__(self, tract):
 
-        self.id = feature['GEOID_Data']
-        self.center = self.get_location(feature)
-        self.population = feature['B01001e1']
+        self.id = tract.id
+        self.center = tract.center
+        self.population = tract.population
     
-    def get_location(feature):
-
-        return {
-            'latitude': float(feature['INTPTLAT']),
-            'longitude': float(feature['INTPTLON'])
-        }
-
-    def initialize_assignment():
+    def initialize_assignment(self):
         self.prior_assignment = None
         self.new_assignment = None
 
-    def assign_district(district):
+    def assign_district(self, district):
         self.prior_assignment = self.new_assignment
         self.new_assignment = district
 
-    def reassign_district(district):
+    def reassign_district(self, district):
         self.new_assignment = district
