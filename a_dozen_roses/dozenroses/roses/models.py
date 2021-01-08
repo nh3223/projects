@@ -1,8 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Model, CharField, IntegerField, ForeignKey, CASCADE
 
-# Create your models here.
-
 class User(AbstractUser):
     level = IntegerField(default=1)
 

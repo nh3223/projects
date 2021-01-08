@@ -59,7 +59,12 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        util.create_user_problems(user)
+        
+        # After creating and logging in a new user, create user scores
+        for problem in Problem.objects.all():
+            user_score = Score(problem=problem, user=user, score=100)
+            user_score.save()
+        
         return redirect(reverse("index"))
     else:
         return render(request, "roses/register.html")
@@ -70,18 +75,25 @@ def user(request):
 
 def problems(request):
     user = get_user(request)
-    problems = util.get_problems(user)
-    response = [{'id': item.id, 'problem': item.problem, 'answer': item.answer} for item in problems]
+    problems = Problem.objects.filter(level__lte = user.level)
+    response = []
+    for problem in problems:
+        score = Score.objects.filter(user=user, problem=problem)[0].score
+        response.append({'id': problem.id, 'problem': problem.problem, 'answer': problem.answer, 'score': score })
     return JsonResponse(response, safe=False)
     
 def grammar(request):
     return JsonResponse(util.get_written_numbers())
 
 @csrf_exempt
-def results(request):
+def scores(request):
     user = get_user(request)
     problems = json.loads(request.body)
-    util.update_results(user, problems)
+    for problem in problems:
+        score = problem['score']
+        problem_to_update = Score.objects.filter(user=user, problem = problem['id'])[0]
+        problem_to_update.score = score
+        problem_to_update.save()    
     return JsonResponse({'message': 'Scores Updated'})
 
 def progress(request):

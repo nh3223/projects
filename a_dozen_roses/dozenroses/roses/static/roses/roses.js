@@ -1,63 +1,90 @@
 document.addEventListener('DOMContentLoaded', async function() {  
     const current_user = await get_current_user();
     const number_list = await get_number_list();
-    if (current_user) {
-        logged_in_welcome(number_list)
-    } else {
-        log_in_welcome()
-    }
+    if (current_user) ? logged_in_welcome() : log_in_welcome();
   });
 
-function clear_view() {
-    views = ['progress_bar_container','logged_in_welcome', 'log_in_welcome', 'problems']
-    views.forEach(element => {
-        document.getElementById(element).style.display = 'none'
-    });
-}
+const clear_view = () => {
+    views = ['progress_bar_container','logged_in_welcome', 'log_in_welcome', 'problems'];
+    views.forEach(element => document.getElementById(element).style.display = 'none');
+};
 
-async function get_current_user() {
-    await fetch('/user')
+const get_current_user = ()  => {
+    fetch('/user')
     .then(response => response.json())
-    .then(response => {
-        current_user = response.user
-    })
-    return current_user
+    .then(response => current_user = response.user)
+};
+
+const logged_in_welcome = async () => {
+    await clear_view();
+    document.getElementById('logged_in_welcome').style.display = 'block';
+    document.getElementById('play_game').addEventListener('click', () => play_game());
+};
+
+const log_in_welcome = async () => {
+    await clear_view();
+    document.getElementById('log_in_welcome').style.display = 'block';
+};
+
+const play_game = async () => {
+    
+    // Set up browser window
+    document.getElementById('logged_in_welcome').style.display = 'none';
+    document.getElementById('problems').style.display = 'block';
+    await show_progress_bar();
+
+    // Fetch problems and scores from server
+    const scores = await get_scores();
+
+    // Play round
+    const scores = await play_round(problems, scores);
+
+    // Save Results to Server
+    save_scores(scores);
+    
+    // Return to Welcome Screen
+    logged_in_welcome()
 }
 
-async function logged_in_welcome(number_list) {
-    await clear_view()
-    document.getElementById('logged_in_welcome').style.display = 'block'
-    document.getElementById('log_in_welcome').style.display = 'none'
-    document.getElementById('play_game').addEventListener('click', () => play_game(number_list))
-}
+const get_problems = () => {
+    return fetch('/problems')
+      .then(response => response.json())
+};
 
-async function log_in_welcome() {
-    await clear_view()
-    document.getElementById('logged_in_welcome').style.display = 'none'
-    document.getElementById('log_in_welcome').style.display = 'block'
-}
+const get_scores = () => {
+    return fetch('/scores')
+      .then(response = response.json());
+};
 
-async function play_game(number_list) {
-    document.getElementById('logged_in_welcome').style.display = 'none'
-    document.getElementById('problems').style.display = 'block'
-    await show_progress_bar()
-    const problems = await get_problems()
+const save_scores = (scores) => {
+    fetch('/scores', {
+        method: 'PUT',
+        body: JSON.stringify(scores)
+    });
+};
+
+const play_round = async (scores) => {
+    
+    const selected_problems = await select_problems(problems);
     let results = []
-    for (const problem of problems) {
-        const time = await solve_problem(problem, number_list);
+    for (const problem of selected_problems) {
+        const time = await solve_problem(problem);
         results.push({'id': problem.id, 'time': time})
     }
-    fetch('/results', {
-        method: 'PUT',
-        body: JSON.stringify(results)
-    })
-    .then(logged_in_welcome(number_list))
+};
+
+const select_problems = async () => {
+    
+    // Load all problems
+    const problems = await get_problems();
+    
+    // Find available problems
+
+    
+    // Pick problems
+
 }
 
-function get_problems() {
-    return fetch('/problems')
-    .then(response => response.json())
-}
 
 async function solve_problem(current_problem, number_list) {
     recognition = await get_speech_recognition(number_list)

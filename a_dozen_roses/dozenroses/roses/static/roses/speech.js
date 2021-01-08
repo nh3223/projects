@@ -4,7 +4,7 @@ var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEv
 
 function get_number_text() {
     return fetch('/grammar')
-.then(response => response.json())
+      .then(response => response.json())
 }
 
 async function get_number_list() {
