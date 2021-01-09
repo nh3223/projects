@@ -71,7 +71,7 @@ def register(request):
 
 def user(request):
     user = get_user(request)
-    return JsonResponse({'user': user.username})
+    return JsonResponse({'user': user.username, 'level': user.level})
 
 def problems(request):
     user = get_user(request)
@@ -79,7 +79,13 @@ def problems(request):
     response = []
     for problem in problems:
         score = Score.objects.filter(user=user, problem=problem)[0].score
-        response.append({'id': problem.id, 'problem': problem.problem, 'answer': problem.answer, 'score': score })
+        response.append({
+            'id': problem.id, 
+            'problem': problem.problem, 
+            'answer': problem.answer, 
+            'level': problem.level,
+            'score': score 
+        })
     return JsonResponse(response, safe=False)
     
 def grammar(request):

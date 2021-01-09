@@ -7,12 +7,12 @@
         <div id="progress_bar" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>
     </div>    
     
-    <div id="logged_in_welcome">    
+    <div id="play">    
         <h2>Hello {{ user.username }}, welcome to A Dozen Roses!</h2>
-        <button id="play_game">Play A Dozen Roses</button>
+        <button id="play_game_button">Play A Dozen Roses</button>
     </div>
 
-    <div id="log_in_welcome">
+    <div id="login">
         <h2>Welcome to A Dozen Roses!</h2>
         <h2>Please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a></h2>
     </div>

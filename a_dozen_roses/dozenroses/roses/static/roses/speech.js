@@ -7,18 +7,18 @@ function get_number_text() {
       .then(response => response.json())
 }
 
-async function get_number_list() {
-    number_text = await get_number_text()
+const getNumberList = async () => {
+    const number_text = await get_number_text()
     const numbers = Object.keys(number_text)
-    grammar = '#JSGF V1.0; grammar numbers; public <number> = ' + numbers.join(' | ') + ' ;'
-    number_list = new SpeechGrammarList();
+    const grammar = '#JSGF V1.0; grammar numbers; public <number> = ' + numbers.join(' | ') + ' ;'
+    let number_list = new SpeechGrammarList();
     number_list.addFromString(grammar, 1);
     return number_list
-}
+};
 
-function get_speech_recognition(number_list) {
+const get_speech_recognition = async () => {
     let recognition = new SpeechRecognition();
-    recognition.grammars = number_list;
+    recognition.grammars = await getNumberList();
     recognition.continuous = false;
     recognition.lang = 'en-US';
     recognition.interimResults = false;
