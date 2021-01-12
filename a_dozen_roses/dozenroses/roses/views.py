@@ -71,7 +71,10 @@ def register(request):
 
 def user(request):
     user = get_user(request)
-    return JsonResponse({'user': user.username, 'level': user.level})
+    if user.id is None:
+        return JsonResponse({'user': user.username})
+    else:
+        return JsonResponse({'user': user.username, 'level': user.level})
 
 def problems(request):
     user = get_user(request)
@@ -88,23 +91,24 @@ def problems(request):
         })
     return JsonResponse(response, safe=False)
     
-def grammar(request):
-    return JsonResponse(util.get_written_numbers())
-
 @csrf_exempt
 def scores(request):
+    level_score_threshold = 20
+    move_up_a_level = True
     user = get_user(request)
     problems = json.loads(request.body)
     for problem in problems:
         score = problem['score']
+        if score > level_score_threshold:
+            move_up_a_level = False
         problem_to_update = Score.objects.filter(user=user, problem = problem['id'])[0]
         problem_to_update.score = score
-        problem_to_update.save()    
+        problem_to_update.save()
+    if move_up_a_level:
+        user.level += 1
+        user.save()    
     return JsonResponse({'message': 'Scores Updated'})
 
-def progress(request):
-    user = get_user(request)
-    return JsonResponse({'progress': util.get_progress(user)})
 
 
 
