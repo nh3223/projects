@@ -1,0 +1,66 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Notedly by Flask{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header" id="HeaderBar">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">
+                <img src="{{ url_for('static', filename='logo.svg') }}" alt="Notedly Logo" height="40">
+                Notedly by Flask
+            </a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('auth.logout') }}">Log Out</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">Sign In</a>
+                <a href="{{ url_for('auth.register') }}">Sign Up</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="{{ url_for('main.index') }}">
+                  <span aria-hidden="true" role="img">🏠</span>
+                  Home
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('MYNOTES') }}">
+                  <span aria-hidden="true" role="img">📓</span>
+                  My Notes    
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('FAVORITES')">
+                  <span aria-hidden="true" role="img">🌟</span>
+                  Favorites
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('NEWNOTE') }}">
+                  <span aria-hidden="true" role="img">➕</span>
+                  New
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% block page_content %}
+    {% endblock %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
