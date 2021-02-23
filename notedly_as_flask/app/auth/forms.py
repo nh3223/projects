@@ -8,12 +8,12 @@ from ..models import User
 class LoginForm(FlaskForm):
     email = StringField('Email', validators = [DataRequired(), Length(1, 64), Email()])
     password = PasswordField('Password', validators = [DataRequired()])
-    remember_me = BooleanField('Keep me logged in')
+    #remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
 class RegistrationForm(FlaskForm):
-    email = StringField('Email', validators = [DataRequired(), Length(1, 64), Email()])
     username = StringField('Username', validators = [DataRequired(), Length(1, 64)])
+    email = StringField('Email', validators = [DataRequired(), Length(1, 64), Email()])
     password = PasswordField('Password', validators = [DataRequired()])
     submit = SubmitField('Register')
 
