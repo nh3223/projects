@@ -2,7 +2,6 @@ from datetime import datetime
 from flask import current_app, request, url_for
 from flask_login import UserMixin
 
-from app.exceptions import ValidationError
 from . import db, login_manager
 
 class User(UserMixin, db.Model):
@@ -12,6 +11,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True)
     password = db.Column(db.String(64))
     notes = db.relationship('Note', backref='author', lazy='dynamic')
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Note(db.Model):
     __tablename__ = 'notes'

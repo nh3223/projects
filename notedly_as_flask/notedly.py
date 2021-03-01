@@ -6,7 +6,8 @@ if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 import sys
-from flask-migrate import Migrate, upgrade
+import click
+from flask_migrate import Migrate, upgrade
 from app import create_app, db
 from app.models import User, Note
 

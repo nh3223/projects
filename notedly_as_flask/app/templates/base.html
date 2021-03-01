@@ -21,30 +21,13 @@
             {% else %}
                 <a href="{{ url_for('auth.login') }}">Sign In</a>
                 <a href="{{ url_for('auth.register') }}">Sign Up</a>
+            {% endif %}
         </div>
         <ul class="nav navbar-nav">
             <li>
                 <a href="{{ url_for('main.index') }}">
                   <span aria-hidden="true" role="img">🏠</span>
                   Home
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('MYNOTES') }}">
-                  <span aria-hidden="true" role="img">📓</span>
-                  My Notes    
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('FAVORITES')">
-                  <span aria-hidden="true" role="img">🌟</span>
-                  Favorites
-                </a>
-            </li>
-            <li>
-                <a href="{{ url_for('NEWNOTE') }}">
-                  <span aria-hidden="true" role="img">➕</span>
-                  New
                 </a>
             </li>
         </ul>
@@ -57,7 +40,6 @@
     {% block page_content %}
     {% endblock %}
 </div>
-
 {% endblock %}
 
 {% block scripts %}
