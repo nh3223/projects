@@ -11,6 +11,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True)
     password = db.Column(db.String(64))
     notes = db.relationship('Note', backref='author', lazy='dynamic')
+    
+    def verify_password(self, password):
+        return self.password == password
 
 @login_manager.user_loader
 def load_user(user_id):
