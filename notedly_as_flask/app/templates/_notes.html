@@ -1,28 +1,28 @@
-<ul class="notess">
+<ul class="notes">
     {% for note in notes %}
     <li class="note">
         <div class="note-thumbnail">
-            <a href="{{ url_for('.user', username=note.author.username) }}">
-                <img class="img-rounded profile-thumbnail" src="{{ note.author.gravatar(size=40) }}">
+            <a href="#">
+                <img class="img-rounded profile-thumbnail" src="#">
             </a>
         </div>
         <div class="note-content">
             <div class="note-date">{{ moment(note.timestamp).fromNow() }}</div>
-            <div class="note-author"><a href="{{ url_for('.user', username=note.author.username) }}">{{ post.author.username }}</a></div>
+            <div class="note-author"><a href="#">{{ note.author.username }}</a></div>
             <div class="note-body">
-                {% if note.body_html %}
+                {% if note.content_html %}
                     {{ note.body_html | safe }}
                 {% else %}
-                    {{ note.body }}
+                    {{ note.content }}
                 {% endif %}
             </div>
             <div class="note-footer">
                 {% if current_user == note.author %}
-                <a href="{{ url_for('.edit', id=note.id) }}">
+                <a href="#">
                     <span class="label label-primary">Edit</span>
                 </a>
                 {% endif %}
-                <a href="{{ url_for('.note', id=note.id) }}">
+                <a href="#">
                     <span class="label label-default">Permalink</span>
                 </a>
             </div>
