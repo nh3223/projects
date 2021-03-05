@@ -12,6 +12,7 @@ def index():
     return render_template('index.html', notes=notes)
 
 @main.route('/new', methods=['GET','POST'])
+@login_required
 def new():
     form = NoteForm()
     if form.validate_on_submit():
@@ -20,3 +21,11 @@ def new():
         db.session.commit()
         return redirect(url_for('.index'))
     return render_template('new.html', form=form)
+
+@main.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    print(user)
+    notes = user.notes.order_by(Note.timestamp.desc())
+    print(notes)
+    return render_template('index.html', notes=notes)
