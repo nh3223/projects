@@ -25,7 +25,23 @@ def new():
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    print(user)
     notes = user.notes.order_by(Note.timestamp.desc())
-    print(notes)
+    return render_template('index.html', notes=notes)
+
+@main.route('/favorite/<note_id>')
+@login_required
+def favorite(note_id):
+    note = Note.query.filter_by(id=note_id).first()
+    if not current_user.get_favorite(note):
+        current_user.favorite(note)
+    else:
+        current_user.unfavorite(note)
+    db.session.commit()
+    return redirect(request.referrer)
+
+@main.route('/favorites/<username>')
+@login_required
+def favorites(username):
+    user = User.query.filter_by(username=username).first()
+    notes = user.favorites
     return render_template('index.html', notes=notes)

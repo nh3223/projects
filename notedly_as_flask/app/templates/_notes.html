@@ -11,17 +11,19 @@
             <div class="note-author"><a href="{{ url_for('.user', username=note.author.username) }}">{{ note.author.username }}</a></div>
             <div class="note-body">
                 {% if note.content_html %}
-                    {{ note.body_html | safe }}
+                    {{ note.content_html | safe }}
                 {% else %}
                     {{ note.content }}
                 {% endif %}
             </div>
             <div class="note-footer">
-                {% if current_user == note.author %}
-                <a href="#">
-                    <span class="label label-primary">Edit</span>
+                <a href="{{ url_for('.favorite', note_id=note.id) }}">
+                    {% if current_user in note.is_favorited_by %}
+                        <span class="label label-primary">Unfavorite</span>
+                    {% else %}
+                        <span class="label label-primary">Favorite</span>
+                    {% endif %}
                 </a>
-                {% endif %}
                 <a href="#">
                     <span class="label label-default">Permalink</span>
                 </a>

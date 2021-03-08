@@ -39,7 +39,7 @@
             </li>
             {% endif %}
             <li>
-                <a href="{{ url_for('main.index') }}">
+                <a href="{{ url_for('.favorites', username=current_user.username) }}">
                     <span aria-hidden="true" role="img">🌟</span>
                     Favorites
                 </a>
