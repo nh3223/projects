@@ -37,3 +37,7 @@ The back end will be written in python using Django with a SQlite database.  The
 9. Add speech recognition
 10. Move login to Navbar and add security for login process
 10. Add roses and prettify everything
+
+## Updated March 2021
+
+Shifting gears and rewriting the entire app.  First starting with the Front End using React, and will then implement a backend using either Firebase or MongoDB with Node.
