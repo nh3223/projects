@@ -1,13 +1,13 @@
-const getPool = (level, scores) => {
+export const getPool = (level, scores) => {
   let pool = [];
   for (let i = 1; i <= level; i++) {
-    pool.concat(scores[i.toString()]);
+    pool = pool.concat(scores[i.toString()]);
   }
   return pool;
 }
 
-const getWeightedPool = (pool) => {
-  const cumulativeTime = pool.reduce((cumulative, { time }) => cumulative + time);
+export const getWeightedPool = (pool) => {
+  const cumulativeTime = pool.reduce((cumulative, { time }) => cumulative + time, 0);
   let cumulativeWeight = 0;
   for (const problem of pool) {
     cumulativeWeight += problem.time / cumulativeTime;
@@ -16,14 +16,12 @@ const getWeightedPool = (pool) => {
   return pool;
 };
 
-const getProblems = (level, scores) => {
-  const pool = getPool(level, scores);
-  const weightedPool = getWeightedPool(pool);
+export const getSelectedProblems = (pool, numberOfProblems = 12) => {
   const selectedProblems = [];
-  while (selectedProblems.length < 12) {
+  while (selectedProblems.length < numberOfProblems) {
     const randomSelector = Math.random();
     let pick;
-    for (const problem of weightedPool) {
+    for (const problem of pool) {
       if (problem.weight > randomSelector) {
         pick = problem;
         break;
@@ -34,6 +32,15 @@ const getProblems = (level, scores) => {
     }
   }
   return selectedProblems.map((problem) => problem.id);
+};
+
+const getProblems = (level, scores) => {
+  const pool = getPool(level, scores);
+  const weightedPool = getWeightedPool(pool);
+  const selectedProblems = getSelectedProblems(weightedPool);
+  return selectedProblems;
+  
+
 };
 
 export default getProblems;
