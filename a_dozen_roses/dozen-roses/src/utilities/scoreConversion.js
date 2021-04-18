@@ -1,9 +1,13 @@
 const scoreConversion = (scores) => {
   let gameScore = 0
   for (const level in scores) {
-    const levelScore = scores[level].reduce((cumulativeScore, { score }) => cumulativeScore + score, 0);
+    let levelScore = 0;
+    for (const id in scores[level]) {
+      levelScore += scores[level][id].score;
+    }
     gameScore += levelScore / scores[level].length;
   }
+
   const level = Math.min(Math.ceil(gameScore), 12);
   const currentScore = 100 * (gameScore - level + 1);
   return { 

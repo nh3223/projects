@@ -1,33 +1,21 @@
 
 
-export const addition = (a,b,id) => ({
-  id,
-  a,
-  b,
+export const addition = (a,b) => ({
   problem: `${a} + ${b}`,
   answer: a + b
 });
 
-export const subtraction = (a,b,id) => ({
-  id,
-  a,
-  b,
+export const subtraction = (a,b) => ({
   problem: `${a + b} - ${a}`,
   answer: b
 });
 
-export const multiplication = (a,b,id) => ({
-  id,
-  a,
-  b,
+export const multiplication = (a,b) => ({
   problem: `${a} x ${b}`,
   answer: a * b
 });
 
-export const division = (a,b,id) => ({
-  id,
-  a,
-  b,
+export const division = (a,b) => ({
   problem: `${a * b} / ${a}`,
   answer: b
 });
@@ -37,7 +25,7 @@ export const division = (a,b,id) => ({
 export const problemFramework = () => {
   const problems = {};
   for (let i = 1; i <= 12; i++) {
-    problems[`${i}`] = [];
+    problems[i] = {};
   }
   return problems;
 }
@@ -68,15 +56,19 @@ const setupProblems = () => {
   for (let a  = 0; a <= 12; a++) {
     for (let b = 0; b <= 12; b++) {
       for (let i = 0; i < 4; i++) {
-        const problem = levels[i].operation(a,b,id);
-        if (a <= 4 && b <= 4) {
-          problems[levels[i].levels[0].toString()].push(problem);
-        } else if (a <= 8 && b <= 8) {
-          problems[levels[i].levels[1].toString()].push(problem);
-        } else {
-          problems[levels[i].levels[2].toString()].push(problem);
+        if (!(i === 3 && a === 0)) {
+          const problem = levels[i].operation(a,b);
+          let index;
+          if (a <= 4 && b <= 4) {
+            index = 0;
+          } else if (a <= 8 && b <= 8) {
+            index = 1;
+          } else {
+            index = 2;
+          }
+          problems[levels[i].levels[index]][id] = problem
+          id++;
         }
-      id++;
       }
     }
   }
@@ -84,3 +76,4 @@ const setupProblems = () => {
 }
 
 export default setupProblems;
+
