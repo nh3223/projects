@@ -1,34 +1,30 @@
 
 
-export const addition = (a,b) => ({
+export const addition = (a,b, level) => ({
+  level,
   problem: `${a} + ${b}`,
   answer: a + b
 });
 
-export const subtraction = (a,b) => ({
+export const subtraction = (a,b, level) => ({
+  level,
   problem: `${a + b} - ${a}`,
   answer: b
 });
 
-export const multiplication = (a,b) => ({
+export const multiplication = (a,b, level) => ({
+  level,
   problem: `${a} x ${b}`,
   answer: a * b
 });
 
-export const division = (a,b) => ({
+export const division = (a,b,level) => ({
+  level,
   problem: `${a * b} / ${a}`,
   answer: b
 });
 
 // TO COMPLETE: FIGURE OUT HOW TO SHOW DIVISION SYMBOL
-
-export const problemFramework = () => {
-  const problems = {};
-  for (let i = 1; i <= 12; i++) {
-    problems[i] = {};
-  }
-  return problems;
-}
 
 const getLevels = () => ([
   {
@@ -49,24 +45,27 @@ const getLevels = () => ([
   }
 ]);
 
+export const getLevel = (a,b,levels) => {
+  if (a <= 4 && b <= 4) {
+    return levels[0];
+  } else if (a <= 8 && b <= 8) {
+    return levels[1];
+  }
+  return levels[2];
+};
+
 const setupProblems = () => {
-  const problems = problemFramework();
+  let problems = {};
   const levels = getLevels()
   let id = 1;
   for (let a  = 0; a <= 12; a++) {
     for (let b = 0; b <= 12; b++) {
       for (let i = 0; i < 4; i++) {
-        if (!(i === 3 && a === 0)) {
-          const problem = levels[i].operation(a,b);
-          let index;
-          if (a <= 4 && b <= 4) {
-            index = 0;
-          } else if (a <= 8 && b <= 8) {
-            index = 1;
-          } else {
-            index = 2;
-          }
-          problems[levels[i].levels[index]][id] = problem
+        const operation = levels[i].operation;
+        const level = getLevel(a,b,levels[i].levels);
+        if (!(operation === division && a === 0)) {
+          const problem = operation(a, b, level);
+          problems[id] = problem;
           id++;
         }
       }
