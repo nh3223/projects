@@ -2,7 +2,7 @@ export const calculateScore = (time) => {
   const targetTime = 3000;
   const maxTime = 10000;
   time = Math.max(targetTime, Math.min(time, maxTime));
-  return ( maxTime - time ) / ( maxTime - targetTime );
+  return Math.round(( maxTime - time ) / ( maxTime - targetTime ));
 };
 
 const updateScore = (score, oldTime, newTime) => {
