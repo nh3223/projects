@@ -1,5 +1,3 @@
-
-
 export const addition = (a,b, level) => ({
   level,
   problem: `${a} + ${b}`,
@@ -26,7 +24,7 @@ export const division = (a,b,level) => ({
 
 // TO COMPLETE: FIGURE OUT HOW TO SHOW DIVISION SYMBOL
 
-const getLevels = () => ([
+const getLevels = [
   {
     operation: addition,
     levels: [1,3,5]
@@ -43,7 +41,7 @@ const getLevels = () => ([
     operation: division,
     levels: [8,10,12]
   }
-]);
+];
 
 export const getLevel = (a,b,levels) => {
   if (a <= 4 && b <= 4) {
@@ -56,7 +54,7 @@ export const getLevel = (a,b,levels) => {
 
 const setupProblems = () => {
   let problems = {};
-  const levels = getLevels()
+  const levels = getLevels;
   let id = 1;
   for (let a  = 0; a <= 12; a++) {
     for (let b = 0; b <= 12; b++) {

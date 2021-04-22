@@ -2,24 +2,30 @@ import { getPool, getWeightedPool, getSelectedProblems } from '../../utilities/g
 
 test('should set up pool of problems given the level', () => {
   const level = 2;
-  const scores = {
-    '1': [1, 2, 3],
-    '2': [4, 5, 6],
-    '3': [7, 8, 9]
+  const times  = {
+    1: { level: 1, time: 1},
+    2: { level: 1, time: 1},
+    3: { level: 2, time: 1},
+    4: { level: 3, time: 1},
+    5: { level: 3, time: 1}
   }
-  expect(getPool(level, scores)).toEqual([1,2,3,4,5,6])
+  expect(getPool(level, times)).toEqual([
+    { id: '1', time: 1 },
+    { id: '2', time: 1 },
+    { id: '3', time: 1 }
+  ]);
 });
 
 test('should create a pool with weights', () => {
   const pool = [
-    { 'time': 1 },
-    { 'time': 3 },
-    { 'time': 6 }
+    { id: '1', time: 1 },
+    { id: '2', time: 3 },
+    { id: '3', time: 6 }
   ];
   expect(getWeightedPool(pool)).toEqual([
-    { 'time': 1, 'weight': 0.1 },
-    { 'time': 3, 'weight': 0.4 },
-    { 'time': 6, 'weight': 1.00 }
+    { id: '1', time: 1, weight: 0.1 },
+    { id: '2', time: 3, weight: 0.4 },
+    { id: '3', time: 6, weight: 1.00 }
   ]);
 });
 
