@@ -15,10 +15,26 @@ const Score = () => {
     setLevelScore(convertedScore.score);
   }, [score])
 
+  const backgroundStyle = {
+    background: 'red',
+    width: '100px',
+    height: '10px'
+  };
+
+  const progressStyle = {
+    background: 'blue',
+    width: `${levelScore}%`,
+    height: '10px'
+  }
+
   return (
     <React.Fragment>
       <h3>Level: { level }</h3>
       <h3>Score: { levelScore }</h3>
+      <div style={ backgroundStyle }>
+        <div style={ progressStyle }>
+        </div>
+      </div>
     </React.Fragment>
   )
 };
