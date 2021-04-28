@@ -1,28 +1,26 @@
-export const addition = (a,b, level) => ({
+const addition = (a,b, level) => ({
   level,
   problem: `${a} + ${b}`,
   answer: a + b
 });
 
-export const subtraction = (a,b, level) => ({
+const subtraction = (a,b, level) => ({
   level,
   problem: `${a + b} - ${a}`,
   answer: b
 });
 
-export const multiplication = (a,b, level) => ({
+const multiplication = (a,b, level) => ({
   level,
   problem: `${a} x ${b}`,
   answer: a * b
 });
 
-export const division = (a,b,level) => ({
+const division = (a,b,level) => ({
   level,
-  problem: `${a * b} / ${a}`,
+  problem: `${a * b} \u{00F7} ${a}`,
   answer: b
 });
-
-// TO COMPLETE: FIGURE OUT HOW TO SHOW DIVISION SYMBOL
 
 const getLevels = [
   {
@@ -43,7 +41,7 @@ const getLevels = [
   }
 ];
 
-export const getLevel = (a,b,levels) => {
+const getLevel = (a,b,levels) => {
   if (a <= 4 && b <= 4) {
     return levels[0];
   } else if (a <= 8 && b <= 8) {
@@ -73,4 +71,4 @@ const setupProblems = () => {
 }
 
 export default setupProblems;
-
+// export { addition, subtraction, multiplication, division, getLevel, setupProblems as default };

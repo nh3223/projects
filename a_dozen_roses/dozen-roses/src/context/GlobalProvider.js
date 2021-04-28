@@ -1,21 +1,27 @@
 import React, { useState, useReducer } from 'react';
 
+// The following lines were included once in development to set the problems to the firebase database
+// import database from '../firebase/firebase';
+// import setUpProblemms from '../utilities/setUpProblems';
+
 import AppRouter from '../routers/AppRouter';
 import GlobalContext from './GlobalContext';
 import userReducer from '../reducers/user';
-import setUpProblems from '../utilities/setUpProblems';
-import setUpTimes from '../utilities/setUpTimes';
 
 const GlobalProvider = () => {
 
   const [user, userDispatch] = useReducer(userReducer, { });
-  const [problemData] = useState(setUpProblems());
+  const [problemData, setProblemData ] = useState({});
   const [roundProblems, setRoundProblems] = useState([])
-  const [times, setTimes] = useState(setUpTimes(problemData));  
+  const [times, setTimes] = useState({});  
   const [index, setIndex] = useState(0);
   const [problem, setProblem] = useState({});
   const [score, setScore] = useState(0)
  
+  // The following line was included once in development to set the problems to the firebase database
+  // const [problemData] = useState(setUpProblems());
+  // database.ref('problems').push(problemData);
+  
   return (
     <GlobalContext.Provider value = {{
       user,
@@ -30,7 +36,8 @@ const GlobalProvider = () => {
       setProblem,
       roundProblems,
       setRoundProblems,
-      problemData
+      problemData,
+      setProblemData
     }}>
       <AppRouter />
     </GlobalContext.Provider>
