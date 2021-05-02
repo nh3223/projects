@@ -2,7 +2,7 @@ import React, { useState, useReducer } from 'react';
 
 // The following lines were included once in development to set the problems to the firebase database
 // import database from '../firebase/firebase';
-// import setUpProblemms from '../utilities/setUpProblems';
+// import setUpProblems from '../utilities/setUpProblems';
 
 import AppRouter from '../routers/AppRouter';
 import GlobalContext from './GlobalContext';
@@ -20,7 +20,7 @@ const GlobalProvider = () => {
  
   // The following line was included once in development to set the problems to the firebase database
   // const [problemData] = useState(setUpProblems());
-  // database.ref('problems').push(problemData);
+  // database.ref('problems').set(problemData);
   
   return (
     <GlobalContext.Provider value = {{

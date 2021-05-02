@@ -1,20 +1,24 @@
 import React from 'react';
 
-import { firebaseLogin } from '../actions/user';
+import { firebaseLogin, firebaseLogout } from '../actions/user';
 import Score from './Score';
 
 const Header = () => {
   
   const loginUser = () => {
-    firebaseLogin();
+    const user = firebaseLogin();
   };
   
+  const logoutUser = () => {
+    firebaseLogout();
+  };
+
   return (
     <React.Fragment>
       <h1>A Dozen Roses</h1>
       <Score />
       <button className="button" onClick={ loginUser }>Login with Google</button>
-      <button>Logout</button>
+      <button onClick={ logoutUser }>Logout</button>
     </React.Fragment>
   )
 }

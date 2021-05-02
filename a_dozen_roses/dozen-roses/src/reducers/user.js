@@ -8,7 +8,8 @@ const userReducer = (state = { }, action) => {
       isAuthenticated: false
     }
   };
-  return types[action.type] || state;
+  const user = types[action.type] || state;
+  return user;
 };
 
 export default userReducer;

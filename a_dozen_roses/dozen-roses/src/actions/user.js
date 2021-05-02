@@ -5,16 +5,13 @@ export const login = (uid) => ({
   uid
 });
 
-export const firebaseLogin = () => {
-  return () => {
-    return firebase.auth().signInWithPopup(googleAuthProvider);
-  }
-}
+export const firebaseLogin = async () => {
+  console.log('actions - firebaselogin')
+  const user = await firebase.auth().signInWithPopup(googleAuthProvider).user;
+  console.log('actions - login - user', user);
+  return user;
+};
 
 export const logout = () => ({ type: 'LOGOUT' });
 
-export const firebaseLogout = () => {
-  return () => {
-    return firebase.auth().signOut();
-  }
-}
+export const firebaseLogout = () => firebase.auth().signOut();

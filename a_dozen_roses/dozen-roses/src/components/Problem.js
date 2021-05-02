@@ -1,31 +1,33 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import database from '../firebase/firebase';
 import GlobalContext from '../context/GlobalContext';
 import updateScore from '../utilities/updateScore';
 
+const updateTime = (id, time, times) => {
+  times[id] = time;
+  return times;
+}
+
 const Problem = () => {
 
-  const { score, setScore, times, setTimes, problem, setProblem, problemData, roundProblems } = useContext(GlobalContext)
+  const { user, score, setScore, times, setTimes, problem, setProblem, roundProblems } = useContext(GlobalContext)
   const [ index, setIndex ] = useState(0);
   const [ response, setResponse ] = useState('');
   const [ startTime, setStartTime ] = useState(0);
   const history = useHistory();
-  console.log(problem)
+  
   const onResponseChange = (e) => setResponse(e.target.value);
-
-  const updateTime = (id, time) => {
-    times[id].time = time;
-    return times;
-  }
 
   const onSubmit = (e) => {
     e.preventDefault();
     const endTime = performance.now();
-    const oldTime = times[roundProblems[index]].time;
+    const oldTime = times[problem.id];
     const newTime = (parseInt(response) === problem.answer) ? Math.round(endTime - startTime) : 10000;
     const newScore = updateScore(score, oldTime, newTime);
-    const newTimes = updateTime(roundProblems[index], newTime);
+    const newTimes = updateTime(problem.id, newTime, times);    
+    database.ref(`users/${user.uid}/${problem.id}`).set(newTime);
     setScore(newScore);
     setTimes(newTimes);
     setResponse('');
@@ -34,11 +36,7 @@ const Problem = () => {
   };
 
   useEffect(() => {
-    if (index === 12) {
-      history.push('/');
-    } else {
-      setProblem(problemData[roundProblems[index]]);
-    }
+    (index === 12) ? history.push('/') : setProblem(roundProblems[index]);
   }, [index]);
 
   useEffect(() => {

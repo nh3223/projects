@@ -1,10 +1,10 @@
-export const getPool = (level, times) => {
+export const getPool = (level, times, problems) => {
   let pool = [];
   for (const id in times) {
-    if (times[id].level <= level) {
+    if (problems[id].level <= level) {
       pool.push({
         id,
-        time: times[id].time
+        time: times[id]
       });
     }
   }
@@ -21,8 +21,8 @@ export const getWeightedPool = (pool) => {
   return pool;
 };
 
-export const getSelectedProblems = (pool, numberOfProblems = 12) => {
-  const selectedProblems = [];
+export const getSelectedProblems = (pool,problems, numberOfProblems = 12) => {
+  let selectedProblems = [];
   while (selectedProblems.length < numberOfProblems) {
     const randomSelector = Math.random();
     let pick;
@@ -36,13 +36,13 @@ export const getSelectedProblems = (pool, numberOfProblems = 12) => {
       selectedProblems.push(pick);
     }
   }
-  return selectedProblems.map((problem) => problem.id);
+  return selectedProblems.map((problem) => ({id: problem.id, ...problems[problem.id]}));
 };
 
-const getProblems = (level, times) => {
-  const pool = getPool(level, times);
+const getProblems = (level, times, problems) => {
+  const pool = getPool(level, times, problems);
   const weightedPool = getWeightedPool(pool);
-  const selectedProblems = getSelectedProblems(weightedPool);
+  const selectedProblems = getSelectedProblems(weightedPool, problems);
   return selectedProblems;
 };
 

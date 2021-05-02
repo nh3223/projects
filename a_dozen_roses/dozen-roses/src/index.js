@@ -4,16 +4,26 @@ import ReactDOM from 'react-dom';
 import './styles/App.css';
 import './styles/index.css';
 import GlobalProvider from './context/GlobalProvider';
-import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+const App = () => (
   <React.StrictMode>
     <GlobalProvider />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(<App />, document.getElementById('root'));
+
+// let hasRendered = false;
+
+// export const renderApp = () => {
+//   console.log('renderApp before if');
+//   if (!hasRendered) {
+//     console.log('renderApp in if');
+//     ReactDOM.render(<App />, document.getElementById('root'));
+//     hasRendered = true;
+//   }
+// };
+
+// console.log('Before Render');
+
+// renderApp();

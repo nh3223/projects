@@ -5,15 +5,20 @@ import convertScore from '../utilities/convertScore';
 
 const Score = () => {
 
-  const { score } = useContext(GlobalContext)
+  const { user, score } = useContext(GlobalContext)
   const [ level, setLevel ] = useState(1);
   const [ levelScore, setLevelScore ] = useState(0);
 
   useEffect(() => {
-    const convertedScore = convertScore(score);
-    setLevel(convertedScore.level);
-    setLevelScore(convertedScore.score);
-  }, [score])
+    if (user.isAuthenticated) {
+      const convertedScore = convertScore(score);
+      setLevel(convertedScore.level);
+      setLevelScore(convertedScore.score);
+    } else {
+      setLevel(1);
+      setLevelScore(0);
+    }
+  }, [user, score])
 
   const backgroundStyle = {
     background: 'red',
