@@ -1,8 +1,10 @@
 import React from 'react';
 
+import AppRouter from './routers/AppRouter';
+
 const App = () => (
   <>
-    <h1>280G</h1>
+    <AppRouter />
   </>
 );
 
