@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import StartProject from '../components/Screens/Home';
 import ProjectSummary from '../components/Screens/ProjectSummary';
-import CompanyInformation from '../components/Screens/CompanyInformation';
+import CompanyInformation from '../components/Screens/CompanyInformation/CompanyInformation';
 import ExecutiveSummary from '../components/Screens/ExecutiveSummary';
-import Compensation from '../components/Screens/Compensation';
+import Compensation from '../components/Screens/Compensation/Compensation';
 import NonEquityPayments from '../components/Screens/NonEquityPayment';
 import EquityPayments from '../components/Screens/EquityPayments';
 import RestrictedStock from '../components/Screens/RestrictedStock';
