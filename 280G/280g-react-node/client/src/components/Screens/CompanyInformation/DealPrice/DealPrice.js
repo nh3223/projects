@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import DealPriceIdentifier from './DealPriceIdentifier';
 import DealPriceForm from './DealPriceForm';
+import { transactionPriceState } from '../../../../recoil/atoms/CompanyInformation';
 
 const DealPrice = () => {
 
-  const [ price, setPrice ] = useState('');
-  const [ transactionPrice, setTransactionPrice ] = useState(0);
-  const [ completed, setCompleted ] = useState(false);
+  const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState);
+  const [ price, setPrice ] = useState(transactionPrice);
+  const [ completed, setCompleted ] = useState((price) ? true : false);
   const [ error, setError ] = useState(false);
 
   const handleEdit = () => {
@@ -31,8 +33,8 @@ const DealPrice = () => {
   return (
     <>
       { completed
-      ? <DealPriceIdentifier price={ transactionPrice } handleEdit={ handleEdit }/>
-      : <DealPriceForm price={ price } handleSubmit={ handleSubmit } handleChange={ handleChange } error={ error } />
+      ? <DealPriceIdentifier transactionPrice={ transactionPrice } handleEdit={ handleEdit }/>
+      : <DealPriceForm transactionPrice={ price } handleSubmit={ handleSubmit } handleChange={ handleChange } error={ error } />
       } 
     </>
   );

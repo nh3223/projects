@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import StartProject from '../components/Screens/Home';
-import ProjectSummary from '../components/Screens/ProjectSummary';
+import ProjectSummary from '../components/Screens/ProjectSummary/ProjectSummary';
 import CompanyInformation from '../components/Screens/CompanyInformation/CompanyInformation';
 import ExecutiveSummary from '../components/Screens/ExecutiveSummary';
 import Compensation from '../components/Screens/Compensation/Compensation';

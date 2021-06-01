@@ -5,6 +5,7 @@ import TransactionDate from './TransactionDate/TransactionDate';
 import DealPrice from './DealPrice/DealPrice';
 import Executives from './Executives/Executives';
 
+
 const CompanyInformation = () => (
   <>
     <h2>Company Information</h2>

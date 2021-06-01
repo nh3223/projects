@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import CompanyNameIdentifier from './CompanyNameIdentifier';
 import CompanyNameForm from './CompanyNameForm';
+import { companyNameState } from '../../../../recoil/atoms/CompanyInformation';
 
 const CompanyName = () => {
 
-  const [ name, setName ] = useState('');
-  const [ completed, setCompleted ] = useState(false);
+  const [ companyName, setCompanyName ] = useRecoilState(companyNameState);
+  const [ name, setName ] = useState(companyName);
+  const [ completed, setCompleted ] = useState((name) ? true : false);
 
   const handleEdit = () => {
     setCompleted(false);
@@ -14,6 +17,7 @@ const CompanyName = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setCompanyName(name);
     setCompleted(true);
   };
 
@@ -22,7 +26,7 @@ const CompanyName = () => {
   return (
     <>
       { completed
-      ? <CompanyNameIdentifier name={ name } handleEdit={ handleEdit }/>
+      ? <CompanyNameIdentifier companyName={ companyName } handleEdit={ handleEdit }/>
       : <CompanyNameForm name={ name } handleSubmit={ handleSubmit } handleChange={ handleChange } />
       } 
     </>

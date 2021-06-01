@@ -1,18 +1,14 @@
-import React, { useContext, useState } from 'react';
-import GlobalContext from '../../../../context/GlobalContext';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import ExecutivesForm from './ExecutivesForm';
+import { executivesState } from '../../../../recoil/atoms/CompanyInformation';
 
 const ExecutivesIdentifier = ({ currentExecutive }) => {
-  
-  const { executives, setExecutives } = useContext(GlobalContext);
+
+  const [ executives, setExecutives ] = useRecoilState(executivesState);
   const [ executive, setExecutive ] = useState(currentExecutive);
   const [ edit, setEdit ] = useState(false);
-
-
-  console.log('executive', executive);
-  console.log('executives', executives);
-
 
   const handleEdit = () => {
     setEdit(true);
