@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import FirstYearPaymentsIdentifier from './FirstYearPaymentsIdentifier';
 import FirstYearPaymentsForm from './FirstYearPaymentsForm';
+import { firstYearPaymentsState } from '../../../../recoil/atoms/Compensation';
 
-const FirstYearPayments = ({ startDate, handleDateChange }) => {
+const FirstYearPayments = ({ id }) => {
 
-  const [ payments, setPayments ] = useState(0);
-  const [ completed, setCompleted ] = useState(false);
+  const [ firstYearPayments, setFirstYearPayments ] = useRecoilState(firstYearPaymentsState);
+  const [ payments, setPayments ] = useState(firstYearPayments[id] || '');
+  const [ completed, setCompleted ] = useState((payments) ? true : false);
+  const [ error, setError ] = useState(false);
 
   const handleEdit = () => {
     setCompleted(false);
@@ -14,23 +18,25 @@ const FirstYearPayments = ({ startDate, handleDateChange }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const firstYearPayments = Number(payments);
-    if (firstYearPayments) {
-      //setTransactionPrice(dealPrice);
-      // setError(false);
+    const startYearPayments = Number(payments);
+    if (startYearPayments) {
+      setFirstYearPayments({...firstYearPayments, [id]: startYearPayments });
+      setError(false);
       setCompleted(true); 
     } else {
-      // setError(true);
+      setError(true);
     }
   };
 
   const handleChange = (e) => setPayments(e.target.value);
 
+  console.log(payments);
+
   return (
     <>
       { completed
       ? <FirstYearPaymentsIdentifier payments={ payments } handleEdit={ handleEdit }/>
-      : <FirstYearPaymentsForm payments={ payments } handleSubmit={ handleSubmit } handleChange={ handleChange } />
+      : <FirstYearPaymentsForm payments={ payments } handleSubmit={ handleSubmit } handleChange={ handleChange } error={ error } />
       } 
     </>
   );

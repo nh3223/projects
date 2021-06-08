@@ -3,10 +3,10 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const StartDateForm = ({ startDate, handleChange }) => (
+const StartDateForm = ({ date, handleChange }) => (
   <>
     <h2>Employment Start Date: </h2>
-    <DatePicker selected={ startDate } onChange={ handleChange } />
+    <DatePicker selected={ date } onChange={ handleChange } />
   </>
 );
 

@@ -16,14 +16,14 @@ const AppRouter = () => (
   <Router>
       <Switch>
         <Route exact path="/" component={ StartProject } />
-        <Route exact path="/company/:company_id" component={ ProjectSummary } />
-        <Route exact path="/company/:company_id/info" component={ CompanyInformation } />
-        <Route exact path="/executive/:executive_id" component={ ExecutiveSummary } />
-        <Route exact path="/executive/:executive_id/compensation" component={ Compensation } />
-        <Route exact path="/executive/:executive_id/non-equity-payments" component={ NonEquityPayments } />
-        <Route exact path="/executive/:executive_id/equity-payments" component={ EquityPayments } />
-        <Route exact path="/restricted-stock/:grant_id" component={ RestrictedStock } />
-        <Route exact path="/options/:grant_id" component={ Options } />
+        <Route exact path="/company/:id" component={ ProjectSummary } />
+        <Route exact path="/company/:id/info" component={ CompanyInformation } />
+        <Route exact path="/executive/:id" component={ ExecutiveSummary } />
+        <Route exact path="/executive/:id/compensation" component={ Compensation } />
+        <Route exact path="/executive/:id/non-equity-payments" component={ NonEquityPayments } />
+        <Route exact path="/executive/:id/equity-payments" component={ EquityPayments } />
+        <Route exact path="/restricted-stock/:id" component={ RestrictedStock } />
+        <Route exact path="/options/:id" component={ Options } />
         <Route component={ NotFound } />
       </Switch>
   </Router>

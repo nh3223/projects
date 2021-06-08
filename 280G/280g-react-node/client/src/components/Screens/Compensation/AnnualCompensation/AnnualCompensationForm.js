@@ -1,9 +1,10 @@
 import React from 'react';
 
-const AnnualCompensationForm = ({ compensationYear, handleChange, handleSubmit }) => (
-  <>
-    <h2> </h2>
-  </>
+const AnnualCompensationForm = ({ year, compensation, handleChange, handleSubmit }) => (
+  <form name={ year } onSubmit={ handleSubmit }>
+    <label>{ year }</label>
+    <input name={ year } value={ compensation } onChange={ handleChange }></input>
+  </form>
 );
 
 export default AnnualCompensationForm;
