@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import companyRoutes from './routes/companyInformation.js';
+import companyRoutes from './routes/company.js';
+import executiveRoutes from './routes/executive.js';
 
 const app = express();
 dotenv.config();
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/company', companyRoutes);
+app.use('/executive', executiveRoutes);
 
 const PORT = process.env.PORT || 5000;
 
