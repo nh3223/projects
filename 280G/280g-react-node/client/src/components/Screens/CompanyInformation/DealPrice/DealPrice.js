@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import DealPriceIdentifier from './DealPriceIdentifier';
@@ -8,8 +8,8 @@ import { transactionPriceState } from '../../../../recoil/atoms/CompanyInformati
 const DealPrice = () => {
 
   const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState);
-  const [ price, setPrice ] = useState(transactionPrice);
-  const [ completed, setCompleted ] = useState((price) ? true : false);
+  const [ price, setPrice ] = useState('');
+  const [ completed, setCompleted ] = useState(true);
   const [ error, setError ] = useState(false);
 
   const handleEdit = () => {
@@ -29,6 +29,11 @@ const DealPrice = () => {
   };
 
   const handleChange = (e) => setPrice(e.target.value);
+
+  useEffect(() => {
+    setPrice(transactionPrice);
+    setCompleted((transactionPrice) ? true : false);
+  }, [transactionPrice]);
 
   return (
     <>

@@ -24,12 +24,14 @@ const Executives = () => {
 
   const handleChange = (e) => setExecutive(e.target.value);
 
+  console.log(executives);
+
   return (
     <>
       <h2>Executives</h2>
       <button onClick={ handleAdd }>Add an Executive</button>
       { (add) && <ExecutivesForm executive={ executive } handleSubmit={ handleSubmitAdd } handleChange={ handleChange } /> } 
-      { (executives) && executives.map((exec) => <ExecutivesIdentifier key={ exec } currentExecutive={ exec } />)}
+      { (executives) && executives.map((exec) => <ExecutivesIdentifier key={ exec._id } currentExecutive={ exec } />)}
     </>
   );
 

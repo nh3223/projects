@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import TransactionDateIdentifier from './TransactionDateIdentifier';
@@ -18,6 +18,10 @@ const TransactionDate = () => {
     setTransactionDate(date);
     setCompleted(true);
   };
+
+  useEffect(() => {
+    setCompleted((transactionDate) ? true : false)
+  }, [transactionDate]);
 
   return (
     <>

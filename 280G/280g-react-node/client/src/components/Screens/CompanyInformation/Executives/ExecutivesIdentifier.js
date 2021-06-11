@@ -28,7 +28,8 @@ const ExecutivesIdentifier = ({ currentExecutive }) => {
       { edit
       ? <ExecutivesForm executive={ executive } handleSubmit={ handleSubmit } handleChange={ handleChange } />
       : <>
-          <h3>{ executive }</h3>
+          <h3>{ executive.name }</h3>
+          <h4>{ executive.title }</h4>
           <button onClick={ handleEdit }>Edit</button>
         </>
       }
