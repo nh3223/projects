@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import FirstYearPaymentsIdentifier from './FirstYearPaymentsIdentifier';
 import FirstYearPaymentsForm from './FirstYearPaymentsForm';
-import { firstYearPaymentsState } from '../../../../recoil/atoms/Compensation';
+import { firstYearPaymentsState } from '../../../../recoil/atoms/compensation';
 
 const FirstYearPayments = ({ id }) => {
 

@@ -3,8 +3,6 @@ import { format } from 'date-fns';
 
 const TransactionDateIdentifier = ({ date, handleEdit }) => {
   
-  console.log(date);
-  
   const transactionDate = format(date, 'd MMM yyyy');
   
   return (

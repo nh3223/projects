@@ -4,9 +4,7 @@ import { useRecoilState } from 'recoil';
 import TransactionPriceIdentifier from './TransactionPriceIdentifier';
 import TransactionPriceForm from './TransactionPriceForm';
 import { companyState, companyCompletedState } from '../../../../recoil/atoms/company';
-import { saveCompany } from '../../../../api/company';
-import isCompleted from '../../../../utilities/isCompleted';
-
+import useSaveCompany from '../../../../hooks/useSaveCompany';
 
 const TransactionPrice = () => {
 
@@ -15,9 +13,7 @@ const TransactionPrice = () => {
   const [ price, setPrice ] = useState('');
   const [ error, setError ] = useState(false);
 
-  const handleEdit = () => {
-    setCompleted({ ...completed, transactionPrice: false});
-  };
+  const handleEdit = () => setCompleted({ ...completed, transactionPrice: false});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,15 +28,7 @@ const TransactionPrice = () => {
 
   const handleChange = (e) => setPrice(e.target.value);
 
-  useEffect(() => {
-    const save = async (company) => {
-      const newCompany = await saveCompany(company);
-      console.log('deal price useeffect', newCompany);
-    };
-    if (isCompleted(completed)) {
-      save(company);
-    }
-  }, [completed, company])
+  // useSaveCompany(company, completed);
 
   useEffect(() => {
     if (company.id) {

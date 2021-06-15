@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import StartDateIdentifier from './StartDateIdentifier';
 import StartDateForm from './StartDateForm';
-import { startDateState } from '../../../../recoil/atoms/Compensation';
+import { startDateState } from '../../../../recoil/atoms/compensation';
 
 const StartDate = ({ id }) => {
 

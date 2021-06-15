@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import { companyState, defaultCompanyState, companyCompletedState, defaultCompletedState } from '../../../recoil/atoms/company';
 import { executivesState } from '../../../recoil/atoms/executive';
 
 import { fetchCompany } from '../../../api/company';
 import { fetchExecutives } from '../../../api/executive';
+
+import useSaveCompany from '../../../hooks/useSaveCompany';
 
 import CompanyName from './CompanyName/CompanyName';
 import TransactionDate from './TransactionDate/TransactionDate';
@@ -17,9 +19,11 @@ const CompanyInformation = () => {
 
   const { id } = useParams();
 
-  const setCompany = useSetRecoilState(companyState);
-  const setExecutives = useSetRecoilState(executivesState);
-  const setCompleted = useSetRecoilState(companyCompletedState);
+  const [ company, setCompany ] = useRecoilState(companyState);
+  const [ executives, setExecutives ] = useRecoilState(executivesState);
+  const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
+
+  useSaveCompany(company, completed);
 
   useEffect(() => {
     const getCompanyInformation = async () => {

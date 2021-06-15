@@ -4,7 +4,7 @@ import { getYear } from 'date-fns';
 
 import AnnualCompensationIdentifier from './AnnualCompensationIdentifier';
 import AnnualCompensationForm from './AnnualCompensationForm';
-import { startDateState, annualCompensationState } from '../../../../recoil/atoms/Compensation';
+import { startDateState, annualCompensationState } from '../../../../recoil/atoms/compensation';
 
 const getYears = (startDate) => {
   const startYear = getYear(startDate);
