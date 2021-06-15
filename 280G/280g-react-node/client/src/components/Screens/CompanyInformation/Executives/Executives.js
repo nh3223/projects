@@ -3,12 +3,14 @@ import { useRecoilState } from 'recoil';
 
 import ExecutivesIdentifier from './ExecutivesIdentifier';
 import ExecutivesForm from './ExecutivesForm';
-import { executivesState } from '../../../../recoil/atoms/CompanyInformation';
+import { executivesState } from '../../../../recoil/atoms/executive';
+import { createExecutive } from '../../../../api/executive';
 
-const Executives = () => {
+const Executives = ({ companyId }) => {
 
   const [ executives, setExecutives ] = useRecoilState(executivesState);
-  const [ executive, setExecutive ] = useState('');
+  const [ name, setName ] = useState('');
+  const [ title, setTitle ] = useState('');
   const [ add, setAdd ] = useState(false);
 
   const handleAdd = () => {
@@ -17,20 +19,25 @@ const Executives = () => {
 
   const handleSubmitAdd = (e) => {
     e.preventDefault();
+    const executiveData = {
+      company: companyId,
+      name, title
+    }
+    const executive = createExecutive(executiveData)
     setExecutives([...executives, executive ])
     setAdd(false);
-    setExecutive('');
+    setName('')
+    setTitle('');
   };
 
-  const handleChange = (e) => setExecutive(e.target.value);
-
-  console.log(executives);
+  const handleNameChange = (e) => setName(e.target.value);
+  const handleTitleChange = (e) => setTitle(e.target.value);
 
   return (
     <>
       <h2>Executives</h2>
       <button onClick={ handleAdd }>Add an Executive</button>
-      { (add) && <ExecutivesForm executive={ executive } handleSubmit={ handleSubmitAdd } handleChange={ handleChange } /> } 
+      { (add) && <ExecutivesForm name={ name } title={ title } handleSubmit={ handleSubmitAdd } handleNameChange={ handleNameChange } handleTitleChange={ handleTitleChange } /> } 
       { (executives) && executives.map((exec) => <ExecutivesIdentifier key={ exec._id } currentExecutive={ exec } />)}
     </>
   );

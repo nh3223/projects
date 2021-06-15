@@ -3,9 +3,7 @@ import Company from '../models/company.js';
 
 export const getCompanies = async (req, res) => {
   try {
-    console.log('getCompanies')
     const companies = await Company.find({ });
-    console.log(companies);
     res.status(200).json(companies);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -36,8 +34,11 @@ export const getCompany = async (req, res) => {
 export const createCompany = async (req, res) => {
   const company = req.body;
   const newCompany = Company(company);
+  console.log('server create company', company);
+  console.log('server create newCompany', newCompany)
   try {
     await newCompany.save();
+    console.log('in create company try after await', newCompany)
     res.status(201).json(newCompany);
   } catch (error) {
     res.status(409).json({ message: error.message });

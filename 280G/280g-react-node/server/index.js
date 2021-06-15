@@ -9,8 +9,8 @@ import executiveRoutes from './routes/executive.js';
 const app = express();
 dotenv.config();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 app.use('/company', companyRoutes);
 app.use('/executive', executiveRoutes);

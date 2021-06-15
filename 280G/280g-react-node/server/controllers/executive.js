@@ -14,6 +14,8 @@ export const getExecutive = async (req, res) => {
 export const createExecutive = async (req, res) => {
   const executive = req.body;
   const newExecutive = Executive(executive);
+  console.log(executive);
+  console.log(newExecutive);
   try {
     await newExecutive.save();
     res.status(201).json(newExecutive);

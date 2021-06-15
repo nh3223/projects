@@ -3,37 +3,44 @@ import { useRecoilState } from 'recoil';
 
 import CompanyNameIdentifier from './CompanyNameIdentifier';
 import CompanyNameForm from './CompanyNameForm';
-import { companyNameState } from '../../../../recoil/atoms/CompanyInformation';
+import { companyState, companyCompletedState } from '../../../../recoil/atoms/company';
+import { saveCompany } from '../../../../api/company';
+import isCompleted from '../../../../utilities/isCompleted';
 
-const CompanyName = () => {
+const CompanyName = ({ companyId }) => {
 
-  const [ companyName, setCompanyName ] = useRecoilState(companyNameState);
+  const [ company, setCompany ] = useRecoilState(companyState);
+  const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
   const [ name, setName ] = useState('');
-  const [ completed, setCompleted ] = useState(true);
 
-  console.log('name', name);
+  console.log('comapny name completed', completed)
 
   const handleEdit = () => {
-    setCompleted(false);
+    setCompleted({ ...completed, name: false});
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setCompanyName(name);
-    setCompleted(true);
+    setCompany({ ...company, name });
+    setCompleted({ ...completed, name: true });
+    if (isCompleted(completed)) {
+      const newCompany = await saveCompany(company);
+      console.log(newCompany);
+    }
   };
 
   const handleChange = (e) => setName(e.target.value);
 
   useEffect(() => {
-    setName(companyName);
-    setCompleted((companyName) ? true : false);
-  }, [companyName]);
+    if (company.id) {
+      setName(company.name);
+    }
+  }, [company.id, company.name]);
 
   return (
     <>
-      { completed
-      ? <CompanyNameIdentifier companyName={ companyName } handleEdit={ handleEdit }/>
+      { (completed.name)
+      ? <CompanyNameIdentifier name={ company.name } handleEdit={ handleEdit }/>
       : <CompanyNameForm name={ name } handleSubmit={ handleSubmit } handleChange={ handleChange } />
       } 
     </>

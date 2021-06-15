@@ -15,7 +15,8 @@ import NotFound from '../components/Screens/NotFound';
 const AppRouter = () => (
   <Router>
       <Switch>
-        <Route exact path="/" component={ StartProject } />
+        <Route exact path="/" component={ StartProject } />        
+        <Route exact path="/company/info" component={ CompanyInformation } />
         <Route exact path="/company/:id" component={ ProjectSummary } />
         <Route exact path="/company/:id/info" component={ CompanyInformation } />
         <Route exact path="/executive/:id" component={ ExecutiveSummary } />

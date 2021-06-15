@@ -1,8 +1,8 @@
 import React from 'react';
 
-const CompanyNameIdentifier = ({ companyName, handleEdit }) => (
+const CompanyNameIdentifier = ({ name, handleEdit }) => (
   <>
-    <h2>Company Name: { companyName }</h2>
+    <h2>Company Name: { name }</h2>
     <button onClick={ handleEdit }>Edit</button>
   </>
 );

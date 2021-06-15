@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import ExecutivesForm from './ExecutivesForm';
-import { executivesState } from '../../../../recoil/atoms/CompanyInformation';
+import { executivesState } from '../../../../recoil/atoms/executive';
 
 const ExecutivesIdentifier = ({ currentExecutive }) => {
 

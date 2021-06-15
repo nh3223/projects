@@ -1,45 +1,60 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil'
-import { parseISO } from 'date-fns';
 
-import { companyNameState, transactionPriceState, transactionDateState, executivesState } from '../../../recoil/atoms/CompanyInformation';
+import { companyState, defaultCompanyState, companyCompletedState, defaultCompletedState } from '../../../recoil/atoms/company';
+import { executivesState } from '../../../recoil/atoms/executive';
 
-import { fetchCompanyInformation, fetchExecutives } from '../../../api/companyInformation';
+import { fetchCompany } from '../../../api/company';
+import { fetchExecutives } from '../../../api/executive';
 
 import CompanyName from './CompanyName/CompanyName';
 import TransactionDate from './TransactionDate/TransactionDate';
-import DealPrice from './DealPrice/DealPrice';
+import TransactionPrice from './TransactionPrice/TransactionPrice';
 import Executives from './Executives/Executives';
 
 const CompanyInformation = () => {
 
   const { id } = useParams();
-  
-  const setCompanyName = useSetRecoilState(companyNameState);
-  const setTransactionPrice = useSetRecoilState(transactionPriceState);
-  const setTransactionDate = useSetRecoilState(transactionDateState);
+
+  const setCompany = useSetRecoilState(companyState);
   const setExecutives = useSetRecoilState(executivesState);
+  const setCompleted = useSetRecoilState(companyCompletedState);
 
   useEffect(() => {
     const getCompanyInformation = async () => {
-      const companyData = await fetchCompanyInformation(id);
+      const companyData = await fetchCompany(id);
       const executives = await fetchExecutives(id);
-      setCompanyName(companyData.name);
-      setTransactionPrice(companyData.transactionPrice);
-      setTransactionDate(parseISO(companyData.transactionDate));
+      setCompany({
+        id,
+        name: companyData.name,
+        transactionPrice: companyData.transactionPrice,
+        transactionDate: companyData.transactionDate,
+        executives
+      });
+      setCompleted({
+        name: true,
+        transactionPrice: true,
+        transactionDate: true
+      });
       setExecutives(executives);
     };
-    getCompanyInformation();
-  }, []);
+    if (id) {
+      getCompanyInformation();
+    } else {
+      setCompany(defaultCompanyState);
+      setCompleted(defaultCompletedState);
+      setExecutives([]);
+    }
+  }, [id, setCompany, setExecutives, setCompleted]);
 
   return (
     <>
       <h2>Company Information</h2>
       <CompanyName />
       <TransactionDate />
-      <DealPrice />
-      <Executives />
+      <TransactionPrice />
+      <Executives companyId={ id }/>
     </>
   );
 };

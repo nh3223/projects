@@ -1,31 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import { parseISO } from 'date-fns';
 
 import TransactionDateIdentifier from './TransactionDateIdentifier';
 import TransactionDateForm from './TransactionDateForm';
-import { transactionDateState } from '../../../../recoil/atoms/CompanyInformation';
+import { companyState, companyCompletedState } from '../../../../recoil/atoms/company';
+import { saveCompany } from '../../../../api/company';
+import isCompleted from '../../../../utilities/isCompleted';
+
 
 const TransactionDate = () => {
 
-  const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState);
-  const [ completed, setCompleted ] = useState(false);
+  const [ company, setCompany ] = useRecoilState(companyState);
+  const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
+  const [ transactionDate, setTransactionDate ] = useState(new Date());
 
   const handleEdit = () => {
-    setCompleted(false);
+    setCompleted({ ...completed, transactionDate: false});
   };
-
-  const handleChange = (date) => {
+  
+  const handleChange = async (date) => {
     setTransactionDate(date);
-    setCompleted(true);
+    setCompany({ ...company, transactionDate: date });
+    setCompleted({ ...completed, transactionDate: true });
+    if (isCompleted(completed)) {
+      const newCompany = await saveCompany(company);
+      console.log(newCompany);
+    }
   };
-
+  
   useEffect(() => {
-    setCompleted((transactionDate) ? true : false)
-  }, [transactionDate]);
+    if (company.id) {
+      setTransactionDate(parseISO(company.transactionDate));
+    }
+  }, [company.id, company.transactionDate]);
 
   return (
     <>
-      { completed
+      { (completed.transactionDate)
       ? <TransactionDateIdentifier date={ transactionDate } handleEdit={ handleEdit }/>
       : <TransactionDateForm date={ transactionDate } handleChange={ handleChange } />
       } 

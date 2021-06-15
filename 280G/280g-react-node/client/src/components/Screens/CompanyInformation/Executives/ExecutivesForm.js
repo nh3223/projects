@@ -1,9 +1,11 @@
 import React from 'react';
 
-const ExecutivesForm = ({ executive, handleSubmit, handleChange}) => (
-  <form onSubmit={ handleSubmit }>
-    <label>Executives: </label>
-    <input value={ executive } onChange={ handleChange }></input>
+const ExecutivesForm = ({ name, title, handleSubmit, handleNameChange, handleTitleChange}) => (
+  <form>
+    <label>Executive: </label>
+    <input value={ name } placeholder="Name" onChange={ handleNameChange }></input>
+    <input value={ title } placeholder="Title" onChange={ handleTitleChange }></input>
+    <button onClick={ handleSubmit }>Submit</button>
   </form>
 );
 
