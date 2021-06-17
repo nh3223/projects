@@ -13,15 +13,31 @@ const name = {
 
 const title = {
   type: String
-}
+};
+
+const startDate = {
+  type: Date
+};
+
+const firstYearPayments = {
+  type: Number
+};
 
 const executiveProperties = {
   company,
   name,
-  title
+  title,
+  startDate,
+  firstYearPayments
 };
 
 const executiveSchema = mongoose.Schema(executiveProperties);
+
+executiveSchema.virtual('compensations', {
+  ref: 'Compensation',
+  localField: '_id',
+  foreignField: 'executive'
+});
 
 const executive = mongoose.model('Executive', executiveSchema);
 
