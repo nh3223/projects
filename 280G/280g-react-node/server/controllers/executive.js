@@ -37,6 +37,8 @@ export const editExecutive = async (req, res) => {
 export const deleteExecutive = async (req, res) => {
   const {id: _id } = req.params;
   
+  console.log('deleteexecutive', _id);
+
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
 
   await Executive.findByIdAndDelete(_id);

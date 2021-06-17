@@ -4,28 +4,35 @@ import { useRecoilState } from 'recoil';
 import CompanyNameIdentifier from './CompanyNameIdentifier';
 import CompanyNameForm from './CompanyNameForm';
 import { companyState, companyCompletedState } from '../../../../recoil/atoms/company';
-import useSaveCompany from '../../../../hooks/useSaveCompany';
+import isCompleted from '../../../../utilities/isCompleted';
+import { editCompany } from '../../../../api/company';
 
-const CompanyName = ({ companyId }) => {
+const CompanyName = () => {
 
   const [ company, setCompany ] = useRecoilState(companyState);
   const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
   const [ name, setName ] = useState('');
+  const [ edit, setEdit ] = useState(false);
 
-  console.log('comapny name completed', completed)
-
-  const handleEdit = () => setCompleted({ ...completed, name: false});
+  const handleEdit = () => {
+    setCompleted({ ...completed, name: false});
+    setEdit(true);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setCompany({ ...company, name });
-    setCompleted({ ...completed, name: true });
+    const companyData = { ...company, name }
+    const completedData = { ...completed, name: true };
+    setCompany(companyData);
+    setCompleted(completedData);
+    if (edit && isCompleted(completedData)) {
+      await editCompany(companyData);
+    }
+    setEdit(false);
   };
 
   const handleChange = (e) => setName(e.target.value);
 
-  // useSaveCompany(company, completed);
-  
   useEffect(() => {
     if (company.id) { setName(company.name); }
   }, [company.id, company.name]);

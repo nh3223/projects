@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil'
+import { useParams, useHistory } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { companyState, defaultCompanyState, companyCompletedState, defaultCompletedState } from '../../../recoil/atoms/company';
 import { executivesState } from '../../../recoil/atoms/executive';
 
-import { fetchCompany } from '../../../api/company';
+import { fetchCompany, createCompany, editCompany } from '../../../api/company';
 import { fetchExecutives } from '../../../api/executive';
 
-import useSaveCompany from '../../../hooks/useSaveCompany';
+import isCompleted from '../../../utilities/isCompleted';
 
 import CompanyName from './CompanyName/CompanyName';
 import TransactionDate from './TransactionDate/TransactionDate';
@@ -20,13 +20,16 @@ const CompanyInformation = () => {
   const { id } = useParams();
 
   const [ company, setCompany ] = useRecoilState(companyState);
-  const [ executives, setExecutives ] = useRecoilState(executivesState);
   const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
+  const setExecutives = useSetRecoilState(executivesState);
+  
+  const history = useHistory();
 
-  useSaveCompany(company, completed);
+  // Load data
 
   useEffect(() => {
-    const getCompanyInformation = async () => {
+    
+    const setCompanyInformation = async () => {
       const companyData = await fetchCompany(id);
       const executives = await fetchExecutives(id);
       setCompany({
@@ -43,14 +46,32 @@ const CompanyInformation = () => {
       });
       setExecutives(executives);
     };
-    if (id) {
-      getCompanyInformation();
-    } else {
+    
+    const setDefaults = () => {
       setCompany(defaultCompanyState);
       setCompleted(defaultCompletedState);
       setExecutives([]);
-    }
+    };
+
+    (id) ? setCompanyInformation() : setDefaults();
+
   }, [id, setCompany, setExecutives, setCompleted]);
+  
+// Create company
+  useEffect(() => {
+    const save = async (companyDate) => {
+      const savedCompany = await createCompany(companyData);
+      setCompany(savedCompany);
+      history.push(`/company/${savedCompany._id}/info`);
+      // history.push(`/company/${savedCompany._id}/info`)
+    };
+    const companyData = JSON.stringify({
+      name: company.name,
+      transactionDate: company.transactionDate,
+      transactionPrice: company.transactionPrice
+    });
+    if (!id && isCompleted(completed)) { save(companyData); }
+  }, [id, completed, company.name, company.transactionDate, company.transactionPrice, setCompany, history]);
 
   return (
     <>
@@ -58,7 +79,7 @@ const CompanyInformation = () => {
       <CompanyName />
       <TransactionDate />
       <TransactionPrice />
-      <Executives companyId={ id }/>
+      { id && <Executives companyId={ id }/> }
     </>
   );
 };

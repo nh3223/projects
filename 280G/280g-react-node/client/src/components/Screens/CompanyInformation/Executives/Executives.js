@@ -17,26 +17,29 @@ const Executives = ({ companyId }) => {
     setAdd(true);
   };
 
-  const handleSubmitAdd = (e) => {
+  const handleSubmitAdd = async (e) => {
     e.preventDefault();
     const executiveData = {
       company: companyId,
-      name, title
+      name,
+      title
     }
-    const executive = createExecutive(executiveData)
+    const executive = await createExecutive(executiveData)
     setExecutives([...executives, executive ])
     setAdd(false);
-    setName('')
+    setName('');
     setTitle('');
   };
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleTitleChange = (e) => setTitle(e.target.value);
 
+  console.log(executives);
+
   return (
     <>
       <h2>Executives</h2>
-      <button onClick={ handleAdd }>Add an Executive</button>
+      { (!add) && <button onClick={ handleAdd }>Add an Executive</button> }
       { (add) && <ExecutivesForm name={ name } title={ title } handleSubmit={ handleSubmitAdd } handleNameChange={ handleNameChange } handleTitleChange={ handleTitleChange } /> } 
       { (executives) && executives.map((exec) => <ExecutivesIdentifier key={ exec._id } currentExecutive={ exec } />)}
     </>

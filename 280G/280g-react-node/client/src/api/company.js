@@ -22,25 +22,28 @@ export const createCompany = async (company) => {
   return await response.json();
 };
 
-export const editCompany = async (id, company) => {
-  const url = `http://localhost:5000/company/${id}`;
+export const editCompany = async (company) => {
+  const url = `http://localhost:5000/company/${company.id}`;
   const options = {
     method: 'PATCH', 
     headers: { "Content-Type": "application/json" },
-    body: company
+    body: JSON.stringify(company)
   };
   const response = await fetch(url, options);
   return await response.json();
 };
 
-export const saveCompany = (company) => {
+export const saveCompany = async (company) => {
   const companyData = JSON.stringify({
     name: company.name,
     transactionPrice: company.transactionPrice,
     transactionDate: company.transactionDate
   });
-  console.log('save company', companyData);
-  (company.id) ? editCompany(company.id, companyData) : createCompany(companyData);
+  if (company.id) {
+    return await editCompany(company.id, companyData);
+  } else {
+    return await createCompany(companyData);
+  }
 };
 
 export const deleteCompany = async (id) => {

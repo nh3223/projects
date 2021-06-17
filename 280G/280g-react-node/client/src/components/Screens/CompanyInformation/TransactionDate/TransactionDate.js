@@ -5,25 +5,32 @@ import { formatISO, parseISO } from 'date-fns';
 import TransactionDateIdentifier from './TransactionDateIdentifier';
 import TransactionDateForm from './TransactionDateForm';
 import { companyState, companyCompletedState } from '../../../../recoil/atoms/company';
-import useSaveCompany from '../../../../hooks/useSaveCompany';
+import isCompleted from '../../../../utilities/isCompleted';
+import { editCompany } from '../../../../api/company';
 
 const TransactionDate = () => {
 
   const [ company, setCompany ] = useRecoilState(companyState);
   const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
   const [ transactionDate, setTransactionDate ] = useState(new Date());
+  const [ edit, setEdit ] = useState(false);
 
   const handleEdit = () => {
     setCompleted({ ...completed, transactionDate: false});
+    setEdit(true);
   };
   
   const handleChange = async (date) => {
+    const companyData = { ...company, transactionDate: formatISO(date) };
+    const completedData = { ...completed, transactionDate: true };
     setTransactionDate(date);
-    setCompany({ ...company, transactionDate: formatISO(date) });
-    setCompleted({ ...completed, transactionDate: true });
+    setCompany(companyData);
+    setCompleted(completedData);
+    if (edit && isCompleted(completedData)) {
+      await editCompany(companyData);
+    }
+    setEdit(false);
   };
-
-  // useSaveCompany(company, completed);
   
   useEffect(() => {
     if (company.id) {
