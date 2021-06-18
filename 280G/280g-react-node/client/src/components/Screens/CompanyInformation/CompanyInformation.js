@@ -2,12 +2,15 @@ import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil'
 
-import { companyState, defaultCompanyState, companyCompletedState, defaultCompletedState } from '../../../recoil/atoms/company';
+import { companyState, companyCompletedState } from '../../../recoil/atoms/company';
 import { executivesState } from '../../../recoil/atoms/executive';
+import { compensationState } from '../../../recoil/atoms/compensation';
 
-import { fetchCompany, createCompany, editCompany } from '../../../api/company';
+import { createCompany } from '../../../api/company';
 import { fetchExecutives } from '../../../api/executive';
 
+import { getCompany, getCompanyCompleted } from '../../../utilities/getCompany';
+import { getCompensation } from '../../../utilities/getCompensation';
 import isCompleted from '../../../utilities/isCompleted';
 
 import CompanyName from './CompanyName/CompanyName';
@@ -22,6 +25,7 @@ const CompanyInformation = () => {
   const [ company, setCompany ] = useRecoilState(companyState);
   const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
   const setExecutives = useSetRecoilState(executivesState);
+  const setCompensation = useSetRecoilState(compensationState);
   
   const history = useHistory();
 
@@ -30,32 +34,40 @@ const CompanyInformation = () => {
   useEffect(() => {
     
     const setCompanyInformation = async () => {
-      const companyData = await fetchCompany(id);
+      setCompany(await getCompany(id));
+      setCompleted(getCompanyCompleted(id));
       const executives = await fetchExecutives(id);
-      setCompany({
-        id,
-        name: companyData.name,
-        transactionPrice: companyData.transactionPrice,
-        transactionDate: companyData.transactionDate,
-        executives
-      });
-      setCompleted({
-        name: true,
-        transactionPrice: true,
-        transactionDate: true
-      });
       setExecutives(executives);
+      setCompensation(await getCompensation(executives));
     };
+    //   const companyData = await fetchCompany(id);
+    //   const executives = await fetchExecutives(id);
+    //   const compensation = await fetchCompensation(id);
+    //   setCompany({
+    //     id,
+    //     name: companyData.name,
+    //     transactionPrice: companyData.transactionPrice,
+    //     transactionDate: companyData.transactionDate,
+    //     executives
+    //   });
+    //   setCompleted({
+    //     name: true,
+    //     transactionPrice: true,
+    //     transactionDate: true
+    //   });
+    //   setExecutives(executives);
+    //   setCompensation(compensation);
+    // };
     
-    const setDefaults = () => {
-      setCompany(defaultCompanyState);
-      setCompleted(defaultCompletedState);
-      setExecutives([]);
-    };
+    // const setDefaults = () => {
+    //   setCompany(defaultCompanyState);
+    //   setCompleted(defaultCompletedState);
+    //   setExecutives([]);
+    // };
 
-    (id) ? setCompanyInformation() : setDefaults();
+    setCompanyInformation()
 
-  }, [id, setCompany, setExecutives, setCompleted]);
+  }, [id, setCompany, setCompleted, setExecutives, setCompensation]);
   
 // Create company
   useEffect(() => {

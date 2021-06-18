@@ -1,25 +1,11 @@
 import { atom } from 'recoil';
 
-export const defaultCompanyState = {
-  id: '',
-  name: '',
-  transactionPrice: '',
-  transactionDate: '',
-  executives: {}
-};
-
-export const defaultCompletedState = {
-  name: false,
-  transactionPrice: false,
-  transactionDate: false
-};
-
 export const companyState = atom({
   key: 'company',
-  default: defaultCompanyState
+  default: {}
 });
 
 export const companyCompletedState = atom({
   key: 'companyCompleted',
-  default: defaultCompletedState
+  default: {}
 });

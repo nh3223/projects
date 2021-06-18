@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
-import { companyState, defaultCompanyState, companyCompletedState, defaultCompletedState } from '../../recoil/atoms/company';
+import { companyState, companyCompletedState } from '../../recoil/atoms/company';
 import { fetchCompanies } from '../../api/company';
 import { deleteCompany } from '../../api/company';
 
@@ -19,8 +19,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setCompany(defaultCompanyState);
-    setCompleted(defaultCompletedState);
+    setCompany({ id: '', name: '', transactionPrice: '', transactionDate: '' });
+    setCompleted({ name: false, transactionPrice: false, transactionDate: false });
   }, [setCompany, setCompleted]);
 
   useEffect(() => {
