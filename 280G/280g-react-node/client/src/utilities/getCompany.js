@@ -2,7 +2,6 @@ import { fetchCompany } from "../api/company";
 
 const getCompanyData = (id, company) => {
   
-  console.log('getCOmpanyData', company);
   return ({
   id,
   name: company.name,
@@ -20,7 +19,6 @@ const getDefaultCompanyData = () => ({
 
 export const getCompany = async (id) => {
   const company = await fetchCompany(id);
-  console.log(company);
   return (id) ? getCompanyData(id, company) : getDefaultCompanyData();
 };
 

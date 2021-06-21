@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilCallback } from 'recoil';
 
 import ExecutivesIdentifier from './ExecutivesIdentifier';
 import ExecutivesForm from './ExecutivesForm';
-import { executivesState } from '../../../../recoil/atoms/executive';
+import { executiveState, executiveIdsState } from '../../../../recoil/atoms/executive';
 import { createExecutive } from '../../../../api/executive';
 
 const Executives = ({ companyId }) => {
 
-  const [ executives, setExecutives ] = useRecoilState(executivesState);
+  const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState)
   const [ name, setName ] = useState('');
   const [ title, setTitle ] = useState('');
   const [ add, setAdd ] = useState(false);
+
+  const setExecutive = useRecoilCallback(({ set }) => (executive) => {
+    set(executiveState(executive._id), executive);
+  }, []);
 
   const handleAdd = () => {
     setAdd(true);
@@ -24,8 +28,9 @@ const Executives = ({ companyId }) => {
       name,
       title
     }
-    const executive = await createExecutive(executiveData)
-    setExecutives([...executives, executive ])
+    const savedExecutive = await createExecutive(executiveData)
+    setExecutive(savedExecutive);
+    setExecutiveIds([...executiveIds, savedExecutive._id])
     setAdd(false);
     setName('');
     setTitle('');
@@ -34,14 +39,14 @@ const Executives = ({ companyId }) => {
   const handleNameChange = (e) => setName(e.target.value);
   const handleTitleChange = (e) => setTitle(e.target.value);
 
-  console.log(executives);
+  console.log('executive ids', executiveIds);
 
   return (
     <>
       <h2>Executives</h2>
       { (!add) && <button onClick={ handleAdd }>Add an Executive</button> }
-      { (add) && <ExecutivesForm name={ name } title={ title } handleSubmit={ handleSubmitAdd } handleNameChange={ handleNameChange } handleTitleChange={ handleTitleChange } /> } 
-      { (executives) && executives.map((exec) => <ExecutivesIdentifier key={ exec._id } currentExecutive={ exec } />)}
+      { (add) && <ExecutivesForm companyId={ companyId } executiveId={ null } name={ name } title={ title } handleSubmit={ handleSubmitAdd } handleNameChange={ handleNameChange } handleTitleChange={ handleTitleChange } /> } 
+      { (executiveIds) && executiveIds.map((id) => <ExecutivesIdentifier key={ id } executiveId={ id } />)}
     </>
   );
 

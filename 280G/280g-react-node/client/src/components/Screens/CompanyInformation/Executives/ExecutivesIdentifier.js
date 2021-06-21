@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import ExecutivesForm from './ExecutivesForm';
-import { executivesState } from '../../../../recoil/atoms/executive';
+import { executiveState, executiveIdsState } from '../../../../recoil/atoms/executive';
 import { editExecutive, deleteExecutive } from '../../../../api/executive';
 
-const ExecutivesIdentifier = ({ currentExecutive }) => {
+const ExecutivesIdentifier = ({ executiveId }) => {
 
-  const [ executives, setExecutives ] = useRecoilState(executivesState);
-  const [ executive, setExecutive ] = useState(currentExecutive);
+  const [ executive, setExecutive ] = useRecoilState(executiveState(executiveId));
+  const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState);
   const [ name, setName ] = useState(executive.name);
   const [ title, setTitle ] = useState(executive.title);
   const [ edit, setEdit ] = useState(false);
@@ -18,20 +18,16 @@ const ExecutivesIdentifier = ({ currentExecutive }) => {
   };
 
   const handleDelete = async () => {
-    console.log(executive);
-    const id = executive._id;
-    await deleteExecutive(id);
-    setExecutives(executives.filter((exec) => (exec._id !== id)));
+     await deleteExecutive(executive._id);
+    setExecutive({ });
+    setExecutiveIds(executiveIds.filter((id) => (id !== executive._id)));
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const editedExecutive = { ...executive, name, title }
     await editExecutive(editedExecutive); 
-    const updatedExecutives = executives.map((exec) => (exec.id === editedExecutive.id) ? editedExecutive : exec);
     setExecutive(editedExecutive)
-    setExecutives(updatedExecutives);
     setEdit(false);
   };
 

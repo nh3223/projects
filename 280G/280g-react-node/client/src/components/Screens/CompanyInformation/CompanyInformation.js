@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState, useRecoilCallback } from 'recoil'
 
 import { companyState, companyCompletedState } from '../../../recoil/atoms/company';
-import { executivesState } from '../../../recoil/atoms/executive';
+import { executiveState, executiveIdsState } from '../../../recoil/atoms/executive';
 import { compensationState } from '../../../recoil/atoms/compensation';
 
 import { createCompany } from '../../../api/company';
@@ -24,8 +24,16 @@ const CompanyInformation = () => {
 
   const [ company, setCompany ] = useRecoilState(companyState);
   const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
-  const setExecutives = useSetRecoilState(executivesState);
-  const setCompensation = useSetRecoilState(compensationState);
+  const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState);
+  // const [ executive, setExecutive ] = useRecoilState(executiveState);
+
+
+  const setExecutive = useRecoilCallback(({ set }) => (executive) => {
+    // set(executiveIdsState, prev => [ ...prev, executive._id]);
+    set(executiveState(executive._id), executive);
+  }, []);
+
+  // const setCompensation = useSetRecoilState(compensationState);
   
   const history = useHistory();
 
@@ -37,9 +45,16 @@ const CompanyInformation = () => {
       setCompany(await getCompany(id));
       setCompleted(getCompanyCompleted(id));
       const executives = await fetchExecutives(id);
-      setExecutives(executives);
-      setCompensation(await getCompensation(executives));
+      const ids = []
+      for (const executive of executives) {
+        setExecutive(executive);
+        ids.push(executive._id);
+      };
+      setExecutiveIds(ids);
     };
+
+      // setCompensation(await getCompensation(executives));
+
     //   const companyData = await fetchCompany(id);
     //   const executives = await fetchExecutives(id);
     //   const compensation = await fetchCompensation(id);
@@ -64,10 +79,9 @@ const CompanyInformation = () => {
     //   setCompleted(defaultCompletedState);
     //   setExecutives([]);
     // };
-
     setCompanyInformation()
 
-  }, [id, setCompany, setCompleted, setExecutives, setCompensation]);
+  }, [id, setCompany, setCompleted, setExecutiveIds, setExecutive ]);
   
 // Create company
   useEffect(() => {
