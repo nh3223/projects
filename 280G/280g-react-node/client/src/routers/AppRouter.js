@@ -7,7 +7,6 @@ import CompanyInformation from '../components/Screens/CompanyInformation/Company
 import ExecutiveSummary from '../components/Screens/ExecutiveSummary';
 import Compensation from '../components/Screens/Compensation/Compensation';
 import NonEquityPayments from '../components/Screens/NonEquityPayments/NonEquityPayments';
-import EquityPayments from '../components/Screens/EquityPayments';
 import RestrictedStock from '../components/Screens/RestrictedStock';
 import Options from '../components/Screens/Options';
 import NotFound from '../components/Screens/NotFound';
@@ -22,9 +21,8 @@ const AppRouter = () => (
         <Route exact path="/executive/:id" component={ ExecutiveSummary } />
         <Route exact path="/executive/:id/compensation" component={ Compensation } />
         <Route exact path="/executive/:id/non-equity-payments" component={ NonEquityPayments } />
-        <Route exact path="/executive/:id/equity-payments" component={ EquityPayments } />
-        <Route exact path="/restricted-stock/:id" component={ RestrictedStock } />
-        <Route exact path="/options/:id" component={ Options } />
+        <Route exact path="/executive/:id/options" component={ Options } />
+        <Route exact path="/executive/:id/restricted-stock" component={ RestrictedStock } />
         <Route component={ NotFound } />
       </Switch>
   </Router>

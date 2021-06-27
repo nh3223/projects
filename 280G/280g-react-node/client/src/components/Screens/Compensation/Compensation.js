@@ -7,6 +7,7 @@ import AnnualCompensation from './AnnualCompensation/AnnualCompensation';
 import FirstYearPayments from './FirstYearPayments/FirstYearPayments';
 import { executiveState } from '../../../recoil/executive';
 import { fetchExecutive, editExecutive } from '../../../api/executive';
+import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 
 const Compensation = () => {
 
@@ -31,6 +32,7 @@ const Compensation = () => {
 
   return (
     <>
+      <ExecutiveHeader executiveId={ id } />
       <h1>Executive: { executive.name }</h1>
         <StartDate executive={ executive } handleSubmit={ handleSubmit } />
         <AnnualCompensation executive={ executive } handleSubmit={ handleSubmit } />

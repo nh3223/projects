@@ -11,6 +11,7 @@ import { fetchExecutives } from '../../../api/executive';
 import { getCompany, getCompanyCompleted } from '../../../utilities/getCompany';
 import isCompleted from '../../../utilities/isCompleted';
 
+import CompanyHeader from '../../Navigation/CompanyHeader';
 import CompanyName from './CompanyName/CompanyName';
 import TransactionDate from './TransactionDate/TransactionDate';
 import TransactionPrice from './TransactionPrice/TransactionPrice';
@@ -70,6 +71,7 @@ const CompanyInformation = () => {
 
   return (
     <>
+      <CompanyHeader companyId={ id } />
       <h2>Company Information</h2>
       <CompanyName />
       <TransactionDate />

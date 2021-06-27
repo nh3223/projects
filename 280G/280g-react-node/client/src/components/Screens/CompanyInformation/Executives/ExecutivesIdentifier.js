@@ -40,7 +40,7 @@ const ExecutivesIdentifier = ({ executiveId }) => {
       { edit
       ? <ExecutivesForm name={ name } title={ title } handleSubmit={ handleSubmit } handleNameChange={ handleNameChange } handleTitleChange={ handleTitleChange } />
       : <>
-          <Link to={`/executive/${executive._id}/non-equity-payments`}>
+          <Link to={`/executive/${executive._id}`}>
             <h3>{ executive.name }</h3>
             <h4>{ executive.title }</h4>
           </Link>

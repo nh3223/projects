@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import { nonEquityPaymentsState } from '../../../recoil/nonEquityPayments';
 import { fetchPayments, editPayment, createPayment, deletePayment } from '../../../api/nonEquityPayments';
 
+import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 import NonEquityPaymentsForm from './NonEquityPaymentsForm';
 import NonEquityPaymentsIdentifier from './NonEquityPaymentsIdentifier';
 
@@ -76,8 +77,11 @@ const NonEquityPayments = () => {
   
   console.log(payments);
 
+
+
   return (
     <>
+      <ExecutiveHeader executiveId={ id }/>
       <h2>Non-Equity Payments</h2>
       { <button onClick={ handleAdd }>Add a Payment</button> }
       { payments.map((payment) => (
