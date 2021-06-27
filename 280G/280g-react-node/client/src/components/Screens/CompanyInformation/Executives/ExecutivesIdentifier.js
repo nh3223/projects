@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import ExecutivesForm from './ExecutivesForm';
-import { executiveState, executiveIdsState } from '../../../../recoil/atoms/executive';
+import { executiveState, executiveIdsState } from '../../../../recoil/executive';
 import { editExecutive, deleteExecutive } from '../../../../api/executive';
 
 const ExecutivesIdentifier = ({ executiveId }) => {
@@ -39,8 +40,10 @@ const ExecutivesIdentifier = ({ executiveId }) => {
       { edit
       ? <ExecutivesForm name={ name } title={ title } handleSubmit={ handleSubmit } handleNameChange={ handleNameChange } handleTitleChange={ handleTitleChange } />
       : <>
-          <h3>{ executive.name }</h3>
-          <h4>{ executive.title }</h4>
+          <Link to={`/executive/${executive._id}/non-equity-payments`}>
+            <h3>{ executive.name }</h3>
+            <h4>{ executive.title }</h4>
+          </Link>
           <button onClick={ handleEdit }>Edit</button>
           <button onClick={ handleDelete }>Delete</button>
         </>

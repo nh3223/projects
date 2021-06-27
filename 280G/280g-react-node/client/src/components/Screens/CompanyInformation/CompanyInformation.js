@@ -2,15 +2,13 @@ import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState, useRecoilCallback } from 'recoil'
 
-import { companyState, companyCompletedState } from '../../../recoil/atoms/company';
-import { executiveState, executiveIdsState } from '../../../recoil/atoms/executive';
-import { compensationState } from '../../../recoil/atoms/compensation';
+import { companyState, companyCompletedState } from '../../../recoil/company';
+import { executiveState, executiveIdsState } from '../../../recoil/executive';
 
 import { createCompany } from '../../../api/company';
 import { fetchExecutives } from '../../../api/executive';
 
 import { getCompany, getCompanyCompleted } from '../../../utilities/getCompany';
-import { getCompensation } from '../../../utilities/getCompensation';
 import isCompleted from '../../../utilities/isCompleted';
 
 import CompanyName from './CompanyName/CompanyName';
@@ -24,16 +22,11 @@ const CompanyInformation = () => {
 
   const [ company, setCompany ] = useRecoilState(companyState);
   const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
-  const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState);
-  // const [ executive, setExecutive ] = useRecoilState(executiveState);
-
-
+  const setExecutiveIds = useSetRecoilState(executiveIdsState);
+  
   const setExecutive = useRecoilCallback(({ set }) => (executive) => {
-    // set(executiveIdsState, prev => [ ...prev, executive._id]);
     set(executiveState(executive._id), executive);
   }, []);
-
-  // const setCompensation = useSetRecoilState(compensationState);
   
   const history = useHistory();
 
@@ -42,48 +35,24 @@ const CompanyInformation = () => {
   useEffect(() => {
     
     const setCompanyInformation = async () => {
+      console.log('loading data');
       setCompany(await getCompany(id));
       setCompleted(getCompanyCompleted(id));
       const executives = await fetchExecutives(id);
-      const ids = []
+      const executiveIds = [];
       for (const executive of executives) {
         setExecutive(executive);
-        ids.push(executive._id);
+        executiveIds.push(executive._id);
       };
-      setExecutiveIds(ids);
+      setExecutiveIds(executiveIds);
     };
 
-      // setCompensation(await getCompensation(executives));
-
-    //   const companyData = await fetchCompany(id);
-    //   const executives = await fetchExecutives(id);
-    //   const compensation = await fetchCompensation(id);
-    //   setCompany({
-    //     id,
-    //     name: companyData.name,
-    //     transactionPrice: companyData.transactionPrice,
-    //     transactionDate: companyData.transactionDate,
-    //     executives
-    //   });
-    //   setCompleted({
-    //     name: true,
-    //     transactionPrice: true,
-    //     transactionDate: true
-    //   });
-    //   setExecutives(executives);
-    //   setCompensation(compensation);
-    // };
-    
-    // const setDefaults = () => {
-    //   setCompany(defaultCompanyState);
-    //   setCompleted(defaultCompletedState);
-    //   setExecutives([]);
-    // };
-    setCompanyInformation()
+    setCompanyInformation();
 
   }, [id, setCompany, setCompleted, setExecutiveIds, setExecutive ]);
   
 // Create company
+
   useEffect(() => {
     const save = async (companyDate) => {
       const savedCompany = await createCompany(companyData);

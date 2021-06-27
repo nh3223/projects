@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import CompanyNameIdentifier from './CompanyNameIdentifier';
 import CompanyNameForm from './CompanyNameForm';
-import { companyState, companyCompletedState } from '../../../../recoil/atoms/company';
+import { companyState, companyCompletedState } from '../../../../recoil/company';
 import isCompleted from '../../../../utilities/isCompleted';
 import { editCompany } from '../../../../api/company';
 

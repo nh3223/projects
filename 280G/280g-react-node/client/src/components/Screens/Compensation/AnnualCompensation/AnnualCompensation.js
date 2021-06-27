@@ -1,81 +1,70 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { getYear } from 'date-fns';
+import { parseISO } from 'date-fns';
 
 import AnnualCompensationIdentifier from './AnnualCompensationIdentifier';
 import AnnualCompensationForm from './AnnualCompensationForm';
-import { compensationState } from '../../../../recoil/atoms/compensation';
 
-const getYears = (startDate) => {
-  const startYear = getYear(startDate);
-  const currentYear = getYear(new Date())
-  const firstCompensationYear = (startYear === currentYear) ? startYear : (startYear < currentYear - 5) ? currentYear - 5 : startYear;
-  const lastCompensationYear = (startYear === currentYear) ? startYear : currentYear - 1;
-  const basePeriod = [];
-  for (let year=firstCompensationYear; year <= lastCompensationYear; year++) { 
-    basePeriod.push(year);
-  }
-  return basePeriod;
-}
+import { getYears, getCompensation } from '../../../../utilities/getCompensation';
 
-const getCompensation = (years, executiveCompensation) => {
-  let compensation = {};
-  for (const year of years) {
-    compensation[year] = {
-      compensation: (executiveCompensation) ? executiveCompensation[year] || '' : '',
-      completed: (executiveCompensation) ? (executiveCompensation[year]) ? true : false : false,
-      edit: false
-    };
-  }
-  return compensation;
-};
+const AnnualCompensation = ({ executive, handleSubmit }) => {
 
-const AnnualCompensation = ({ id }) => {
+  const [ compensation, setCompensation ] = useState({});
 
-  // const startDate = useRecoilValue(startDateState);
-  // const [ annualCompensation, setAnnualCompensation ] = useRecoilState(annualCompensationState);  
+  const handleEdit = (name) => {
+    const year = Number(name);
+    const annualCompensation = { ...compensation[year] };
+    annualCompensation.edit = true;
+    setCompensation({...compensation, [year]: annualCompensation});
+  };
 
-  // const [ compensation, setCompensation ] = useState({});
+  const handleAnnualCompensation = async (e) => {
+    e.preventDefault();
+    const year = Number(e.target.name);
+    const annualCompensation = compensation[year];
+    const comp = Number(annualCompensation.compensation);
+    if (comp) {
+      annualCompensation.compensation = comp;
+      annualCompensation.completed = true;
+      annualCompensation.edit = false;
+      annualCompensation.error = false;
+      const executiveCompensation = { ...compensation, [year]: annualCompensation };
+      setCompensation(executiveCompensation);
+      const editedExecutive = { ...executive, compensation: Object.values(executiveCompensation) };
+      await handleSubmit(editedExecutive);
+    } else {
+      annualCompensation.error = true;
+      setCompensation({ ...compensation, [year]: annualCompensation })
+    }
 
-  // const handleEdit = (name) => {
-  //   const year = compensation[name];
-  //   year.edit = true;
-  //   setCompensation({...compensation, [name]: year});
-  // };
+  };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const year = compensation[e.target.name];
-  //   year.completed = true;
-  //   year.edit = false;
-  //   setCompensation({...compensation, [e.target.name]: year });
-  //   const annualComp = {}
-  //   for (const year in compensation) {
-  //     annualComp[year] = compensation[year].compensation
-  //   }
-  //   setAnnualCompensation({...annualCompensation, [id]: annualComp});
-  // };
+  const handleChange = ({ target: { name, value }}) => {
+    const year = Number(name);
+    let annualCompensation = { ...compensation[year] };
+    console.log(annualCompensation);
+    annualCompensation.compensation = value;
+    setCompensation({ ...compensation, [year]: annualCompensation });
+  };
 
-  // const handleChange = ({ target: { name, value }}) => {
-  //   const year = compensation[name];
-  //   year.compensation = value;
-  //   setCompensation({...compensation, [name]: year});
-  // };
+  useEffect(() => {
+    if (Object.keys(compensation).length === 0) {
+      const years = (executive.startDate) ? (getYears(parseISO(executive.startDate))) : [];
+      const executiveCompensation = (executive.compensation) ? getCompensation(years, executive.compensation) : getCompensation(years, []);
+      setCompensation(executiveCompensation);
+    }
+  }, [executive.startDate, executive.compensation, compensation ]);
 
-  // useEffect(() => {
-  //   const years = (getYears(startDate[id]));
-  //   setCompensation(getCompensation(years, annualCompensation[id]));
-  // }, [startDate]);
+  console.log('compensation', compensation);
 
-  // return (
-  //   <>
-  //     <h2>Annual Compensation</h2>
-  //     { Object.entries(compensation).map(([key, value]) => (value.completed)
-  //         ? <AnnualCompensationIdentifier key={ key } year={ key } compensation={ value.compensation } edit={ value.edit } handleEdit={ handleEdit } handleChange={ handleChange } handleSubmit={ handleSubmit } />
-  //         : <AnnualCompensationForm key={ key } year={ key } compensation={ value.compensation } handleChange={ handleChange } handleSubmit={ handleSubmit } />
-  //     )}
-  //   </>
-  // );
+  return (
+    <>
+      <h2>Annual Compensation</h2>
+      { Object.values(compensation).map((year) => (year.completed)
+          ? <AnnualCompensationIdentifier key={ year.year } year={ year } handleEdit={ handleEdit } handleChange={ handleChange } handleSubmit={ handleAnnualCompensation } />
+          : <AnnualCompensationForm key={ year.year } year={ year.year } compensation={ year.compensation } error={ year.error } handleChange={ handleChange } handleSubmit={ handleAnnualCompensation } />
+      )}
+    </>
+  );
 };
 
 export default AnnualCompensation;

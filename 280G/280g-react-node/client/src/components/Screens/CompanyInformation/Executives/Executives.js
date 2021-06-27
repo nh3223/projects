@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilCallback } from 'recoil';
 
 import ExecutivesIdentifier from './ExecutivesIdentifier';
 import ExecutivesForm from './ExecutivesForm';
-import { executiveState, executiveIdsState } from '../../../../recoil/atoms/executive';
+import { executiveState, executiveIdsState } from '../../../../recoil/executive';
 import { createExecutive } from '../../../../api/executive';
 
 const Executives = ({ companyId }) => {
@@ -38,8 +38,6 @@ const Executives = ({ companyId }) => {
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleTitleChange = (e) => setTitle(e.target.value);
-
-  console.log('executive ids', executiveIds);
 
   return (
     <>

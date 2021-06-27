@@ -1,41 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-
-import { executivesState } from '../../../../recoil/atoms/executive'
+import { parseISO, formatISO } from 'date-fns';
 
 import StartDateIdentifier from './StartDateIdentifier';
 import StartDateForm from './StartDateForm';
 
-const StartDate = ({ id }) => {
+const StartDate = ({ executive, handleSubmit }) => {
 
-  const [ executives, setExecutives ] = useRecoilState(executivesState);
-  const [ executive, setExecutive ] = useState({});
-  const [ startDate, setStartDate ] = useState(new Date());
   const [ completed, setCompleted ] = useState(false);
+  const [ startDate, setStartDate ] = useState(new Date());
 
-  const handleEdit = () => {
-    setCompleted(false);
-  };
+  const handleEdit = () => setCompleted(false);
 
-  const handleChange = (date) => {
-    setStartDate(date)
-    setExecutive({ ...executive, startDate: date });
+  const handleChange = async (date) => {
+    setStartDate(date);
+    const editedExecutive = { ...executive, startDate: formatISO(date) }
+    await handleSubmit(editedExecutive);
     setCompleted(true);
   };
 
   useEffect(() => {
-    if (id) {
-      const executive = executives.filter((exec) => (exec._id === id));
-      setStartDate(executive.startDate);
+    if (executive.startDate) {
+      setStartDate(parseISO(executive.startDate));
       setCompleted(true);
-    };
-  }, [id, executive.startDate, setStartDate, setCompleted]);
+    }
+  }, [executive.startDate, setStartDate, setCompleted]);
 
   return (
     <>
       { completed
-      ? <StartDateIdentifier date={ startDate } handleEdit={ handleEdit }/>
-      : <StartDateForm date={ startDate } handleChange={ handleChange } />
+      ? <StartDateIdentifier startDate={ startDate } handleEdit={ handleEdit }/>
+      : <StartDateForm startDate={ startDate } handleChange={ handleChange } />
       } 
     </>
   );

@@ -6,7 +6,7 @@ import ProjectSummary from '../components/Screens/ProjectSummary/ProjectSummary'
 import CompanyInformation from '../components/Screens/CompanyInformation/CompanyInformation';
 import ExecutiveSummary from '../components/Screens/ExecutiveSummary';
 import Compensation from '../components/Screens/Compensation/Compensation';
-import NonEquityPayments from '../components/Screens/NonEquityPayment';
+import NonEquityPayments from '../components/Screens/NonEquityPayments/NonEquityPayments';
 import EquityPayments from '../components/Screens/EquityPayments';
 import RestrictedStock from '../components/Screens/RestrictedStock';
 import Options from '../components/Screens/Options';

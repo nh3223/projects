@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import TransactionPriceIdentifier from './TransactionPriceIdentifier';
 import TransactionPriceForm from './TransactionPriceForm';
-import { companyState, companyCompletedState } from '../../../../recoil/atoms/company';
+import { companyState, companyCompletedState } from '../../../../recoil/company';
 import isCompleted from '../../../../utilities/isCompleted';
 import { editCompany } from '../../../../api/company';
 

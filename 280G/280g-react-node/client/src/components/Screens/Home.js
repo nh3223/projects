@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
-import { companyState, companyCompletedState } from '../../recoil/atoms/company';
+import { companyState, companyCompletedState } from '../../recoil/company';
 import { fetchCompanies } from '../../api/company';
 import { deleteCompany } from '../../api/company';
 

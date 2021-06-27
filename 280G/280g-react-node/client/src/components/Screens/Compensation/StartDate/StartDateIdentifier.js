@@ -1,9 +1,9 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-const StartDateIdentifier = ({ date, handleEdit }) => {
+const StartDateIdentifier = ({ startDate, handleEdit }) => {
   
-  const formattedDate = format(date, 'd MMM yyyy');
+  const formattedDate = format(startDate, 'd MMM yyyy');
   
   return (
     <>

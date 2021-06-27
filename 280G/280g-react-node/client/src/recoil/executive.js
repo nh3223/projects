@@ -1,12 +1,5 @@
 import { atom, atomFamily, selectorFamily } from 'recoil';
 
-// export const executivesState = atom({
-//   key: 'executives',
-//   default: []
-// });
-
-
-
 export const executiveState = atomFamily({
   key: 'executive',
   default: {}

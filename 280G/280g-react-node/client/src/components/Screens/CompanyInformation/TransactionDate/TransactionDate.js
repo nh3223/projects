@@ -4,7 +4,7 @@ import { formatISO, parseISO } from 'date-fns';
 
 import TransactionDateIdentifier from './TransactionDateIdentifier';
 import TransactionDateForm from './TransactionDateForm';
-import { companyState, companyCompletedState } from '../../../../recoil/atoms/company';
+import { companyState, companyCompletedState } from '../../../../recoil/company';
 import isCompleted from '../../../../utilities/isCompleted';
 import { editCompany } from '../../../../api/company';
 
