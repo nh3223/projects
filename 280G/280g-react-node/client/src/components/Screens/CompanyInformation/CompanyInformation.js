@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState, useRecoilCallback } from 'recoil'
+import { formatISO } from 'date-fns';
 
-import { companyState, companyCompletedState } from '../../../recoil/company';
+import { companyState, companyCompletedState, companyNameState, transactionPriceState, transactionDateState } from '../../../recoil/company';
 import { executiveState, executiveIdsState } from '../../../recoil/executive';
 
-import { createCompany } from '../../../api/company';
+import { createCompany, editCompany } from '../../../api/company';
 import { fetchExecutives } from '../../../api/executive';
 
 import { getCompany, getCompanyCompleted } from '../../../utilities/getCompany';
 import isCompleted from '../../../utilities/isCompleted';
 
+import LoadCompany from '../../Loaders/LoadCompany';
+import LoadExecutives from '../../Loaders/LoadExecutives';
 import CompanyHeader from '../../Navigation/CompanyHeader';
 import CompanyName from './CompanyName/CompanyName';
 import TransactionDate from './TransactionDate/TransactionDate';
@@ -20,62 +23,114 @@ import Executives from './Executives/Executives';
 const CompanyInformation = () => {
 
   const { id } = useParams();
-
-  const [ company, setCompany ] = useRecoilState(companyState);
-  const [ completed, setCompleted ] = useRecoilState(companyCompletedState);
-  const setExecutiveIds = useSetRecoilState(executiveIdsState);
   
-  const setExecutive = useRecoilCallback(({ set }) => (executive) => {
-    set(executiveState(executive._id), executive);
-  }, []);
+  const [ companyName, setCompanyName ] = useRecoilState(companyNameState);
+  const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState);
+  const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState);
+  const [ completed, setCompleted ] = useState({});
+  const formSubmit = useRef(false);
+
+  console.log('Company Information Component Transaction Date', transactionDate);
+
+  // const setExecutive = useRecoilCallback(({ set }) => (executive) => {
+  //   set(executiveState(executive._id), executive);
+  // }, []);
   
   const history = useHistory();
 
-  // Load data
+  const companyNameHandlers = {
+    change: (e) => setCompanyName(e.target.value),
+    edit: () => {
+      setCompleted({ ...completed, name: false });
+      formSubmit.current = true;
+    },
+    submit: (e) => {
+      e.preventDefault();
+      setCompleted({ ...completed, name: true });
+    }
+  };
+  
+  const transactionDateHandlers = {
+    change: (date) => {
+      setTransactionDate(formatISO(date));
+      setCompleted({ ...completed, date: true });
+    },
+    edit: () => {
+      setCompleted({ ...completed, date: false });
+      formSubmit.current = true;
+    }
+  };  
+  
+  const transactionPriceHandlers = {
+    change: (e) => setTransactionPrice(e.target.value),
+    edit: () => {
+      setCompleted({ ...completed, price: false });
+      formSubmit.current = true;
+    },
+    submit: () => setCompleted({ ...completed, price: true })
+  };
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    const setCompanyInformation = async () => {
-      console.log('loading data');
-      setCompany(await getCompany(id));
-      setCompleted(getCompanyCompleted(id));
-      const executives = await fetchExecutives(id);
-      const executiveIds = [];
-      for (const executive of executives) {
-        setExecutive(executive);
-        executiveIds.push(executive._id);
-      };
-      setExecutiveIds(executiveIds);
-    };
+  //   const setCompanyInformation = async () => {
+  //     console.log('loading data');
+  //     setCompany(await getCompany(id));
+  //     setCompleted(getCompanyCompleted(id));
+  //     const executives = await fetchExecutives(id);
+  //     const executiveIds = [];
+  //     for (const executive of executives) {
+  //       setExecutive(executive);
+  //       executiveIds.push(executive._id);
+  //     };
+  //     setExecutiveIds(executiveIds);
+  //   };
 
-    setCompanyInformation();
+  //   setCompanyInformation();
 
-  }, [id, setCompany, setCompleted, setExecutiveIds, setExecutive ]);
+  // }, [id, setCompany, setCompleted, setExecutiveIds, setExecutive ]);
   
 // Create company
 
   useEffect(() => {
-    const save = async (companyDate) => {
-      const savedCompany = await createCompany(companyData);
-      setCompany(savedCompany);
+    
+    const save = async (company) => {
+      const savedCompany = await createCompany(company);
       history.push(`/company/${savedCompany._id}/info`);
       // history.push(`/company/${savedCompany._id}/info`)
     };
-    const companyData = JSON.stringify({
-      name: company.name,
-      transactionDate: company.transactionDate,
-      transactionPrice: company.transactionPrice
+    
+    const edit = async (companyData) => {
+      await editCompany(company);
+    };
+    
+    const company = JSON.stringify({
+      name: companyName,
+      transactionDate,
+      transactionPrice
     });
-    if (!id && isCompleted(completed)) { save(companyData); }
-  }, [id, completed, company.name, company.transactionDate, company.transactionPrice, setCompany, history]);
-
+    if (formSubmit.current) {
+      console.log(company)
+      if (isCompleted(completed)) { 
+        (id) ? edit(company) : save(company);
+      }
+    }
+  }, [id, completed, companyName, transactionDate, transactionPrice, history]);
+  
+  useEffect(() => {
+    (id) 
+    ? setCompleted({ name: true, date: true, price: true })
+    : setCompleted({ name: false, date: false, price: false })
+  }, [id, setCompleted]);
+  
   return (
     <>
       <CompanyHeader companyId={ id } />
+      <LoadCompany companyId={ id } />
+      <LoadExecutives companyId={ id } />
       <h2>Company Information</h2>
-      <CompanyName />
-      <TransactionDate />
-      <TransactionPrice />
+      <CompanyName companyName={ companyName } completed={ completed.name } handlers={ companyNameHandlers } />
+      <TransactionDate transactionDate={ transactionDate } completed={ completed.date } handlers={ transactionDateHandlers } />
+      <TransactionPrice transactionPrice={ transactionPrice } completed={ completed.price } handlers={ transactionPriceHandlers } />
       { id && <Executives companyId={ id }/> }
     </>
   );

@@ -15,29 +15,19 @@ const title = {
   type: String
 };
 
-const startDate = {
-  type: Date
-};
-
-const compensation = [{
-  year: Number,
-  compensation: Number
-}]
-
-const firstYearPayments = {
-  type: Number
-};
-
 const executiveProperties = {
   company,
   name,
-  title,
-  startDate,
-  compensation,
-  firstYearPayments
+  title
 };
 
 const executiveSchema = mongoose.Schema(executiveProperties);
+
+executiveSchema.virtual('compensations', {
+  ref: 'Compensation',
+  localField: '_id',
+  foreignField: 'executive'
+});
 
 executiveSchema.virtual('nonEquityPayments', {
   ref: 'NonEquityPayment',

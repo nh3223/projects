@@ -6,17 +6,23 @@ const executive = {
   ref: 'Executive'
 };
 
-const year = {
+const startDate = {
+  type: Date
+};
+
+const firstYearPayments = {
   type: Number
 };
 
-const annualCompensation = {
-  type: Number
-};
+const annualCompensation = [{
+  year: Number,
+  compensation: Number
+}];
 
 const compensationProperties = {
   executive,
-  year,
+  startDate,
+  firstYearPayments,
   annualCompensation
 };
 

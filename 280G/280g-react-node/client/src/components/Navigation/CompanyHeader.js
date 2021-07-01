@@ -11,7 +11,7 @@ const CompanyHeader = ({ companyId }) => {
     <>
       <NavLink to={ `/company/${companyId}` }>Project Summary</NavLink>
       <NavLink to={ `/company/${companyId}/info` }>Company Information</NavLink>
-      { executiveIds.map((executiveId) => <NavLink to={ `/executive/${executiveId}` }>{ executiveId }</NavLink>)};
+      { executiveIds.map((executiveId) => <NavLink key={ executiveId } to={ `/executive/${executiveId}` }>{ executiveId }</NavLink>)};
     </>
   );
 };

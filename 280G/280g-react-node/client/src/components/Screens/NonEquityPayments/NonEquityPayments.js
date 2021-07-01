@@ -8,6 +8,7 @@ import { fetchPayments, editPayment, createPayment, deletePayment } from '../../
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 import NonEquityPaymentsForm from './NonEquityPaymentsForm';
 import NonEquityPaymentsIdentifier from './NonEquityPaymentsIdentifier';
+import LoadNonEquityPayments from '../../Loaders/LoadNonEquityPayments';
 
 const NonEquityPayments = () => {
 
@@ -60,20 +61,20 @@ const NonEquityPayments = () => {
     setPayments(payments.map(payment => (payment._id === e.target.name) ? editedPayment : payment));
   };
   
-  useEffect(() => {
-    const getPayments = async () => {
-      console.log('useEffect', id);
-      const paymentData = await fetchPayments(id);
-      paymentData.filter((payment) => (payment.description !== '' && payment.amount !== 0));
-      paymentData.map((payment) => {
-        payment.completed = true;
-        payment.error = false;
-        return payment;
-      });
-      setPayments(paymentData);
-    };
-    if (payments.length === 0) getPayments();
-  }, [id, payments.length, setPayments]);  
+  // useEffect(() => {
+  //   const getPayments = async () => {
+  //     console.log('useEffect', id);
+  //     const paymentData = await fetchPayments(id);
+  //     paymentData.filter((payment) => (payment.description !== '' && payment.amount !== 0));
+  //     paymentData.map((payment) => {
+  //       payment.completed = true;
+  //       payment.error = false;
+  //       return payment;
+  //     });
+  //     setPayments(paymentData);
+  //   };
+  //   if (payments.length === 0) getPayments();
+  // }, [id, payments.length, setPayments]);  
   
   console.log(payments);
 
@@ -82,6 +83,7 @@ const NonEquityPayments = () => {
   return (
     <>
       <ExecutiveHeader executiveId={ id }/>
+      <LoadNonEquityPayments executiveId={ id } />
       <h2>Non-Equity Payments</h2>
       { <button onClick={ handleAdd }>Add a Payment</button> }
       { payments.map((payment) => (

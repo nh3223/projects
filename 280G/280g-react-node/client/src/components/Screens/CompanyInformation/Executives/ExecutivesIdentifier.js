@@ -1,44 +1,29 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import ExecutivesForm from './ExecutivesForm';
-import { executiveState, executiveIdsState } from '../../../../recoil/executive';
-import { editExecutive, deleteExecutive } from '../../../../api/executive';
+import { executiveState } from '../../../../recoil/executive';
 
-const ExecutivesIdentifier = ({ executiveId }) => {
+const ExecutivesIdentifier = ({ executiveId, handlers: { nameChange, titleChange, deleteExecutive, updateExecutive } }) => {
 
-  const [ executive, setExecutive ] = useRecoilState(executiveState(executiveId));
-  const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState);
-  const [ name, setName ] = useState(executive.name);
-  const [ title, setTitle ] = useState(executive.title);
+  const executive = useRecoilValue(executiveState(executiveId));
   const [ edit, setEdit ] = useState(false);
 
-  const handleEdit = () => {
-    setEdit(true);
-  };
+  const handleEdit = () => setEdit(true);
 
-  const handleDelete = async () => {
-     await deleteExecutive(executive._id);
-    setExecutive({ });
-    setExecutiveIds(executiveIds.filter((id) => (id !== executive._id)));
-  };
+  const handleDelete = async () => await deleteExecutive(executive);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const editedExecutive = { ...executive, name, title }
-    await editExecutive(editedExecutive); 
-    setExecutive(editedExecutive)
+    await updateExecutive(executive);
     setEdit(false);
   };
-
-  const handleNameChange = (e) => setName(e.target.value);
-  const handleTitleChange = (e) => setTitle(e.target.value);
 
   return (
     <>
       { edit
-      ? <ExecutivesForm name={ name } title={ title } handleSubmit={ handleSubmit } handleNameChange={ handleNameChange } handleTitleChange={ handleTitleChange } />
+      ? <ExecutivesForm name={ executive.name } title={ executive.title } nameChange={ nameChange } titleChange={ titleChange } handleSubmit={ handleSubmit }/>
       : <>
           <Link to={`/executive/${executive._id}`}>
             <h3>{ executive.name }</h3>

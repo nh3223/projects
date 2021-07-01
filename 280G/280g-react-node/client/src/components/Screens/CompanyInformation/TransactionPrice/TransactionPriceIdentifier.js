@@ -1,10 +1,10 @@
 import React from 'react';
 
-const TransactionPriceIdentifier = ({ price, handleEdit }) => {
+const TransactionPriceIdentifier = ({ transactionPrice, handleEdit }) => {
   
   return (
     <>
-      <h2>Transaction Price Per Share: { `$${ price }` }</h2>
+      <h2>Transaction Price Per Share: { `$${ transactionPrice }` }</h2>
       <button onClick={ handleEdit }>Edit</button>
     </>
   );
