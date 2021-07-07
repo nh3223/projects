@@ -4,12 +4,18 @@ export const fetchCompensation = async (id) => {
   return await response.json();
 };
 
-export const createCompensation = async (compensation) => {
+export const createCompensation = async (id) => {
+  const defaultCompensation = {
+    executive: id,
+    startDate: new Date(),
+    firstYearPayments: 0,
+    basePeriodCompensation: []
+  }
   const url = 'http://localhost:5000/compensation';
   const options = {
     method: 'POST', 
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(compensation)
+    body: JSON.stringify(defaultCompensation)
   };
   const response = await fetch(url, options);
   return await response.json();

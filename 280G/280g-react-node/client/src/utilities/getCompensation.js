@@ -1,9 +1,11 @@
 import { getYear } from 'date-fns';
 
-const convertCompensation = (compensation) => {
+export const convertCompensation = (compensation) => {
+  console.log('convertcompensation', compensation);
+  if (!compensation) return {};
   const executiveCompensation = {}
   for (const year of compensation) {
-    executiveCompensation[year.year] = year;
+    executiveCompensation[year.year] = year.compensation;
   }
   return executiveCompensation;
 }
@@ -20,28 +22,12 @@ export const getYears = (startDate) => {
   return basePeriod;
 };
 
-export const getCompensation = (years, executiveCompensation) => {
-  const annualCompensation = convertCompensation(executiveCompensation);
-  const compensation = {};
+export const getCompensation = (years, compensation) => {
+  const basePeriodCompensation = {};
   for (const year of years) {
-    const comp = annualCompensation[year].compensation;
-    compensation[year] = (Object.keys(annualCompensation).includes(year.toString()))
-    ? {
-      year,
-      compensation: comp,
-      completed: (comp) ? true : false,
-      edit: false,
-      error: false
-    }
-    : {
-      year,
-      compensation: '',
-      completed: false,
-      edit: false,
-      error: false
-    }
+    basePeriodCompensation[year] = (Object.keys(compensation).includes(year.toString())) ? compensation[year] : '';
   }
-  return compensation;
+  return basePeriodCompensation;
 };
 
 

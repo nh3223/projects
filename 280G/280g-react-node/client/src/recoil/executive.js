@@ -1,4 +1,4 @@
-import { atom, atomFamily, selectorFamily } from 'recoil';
+import { atom, atomFamily } from 'recoil';
 
 export const executiveState = atomFamily({
   key: 'executive',
@@ -10,7 +10,19 @@ export const executiveIdsState = atom({
   default: []
 });
 
-export const executivesState = selectorFamily({
-  key: 'executives',
-  get: (ids) => ({ get }) => ids.map((id) => get(executiveState(id)))
+export const startDateState = atomFamily({
+  key: 'startDate',
+  default: null
 });
+
+export const firstYearPaymentsState = atomFamily({
+  key: 'firstYearPayments',
+  default: ''
+});
+
+export const basePeriodCompensationState = atomFamily({
+  key: 'transactionPrice',
+  default: []
+});
+
+

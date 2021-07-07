@@ -76,10 +76,6 @@ const NonEquityPayments = () => {
   //   if (payments.length === 0) getPayments();
   // }, [id, payments.length, setPayments]);  
   
-  console.log(payments);
-
-
-
   return (
     <>
       <ExecutiveHeader executiveId={ id }/>

@@ -1,29 +1,51 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState, useRecoilCallback } from 'recoil';
 
 import ExecutivesForm from './ExecutivesForm';
-import { executiveState } from '../../../../recoil/executive';
+import { executiveIdsState, executiveState } from '../../../../recoil/executive';
+import { editExecutive, deleteExecutive } from '../../../../api/executive';
 
-const ExecutivesIdentifier = ({ executiveId, handlers: { nameChange, titleChange, deleteExecutive, updateExecutive } }) => {
+const ExecutivesIdentifier = ({ executiveId }) => {
 
   const executive = useRecoilValue(executiveState(executiveId));
+  const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState)
+  const [ name, setName ] = useState(executive.name);
+  const [ title, setTitle ] = useState(executive.name);
   const [ edit, setEdit ] = useState(false);
 
-  const handleEdit = () => setEdit(true);
+  const setExecutive = useRecoilCallback(({ set }) => (executive) => set(executiveState(executive._id), executive), []);
+  const clearExecutive = useRecoilCallback( ({ reset }) => (executive) => reset(executiveState(executive._id)));
+  
+  const resetLocalState = () => {
+    setEdit(false);
+    setName('');
+    setTitle('');
+  };
 
-  const handleDelete = async () => await deleteExecutive(executive);
+  const handleEdit = () => setEdit(true);
+  
+  const nameChange = (e) => setName(e.target.value);
+  const titleChange = (e) => setTitle(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updateExecutive(executive);
-    setEdit(false);
+    const editedExecutive = { ...executive, name, title }
+    await editExecutive(editedExecutive); 
+    setExecutive(editedExecutive)
+    resetLocalState();
   };
+
+  const handleDelete = async () => {
+    await deleteExecutive(executive._id);
+    clearExecutive(executive);
+    setExecutiveIds(executiveIds.filter((id) => (id !== executive._id)));
+ };
 
   return (
     <>
       { edit
-      ? <ExecutivesForm name={ executive.name } title={ executive.title } nameChange={ nameChange } titleChange={ titleChange } handleSubmit={ handleSubmit }/>
+      ? <ExecutivesForm name={ name } title={ title } nameChange={ nameChange } titleChange={ titleChange } handleSubmit={ handleSubmit }/>
       : <>
           <Link to={`/executive/${executive._id}`}>
             <h3>{ executive.name }</h3>

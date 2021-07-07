@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
 
-import { companyState, companyCompletedState } from '../../recoil/company';
+import ResetExecutives from '../Loaders/ResetExecutives';
 import { fetchCompanies } from '../../api/company';
 import { deleteCompany } from '../../api/company';
 
 const Home = () => {
 
   const [ companies, setCompanies ] = useState([]);
-  const setCompany = useSetRecoilState(companyState);
-  const setCompleted = useSetRecoilState(companyCompletedState);
 
   const handleDelete = async (e) => {
     const id = e.target.name;
@@ -19,25 +16,23 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setCompany({ id: '', name: '', transactionPrice: '', transactionDate: '' });
-    setCompleted({ name: false, transactionPrice: false, transactionDate: false });
-  }, [setCompany, setCompleted]);
-
-  useEffect(() => {
     const getCompanies = async () => {
       const companyData = await fetchCompanies();
       setCompanies(companyData);
     };
     getCompanies();
-  }, []);
+  }, [setCompanies]);
+
+  console.log(companies)
 
   return (
     <>
+      <ResetExecutives />
       <h1>Companies</h1>
 
       { companies.map((company) => (
         <div key={ company._id }>
-          <Link to={`/company/${company._id}/info`}>
+          <Link to={`/company/${company._id}`}>
             <h2>{ company.name }</h2>
           </Link>
           <button name={ company._id } onClick={ handleDelete }>Delete Company</button>

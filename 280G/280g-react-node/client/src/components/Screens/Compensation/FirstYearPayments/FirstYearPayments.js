@@ -3,34 +3,26 @@ import React, { useState } from 'react';
 import FirstYearPaymentsIdentifier from './FirstYearPaymentsIdentifier';
 import FirstYearPaymentsForm from './FirstYearPaymentsForm';
 
-const FirstYearPayments = ({ executive, handleSubmit }) => {
+const FirstYearPayments = ({ firstYearPayments, completed, handlers: { change, edit, submit }}) => {
 
-  const [ payments, setPayments ] = useState(executive.firstYearPayments || '');
-  const [ completed, setCompleted ] = useState((payments) ? true : false);
   const [ error, setError ] = useState(false);
 
-  const handleEdit = () => setCompleted(false);
-
-  const handleSubmitPayments = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const firstYearPayments = Number(payments);
-    if (firstYearPayments) {
-      const editedExecutive = { ...executive, firstYearPayments };
-      await handleSubmit(editedExecutive);
+    const payments = Number(firstYearPayments);
+    if (payments) {
+      await submit(payments);
       setError(false);
-      setCompleted(true); 
     } else {
       setError(true);
     }
   };
 
-  const handleChange = (e) => setPayments(e.target.value);
-
   return (
     <>
       { completed
-      ? <FirstYearPaymentsIdentifier payments={ payments } handleEdit={ handleEdit }/>
-      : <FirstYearPaymentsForm payments={ payments } handleSubmit={ handleSubmitPayments } handleChange={ handleChange } error={ error } />
+      ? <FirstYearPaymentsIdentifier firstYearPayments={ firstYearPayments } handleEdit={ edit }/>
+      : <FirstYearPaymentsForm firstYearPayments={ firstYearPayments } handleSubmit={ handleSubmit } handleChange={ change } error={ error } />
       } 
     </>
   );

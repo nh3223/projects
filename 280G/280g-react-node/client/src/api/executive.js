@@ -10,7 +10,6 @@ export const createExecutive = async (executive) => {
 };
 
 export const deleteExecutive = async (id) => {
-  console.log(id);
   const url = `http://localhost:5000/executive/${id}`;
   const options = { method: 'DELETE' };
   const response = await fetch(url, options);
@@ -18,7 +17,6 @@ export const deleteExecutive = async (id) => {
 };
 
 export const editExecutive = async (executive) => {
-  console.log('editExecutive api', executive);
   const url = `http://localhost:5000/executive/${executive._id}`;
   const options = {
     method: 'PATCH',

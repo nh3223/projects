@@ -4,7 +4,6 @@ import Executive from '../models/executive.js';
 
 export const getPayments = async (req, res) => {
   const { id: _id } = req.params;
-  console.log('server side', _id);
   try {
     const executive = await Executive.findById(_id).populate('nonEquityPayments');
     const payments = executive.nonEquityPayments;

@@ -1,15 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState, useRecoilCallback } from 'recoil'
+import { useRecoilState } from 'recoil'
 import { formatISO } from 'date-fns';
 
-import { companyState, companyCompletedState, companyNameState, transactionPriceState, transactionDateState } from '../../../recoil/company';
-import { executiveState, executiveIdsState } from '../../../recoil/executive';
-
+import { companyNameState, transactionPriceState, transactionDateState } from '../../../recoil/company';
 import { createCompany, editCompany } from '../../../api/company';
-import { fetchExecutives } from '../../../api/executive';
 
-import { getCompany, getCompanyCompleted } from '../../../utilities/getCompany';
 import isCompleted from '../../../utilities/isCompleted';
 
 import LoadCompany from '../../Loaders/LoadCompany';
@@ -30,12 +26,6 @@ const CompanyInformation = () => {
   const [ completed, setCompleted ] = useState({});
   const formSubmit = useRef(false);
 
-  console.log('Company Information Component Transaction Date', transactionDate);
-
-  // const setExecutive = useRecoilCallback(({ set }) => (executive) => {
-  //   set(executiveState(executive._id), executive);
-  // }, []);
-  
   const history = useHistory();
 
   const companyNameHandlers = {
@@ -52,7 +42,7 @@ const CompanyInformation = () => {
   
   const transactionDateHandlers = {
     change: (date) => {
-      setTransactionDate(formatISO(date));
+      setTransactionDate(date);
       setCompleted({ ...completed, date: true });
     },
     edit: () => {
@@ -70,44 +60,23 @@ const CompanyInformation = () => {
     submit: () => setCompleted({ ...completed, price: true })
   };
 
-  // useEffect(() => {
-    
-  //   const setCompanyInformation = async () => {
-  //     console.log('loading data');
-  //     setCompany(await getCompany(id));
-  //     setCompleted(getCompanyCompleted(id));
-  //     const executives = await fetchExecutives(id);
-  //     const executiveIds = [];
-  //     for (const executive of executives) {
-  //       setExecutive(executive);
-  //       executiveIds.push(executive._id);
-  //     };
-  //     setExecutiveIds(executiveIds);
-  //   };
-
-  //   setCompanyInformation();
-
-  // }, [id, setCompany, setCompleted, setExecutiveIds, setExecutive ]);
-  
-// Create company
-
   useEffect(() => {
     
     const save = async (company) => {
       const savedCompany = await createCompany(company);
       history.push(`/company/${savedCompany._id}/info`);
-      // history.push(`/company/${savedCompany._id}/info`)
     };
     
-    const edit = async (companyData) => {
-      await editCompany(company);
+    const edit = async (company) => {
+      await editCompany(id, company);
     };
     
     const company = JSON.stringify({
       name: companyName,
-      transactionDate,
+      transactionDate: formatISO(transactionDate),
       transactionPrice
     });
+
     if (formSubmit.current) {
       console.log(company)
       if (isCompleted(completed)) { 

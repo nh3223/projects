@@ -22,12 +22,12 @@ export const createCompany = async (company) => {
   return await response.json();
 };
 
-export const editCompany = async (company) => {
-  const url = `http://localhost:5000/company/${company.id}`;
+export const editCompany = async (id, company) => {
+  const url = `http://localhost:5000/company/${id}`;
   const options = {
     method: 'PATCH', 
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(company)
+    body: company
   };
   const response = await fetch(url, options);
   return await response.json();

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilCallback } from "recoil";
+import { parseISO } from 'date-fns';
 
-import { executiveState, executiveIdsState } from '../../recoil/executive';
+import { executiveState, executiveIdsState, startDateState, firstYearPaymentsState, basePeriodCompensationState } from '../../recoil/executive';
 import { fetchExecutives } from '../../api/executive';
+import { convertCompensation } from '../../utilities/getCompensation';
 
-// import LoadCompensation from './LoadCompensation';
+import Loading from './Loading';
 import LoadNonEquityPayments from './LoadNonEquityPayments';
+
 // import LoadOptions from './LoadOptions';
 // import LoadRestrictedStock from './LoadRestrictedStock';
 
@@ -14,8 +17,11 @@ const LoadExecutives = ({ companyId }) => {
   const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState);
   const [ loading, setLoading ] = useState(true);
 
-  const setExecutive = useRecoilCallback(({ set }) => (executive) => {
-    set(executiveState(executive._id), executive);
+  const setExecutive = useRecoilCallback(({ set }) => ({ _id, name, title, startDate, firstYearPayments, compensation }) => {
+    set(executiveState(_id), { _id, name, title });
+    set(startDateState(_id), parseISO(startDate));
+    set(firstYearPaymentsState(_id), firstYearPayments);
+    set(basePeriodCompensationState(_id), convertCompensation(compensation));
   }, []);
 
   useEffect(() => {
@@ -34,12 +40,14 @@ const LoadExecutives = ({ companyId }) => {
     if (companyId && executiveIds.length === 0) setExecutives();
 
   }, [companyId, executiveIds.length, setExecutive, setExecutiveIds, setLoading ]);
-  
+
+  console.log('load executives');
+
   return (
     <>
-      { loading && <p>Loading Executives . . .</p> }
+      { loading && <Loading componentMessage="Executives" /> }
       { executiveIds.map((id) => (
-          <div key={ id }>  
+          <div key={ id }>
             <LoadNonEquityPayments executiveId={ id } />
           </div>
         ))

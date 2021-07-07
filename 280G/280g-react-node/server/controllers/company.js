@@ -34,11 +34,8 @@ export const getCompany = async (req, res) => {
 export const createCompany = async (req, res) => {
   const company = req.body;
   const newCompany = Company(company);
-  console.log('server create company', company);
-  console.log('server create newCompany', newCompany)
   try {
     await newCompany.save();
-    console.log('in create company try after await', newCompany)
     res.status(201).json(newCompany);
   } catch (error) {
     res.status(409).json({ message: error.message });
@@ -46,8 +43,12 @@ export const createCompany = async (req, res) => {
 };
 
 export const editCompany = async (req, res) => {
+  console.log(req.params);
+  console.log(req.body);
   const { id: _id } = req.params;
   const companyUpdates = req.body;
+  console.log('id',_id);
+  console.log('updates', companyUpdates);
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
 
