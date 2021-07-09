@@ -31,9 +31,10 @@ const percentageAcceleration = {
   require: true
 };
 
-const newVestingDates = {
+const vestingSchedule = {
   type: [{
-    date: Date,
+    oldDate: Date,
+    newDate: Date,
     shares: Number
   }],
   required: true
@@ -46,7 +47,7 @@ const restrictedStockGrantProperties = {
   numberShares,
   changeOfControlGrant,
   percentageAcceleration,
-  newVestingDates
+  vestingSchedule
 };
 
 const restrictedStockGrantSchema = mongoose.Schema(restrictedStockGrantProperties);
