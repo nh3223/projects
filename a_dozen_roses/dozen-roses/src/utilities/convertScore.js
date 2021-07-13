@@ -30,5 +30,3 @@ export const convertScore = (score) => {
     score: 100
   };
 };
-
-export default convertScore;

@@ -39,7 +39,7 @@ export const getSelectedProblems = (pool,problems, numberOfProblems = 12) => {
   return selectedProblems.map((problem) => ({id: problem.id, ...problems[problem.id]}));
 };
 
-const getProblems = (level, times, problems) => {
+export const getProblems = (level, times, problems) => {
   const pool = getPool(level, times, problems);
   const weightedPool = getWeightedPool(pool);
   const selectedProblems = getSelectedProblems(weightedPool, problems);

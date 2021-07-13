@@ -5,7 +5,7 @@ export const calculateScore = (time) => {
   return ( maxTime - time ) / ( maxTime - targetTime );
 };
 
-const updateScore = (score, oldTime, newTime) => {
+export const calculateUpdatedScore = (score, oldTime, newTime) => {
   const oldProblemScore = calculateScore(oldTime);
   const newProblemScore = calculateScore(newTime);
   return score - oldProblemScore + newProblemScore;
@@ -18,5 +18,3 @@ export const calculateTotalScore = (times) => {
   }
   return totalScore;
 }
-
-export default updateScore;

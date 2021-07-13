@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import Header from './Header';
-import Welcome from './Welcome';
-import PlayRound from './PlayRound';
+import { firebase } from '../firebase/firebase';
+import { firebaseLogin, firebaseLogout } from '../firebase/user';
+import Home from './Home';
 
 const App = () => {
-  return (
-    <React.Fragment>
-      <Header />
-      <Welcome />
-      <PlayRound />
-    </React.Fragment>
-  );
-}
+
+  const [ user, setUser ] = useState({ uid: null, isAuthenticated: false });
+
+  const login = async () => await firebaseLogin();
+
+  const logout = async () => await firebaseLogout();
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((firebaseUser) => {
+      (firebaseUser)
+      ? setUser({ uid: (firebaseUser.uid), isAuthenticated: true })
+      : setUser({ uid: null, isAuthenticated: false });
+    });
+  }, []);
+
+  return <Home user={ user } login={ login } logout={ logout }/>
+
+};
 
 export default App;
