@@ -51,6 +51,12 @@ executiveSchema.virtual('restrictedStockGrants', {
   foreignField: 'executive'
 });
 
+executiveSchema.virtual('optionGrants', {
+  ref: 'OptionGrant',
+  localField: '_id',
+  foreignField: 'executive'
+});
+
 const executive = mongoose.model('Executive', executiveSchema);
 
 export default executive;

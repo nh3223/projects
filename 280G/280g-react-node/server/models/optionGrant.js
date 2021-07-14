@@ -16,12 +16,22 @@ const vestingStartDate = {
   require: true
 };
 
-const numberShares = {
+const numberOptions = {
+  type: Number,
+  require: true
+};
+
+const exercisePrice = {
   type: Number,
   require: true
 };
 
 const changeOfControlGrant = {
+  type: Boolean,
+  require: true
+};
+
+const rollover = {
   type: Boolean,
   require: true
 };
@@ -40,18 +50,20 @@ const vestingSchedule = {
   required: true
 };
 
-const restrictedStockGrantProperties = {
+const optionGrantProperties = {
   executive,
   grantDate,
   vestingStartDate,
-  numberShares,
+  numberOptions,
+  exercisePrice,
   changeOfControlGrant,
+  rollover,
   percentageAcceleration,
   vestingSchedule
 };
 
-const restrictedStockGrantSchema = mongoose.Schema(restrictedStockGrantProperties);
+const optionGrantSchema = mongoose.Schema(optionGrantProperties);
 
-const restrictedStockGrant = mongoose.model('RestrictedStockGrant', restrictedStockGrantSchema);
+const optionGrant = mongoose.model('OptionGrant', optionGrantSchema);
 
-export default restrictedStockGrant;
+export default optionGrant;
