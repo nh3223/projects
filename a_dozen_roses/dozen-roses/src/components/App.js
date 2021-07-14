@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { ThemeProvider } from 'styled-components';
 
 import { firebase } from '../firebase/firebase';
 import { firebaseLogin, firebaseLogout } from '../firebase/user';
+
+import GlobalStyle from '../styles/GlobalStyle';
+import theme from '../styles/theme';
+
 import Home from './Home';
 
 const App = () => {
@@ -20,7 +25,12 @@ const App = () => {
     });
   }, []);
 
-  return <Home user={ user } login={ login } logout={ logout }/>
+  return (
+    <ThemeProvider theme={ theme } >
+      <GlobalStyle />
+      <Home user={ user } login={ login } logout={ logout }/>
+    </ThemeProvider>
+  );   
 
 };
 

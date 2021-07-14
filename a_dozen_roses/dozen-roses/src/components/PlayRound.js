@@ -4,7 +4,7 @@ import { calculateUpdatedScore } from '../utilities/updateScore';
 import { convertScore } from '../utilities/convertScore';
 import { getProblems } from '../utilities/getProblems';
 
-import Problem from './Problem';
+import Problem from './Problem/Problem';
 import { patchTimes } from '../firebase/times';
 
 const PlayRound = ({ user, problems, score, times, updateTimes, updateScore, togglePlay }) => {

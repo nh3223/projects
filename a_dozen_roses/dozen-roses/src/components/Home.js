@@ -4,9 +4,9 @@ import { fetchProblems } from '../firebase/problems';
 import { calculateTotalScore } from '../utilities/updateScore';
 import { getTimes } from '../utilities/getTimes';
 
-import Header from './Header';
+import Header from './Header/Header';
 import PlayRound from './PlayRound';
-import Welcome from './Welcome';
+import Welcome from './Welcome/Welcome';
 
 const Home = ({ user, login, logout }) => {
 
