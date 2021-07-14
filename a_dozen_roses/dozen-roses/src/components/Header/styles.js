@@ -9,7 +9,7 @@ export const StyledHeader = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 90%;
-  height: ${size.large};
+  height: ${size.extraLarge};
   margin: 0 auto;
   align-items: center;
   border: none;

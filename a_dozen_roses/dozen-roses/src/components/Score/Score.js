@@ -15,15 +15,15 @@ const Score = ({ score }) => {
     setLevelScore(convertedScore.score);
   }, [score]);
 
+  console.log('score', score);
+
   return (
     <>
-
+      <ScoreText>Level: { level }</ScoreText>
       <Background>
-        <Progress width={ `${levelScore}%` } >
-          <ScoreText>Level: { level }</ScoreText>
-          <ScoreText>Score: { levelScore }</ScoreText>
-        </Progress>
+        <Progress width={ `${levelScore}%` } />
       </Background>
+      <ScoreText>Score: { levelScore }</ScoreText>
     </>
   );
 

@@ -37,12 +37,11 @@ const PlayRound = ({ user, problems, score, times, updateTimes, updateScore, tog
     const endTime = performance.now();
     const oldTime = times[problem.id]
     const newTime = (parseInt(response) === problem.answer) ? Math.round(endTime - startTime) : 10000;
+    console.log('start', startTime, 'end', endTime);
     updateTimes(problem.id, newTime);
     updateScore(calculateUpdatedScore(score, oldTime, newTime));
     patchTimes(user.uid, problem.id, newTime);
     (index === 11) ? resetRound() : resetProblem()
-    setResponse('');
-    setStartTime(performance.now());
   };
 
   useEffect(() => {
@@ -51,6 +50,7 @@ const PlayRound = ({ user, problems, score, times, updateTimes, updateScore, tog
       const round = getProblems(userScore.level, times, problems);
       setRoundProblems(round);
       setProblem(round[0]);
+      setStartTime(performance.now());
     }
   }, [roundProblems.length, score, times, problems])
 

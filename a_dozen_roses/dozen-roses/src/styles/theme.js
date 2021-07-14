@@ -11,6 +11,7 @@ export const size = {
   small: '2rem',
   medium: '4rem',
   large: '6rem',
+  extraLarge: '8rem',
   long: '25rem'
 };
 
