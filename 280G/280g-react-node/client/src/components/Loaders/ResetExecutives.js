@@ -7,9 +7,7 @@ const ResetExecutives = () => {
   
   const setExecutiveIds = useSetRecoilState(executiveIdsState);
   
-  useEffect(() => {
-    setExecutiveIds([]); 
-  }, [setExecutiveIds])
+  useEffect(() => setExecutiveIds([]), [setExecutiveIds])
 
   return null;
 

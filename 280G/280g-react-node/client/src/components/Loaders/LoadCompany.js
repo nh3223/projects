@@ -13,7 +13,7 @@ const LoadCompany = ({ companyId }) => {
   const setTransactionPrice = useSetRecoilState(transactionPriceState);
   const [ loading, setLoading ] = useState(true);
 
-    useEffect(() => {
+  useEffect(() => {
     
     const setCompanyInformation = async () => {
       const company = await fetchCompany(companyId);
