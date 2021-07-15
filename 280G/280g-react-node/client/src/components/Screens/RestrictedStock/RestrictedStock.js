@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { createGrant } from '../../../api/restrictedStock';
 
@@ -7,6 +7,7 @@ import { grantIdsState } from '../../../recoil/restrictedStock';
 
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 import RestrictedStockForm from './RestrictedStockForm';
+import RestrictedStockListItem from './RestrictedStockListItem';
 
 const RestrictedStock = () => {
   
@@ -28,7 +29,7 @@ const RestrictedStock = () => {
       <h1>Restricted Stock Grants</h1>
       { (!add) && <button onClick={ handleAdd }>Add a Restricted Stock Grant</button> }
       { (add) && <RestrictedStockForm handleSubmit={ handleSubmit }/>}
-      { grantIds.map((grantId) => <Link key={ grantId } to={ `/restricted-stock/${grantId}` } />) }
+      { grantIds.map((grantId) => <RestrictedStockListItem key={ grantId } grantId={ grantId } />) }
     </>
   );
 };

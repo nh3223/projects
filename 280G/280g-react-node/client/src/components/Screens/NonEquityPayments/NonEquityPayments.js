@@ -1,105 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import { nonEquityPaymentsState } from '../../../recoil/nonEquityPayments';
-import { fetchPayments, editPayment, createPayment, deletePayment } from '../../../api/nonEquityPayments';
+import { createPayment } from '../../../api/nonEquityPayments';
+import { nonEquityPaymentIdsState } from '../../../recoil/nonEquityPayments';
 
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
-import NonEquityPaymentsForm from './NonEquityPaymentsForm';
-import NonEquityPaymentsIdentifier from './NonEquityPaymentsIdentifier';
 import LoadNonEquityPayments from '../../Loaders/LoadNonEquityPayments';
+import NonEquityPayment from './NonEquityPayment';
 
 const NonEquityPayments = () => {
 
-  const { id } = useParams();
+  const { executiveId } = useParams();
 
-  const [ payments, setPayments ] = useRecoilState(nonEquityPaymentsState(id));
+  const [ paymentIds, setPaymentIds ] = useRecoilState(nonEquityPaymentIdsState(executiveId));
+  const [ add, setAdd ] = useState(false);
   
-  const handleAdd = async () => {
-    const defaultPayment = {
-      executive: id,
-      description: '',
-      amount: 0,
-    };
-    const newPayment = await createPayment(defaultPayment);
-    newPayment.amount = '';
-    newPayment.completed = false;
-    newPayment.error = false;
-    setPayments([ ...payments, newPayment ])
-  };
-
-  const handleEdit = ({ target: { name }}) => {
-    const paymentToEdit = { ...payments.filter((payment) => (payment._id === name))[0] };
-    paymentToEdit.completed = false;
-    setPayments(payments.map((payment) => (payment._id === name) ? paymentToEdit : payment));
-  };
-
-  const handleDelete = async (e) => {
-    const paymentToDelete = { ...payments.filter((payment) => (payment._id === e.target.name))[0] };
-    await deletePayment(paymentToDelete._id);
-    setPayments(payments.filter((payment) => payment._id !== e.target.name));
-  };
-
-  const handleDescriptionChange = ({ target: { name, value }}) => {
-    const paymentToEdit = { ...payments.filter((payment) => (payment._id) === name)[0] };
-    paymentToEdit.description = value;
-    setPayments(payments.map((payment) => (payment._id === name) ? paymentToEdit : payment));
-  };
-
-  const handleAmountChange = ({ target: { name, value }}) => {
-    const paymentToEdit = { ...payments.filter((payment) => (payment._id) === name)[0] };
-    paymentToEdit.amount = value;
-    setPayments(payments.map((payment) => (payment._id === name) ? paymentToEdit : payment));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const editedPayment = { ...payments.filter((payment) => payment._id === e.target.name)[0] };
-    await editPayment(editedPayment);
-    editedPayment.completed = true;
-    setPayments(payments.map(payment => (payment._id === e.target.name) ? editedPayment : payment));
-  };
+  const handleAdd = () => setAdd(true); 
   
-  // useEffect(() => {
-  //   const getPayments = async () => {
-  //     console.log('useEffect', id);
-  //     const paymentData = await fetchPayments(id);
-  //     paymentData.filter((payment) => (payment.description !== '' && payment.amount !== 0));
-  //     paymentData.map((payment) => {
-  //       payment.completed = true;
-  //       payment.error = false;
-  //       return payment;
-  //     });
-  //     setPayments(paymentData);
-  //   };
-  //   if (payments.length === 0) getPayments();
-  // }, [id, payments.length, setPayments]);  
+  const handleCreate = async (payment) => {
+    const newPayment = await createPayment(payment);
+    setPaymentIds([ ...paymentIds, newPayment._id ]);
+    setAdd(false);
+  };  
   
   return (
     <>
-      <ExecutiveHeader executiveId={ id }/>
-      <LoadNonEquityPayments executiveId={ id } />
+      <ExecutiveHeader executiveId={ executiveId }/>
+      <LoadNonEquityPayments executiveId={ executiveId } />
       <h2>Non-Equity Payments</h2>
-      { <button onClick={ handleAdd }>Add a Payment</button> }
-      { payments.map((payment) => (
-          (payment.completed)
-          ? <NonEquityPaymentsIdentifier
-              key={ payment._id } 
-              payment={ payment } 
-              handleEdit={ handleEdit }
-              handleDelete={ handleDelete }
-            />
-          : <NonEquityPaymentsForm
-              key={ payment._id }
-              payment={ payment }
-              handleDescriptionChange={ handleDescriptionChange }
-              handleAmountChange={ handleAmountChange }
-              handleSubmit={ handleSubmit }
-            />
-      ))}
+      { (!add) && <button onClick={ handleAdd }>Add a Payment</button> }
+      { (add) && <NonEquityPayment paymentId={ null } handleCreate={ handleCreate }/> }
+      { paymentIds.map((paymentId) => <NonEquityPayment key={ paymentId } paymentId= { paymentId } />) }
   </>
   );
+  
 };
 
 export default NonEquityPayments;

@@ -78,7 +78,6 @@ const CompanyInformation = () => {
     });
 
     if (formSubmit.current) {
-      console.log(company)
       if (isCompleted(completed)) { 
         (id) ? edit(company) : save(company);
       }
