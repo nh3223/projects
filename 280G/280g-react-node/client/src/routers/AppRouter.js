@@ -18,15 +18,15 @@ const AppRouter = () => (
       <Switch>
         <Route exact path="/" component={ StartProject } />        
         <Route exact path="/company/info" component={ CompanyInformation } />
-        <Route exact path="/company/:id" component={ ProjectSummary } />
-        <Route exact path="/company/:id/info" component={ CompanyInformation } />
-        <Route exact path="/executive/:id" component={ ExecutiveSummary } />
-        <Route exact path="/executive/:id/compensation" component={ Compensation } />
-        <Route exact path="/executive/:id/non-equity-payments" component={ NonEquityPayments } />
-        <Route exact path="/executive/:id/options" component={ Options } />
-        <Route exact path="/options/:id" component={ OptionGrant } />
-        <Route exact path="/executive/:id/restricted-stock" component={ RestrictedStock } />
-        <Route exact path="/restricted-stock/:id" component={ RestrictedStockGrant } />
+        <Route exact path="/company/:companyId" component={ ProjectSummary } />
+        <Route exact path="/company/:companyId/info" component={ CompanyInformation } />
+        <Route exact path="/company/:companyId/executive/:executiveId" component={ ExecutiveSummary } />
+        <Route exact path="/company/:companyId/executive/:executiveId/compensation" component={ Compensation } />
+        <Route exact path="/company/:companyId/executive/:executiveId/non-equity-payments" component={ NonEquityPayments } />
+        <Route exact path="/company/:companyId/executive/:executiveId/options" component={ Options } />
+        <Route exact path="/company/:companyId/executive/:executiveId/options/:optionId" component={ OptionGrant } />
+        <Route exact path="/company/:companyId/executive/:executiveId/restricted-stock" component={ RestrictedStock } />
+        <Route exact path="/company/:companyId/executive/:executiveId/restricted-stock/:restrictedStockId" component={ RestrictedStockGrant } />
         <Route component={ NotFound } />
       </Switch>
   </Router>
