@@ -7,7 +7,7 @@ const CompanyName = ({ companyName, completed, handlers: { change, edit, submit 
   <>
     { (completed)
     ? <CompanyNameIdentifier companyName={ companyName } handleEdit={ edit }/>
-    : <CompanyNameForm companyName={ companyName } handleSubmit={ submit } handleChange={ change } />
+    : <CompanyNameForm companyName={ companyName } handleChange={ change } handleSubmit={ submit } />
     } 
   </>
 );
