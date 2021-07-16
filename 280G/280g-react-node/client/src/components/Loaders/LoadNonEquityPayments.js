@@ -14,23 +14,15 @@ const LoadNonEquityPayments = ({ executiveId }) => {
 
     const getPayments = async () => {
       const paymentData = await fetchPayments(executiveId);
-      paymentData.filter((payment) => (payment.description !== '' && payment.amount !== 0));
-      paymentData.map((payment) => {
-        payment.completed = true;
-        payment.error = false;
-        return payment;
-      });
       setPayments(paymentData);
       setLoading(false);
     };
 
-    (payments.length === 0) ? getPayments() : setLoading(false);
+    if (payments.length === 0) getPayments();
 
   }, [executiveId, payments.length, setPayments]);  
 
-  return (
-    loading && <Loading componentMessage="Non-Equity Payments" />
-  );
+  return loading && <Loading componentMessage="Non-Equity Payments" />
 
 };
 

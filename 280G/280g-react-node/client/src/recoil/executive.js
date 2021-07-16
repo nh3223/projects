@@ -2,7 +2,14 @@ import { atom, atomFamily } from 'recoil';
 
 export const executiveState = atomFamily({
   key: 'executive',
-  default: {}
+  default: {
+    _id: '',
+    name: '',
+    title: '',
+    startDate: new Date(),
+    firstYearPayments: '',
+    basePeriodCompensation: {}
+  }
 });
 
 export const executiveIdsState = atom({
