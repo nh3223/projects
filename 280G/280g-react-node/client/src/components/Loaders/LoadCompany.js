@@ -22,9 +22,7 @@ const LoadCompany = ({ companyId }) => {
 
   }, [companyId, loading, company._id, setCompany]);
   
-  return (
-    loading && <Loading componentMessage="Company Information" />
-  );
+  return loading && <Loading componentMessage="Company Information" />
 
 };
 

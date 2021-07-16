@@ -54,21 +54,18 @@ const CompanyInformation = () => {
 
   useEffect(() => {
     
-    const save = async (companyData) => {
+    const create = async (companyData) => {
       const savedCompany = await createCompany(companyData);
-      formSubmit.current = false;
       history.push(`/company/${savedCompany._id}/info`);
     };
     
-    const edit = async (company) => {
-      await editCompany(companyId, companyData);
-      formSubmit.current = false;
-    }
+    const edit = async (company) => await editCompany(companyId, companyData);
     
     const companyData = JSON.stringify(company);
 
     if (isCompleted(completed) && formSubmit.current) {
-      (companyId) ? edit(companyData) : save(companyData);
+      (companyId) ? edit(companyData) : create(companyData);
+      formSubmit.current = false;
     }
 
   }, [companyId, completed, company, history]);
