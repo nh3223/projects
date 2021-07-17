@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import BasePeriodCompensationIdentifier from './BasePeriodCompensationIdentifier';
 import BasePeriodCompensationForm from './BasePeriodCompensationForm';
 
-const BasePeriodCompensation = ({ basePeriodCompensation, startDate, completed, handlers: { edit, change, submit } }) => {
+const BasePeriodCompensation = ({ basePeriodCompensation, completed, handlers: { edit, change, submit } }) => {
 
   const [ error, setError ] = useState({});
 
@@ -12,14 +12,12 @@ const BasePeriodCompensation = ({ basePeriodCompensation, startDate, completed, 
     const year = Number(e.target.name);
     const compensation = Number(basePeriodCompensation[year]);
     if (compensation) {
-      await submit(year, compensation);
-      setError({ [year]: false });
+      await submit(year);
+      setError({ ...error, [year]: false });
     } else {
-      setError({ [year]: true});
+      setError({ ...error, [year]: true});
     }
   };
-
-  console.log('completed', completed);
 
   return (
     (completed)

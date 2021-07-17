@@ -6,7 +6,7 @@ export const executiveState = atomFamily({
     _id: '',
     name: '',
     title: '',
-    startDate: new Date(),
+    startDate: '',
     firstYearPayments: '',
     basePeriodCompensation: {}
   }

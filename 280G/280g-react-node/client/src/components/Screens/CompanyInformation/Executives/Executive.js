@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { executiveState } from '../../../../recoil/executive';
@@ -12,25 +12,24 @@ const Executive = ({ executiveId, add, handleCreate, removeExecutiveId }) => {
 
   const [ executive, setExecutive ] = useRecoilState(executiveState(executiveId));
   const [ completed, setCompleted ] = useState({});
-  const formSubmit = useRef(false)
 
   const nameHandlers = {
     change: (e) => setExecutive({ ...executive, name: e.target.value }),
     edit: () => setCompleted({ ...completed, name: false }),
-    submit: (e) => {
+    submit: async (e) => {
       e.preventDefault();
+      if (!add) await editExecutive(executive);
       setCompleted({ ...completed, name: true });
-      formSubmit.current = true;
     }
   };
 
   const titleHandlers = {
     change: (e) => setExecutive({ ...executive, title: e.target.value }),
     edit: () => setCompleted({ ...completed, title: false }),
-    submit: (e) => {
+    submit: async (e) => {
       e.preventDefault();
+      if (!add) await editExecutive(executive);
       setCompleted({ ...completed, title: true })
-      formSubmit.current = true;
     },
     deleteExecutive: async () => {
       await deleteExecutive(executiveId);
@@ -40,16 +39,8 @@ const Executive = ({ executiveId, add, handleCreate, removeExecutiveId }) => {
   };
   
   useEffect(() => {
-    
     const createExecutive = async () => await handleCreate(executive);
-
-    const updateExecutive = async () => await editExecutive(executive);
-      
-    if (isCompleted(completed) && formSubmit.current) {
-      (add) ? createExecutive() : updateExecutive();
-      formSubmit.current = false;
-    }
-
+    if (add && isCompleted(completed)) createExecutive() 
   }, [add, completed, executive, handleCreate])
 
   useEffect(() => (add) ? setCompleted({ name: false, title: false }) : setCompleted({ name: true, title: true }), [add, setCompleted]);

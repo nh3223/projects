@@ -11,7 +11,7 @@ const FirstYearPayments = ({ firstYearPayments, completed, handlers: { change, e
     e.preventDefault();
     const payments = Number(firstYearPayments);
     if (payments) {
-      await submit(payments);
+      await submit();
       setError(false);
     } else {
       setError(true);

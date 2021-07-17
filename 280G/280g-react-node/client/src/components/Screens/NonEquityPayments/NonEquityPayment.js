@@ -11,12 +11,11 @@ import Amount from './Amount/Amount';
 const NonEquityPayment = ({ paymentId, add, handleCreate }) => {
 
   const [ payment, setPayment ] = useRecoilState(nonEquityPaymentsState(paymentId));
-  const [ newPayment, setNewPayment ] = useState({ description: '', amount: '' });
   const [ completed, setCompleted ] = useState({ });
 
   const amountHandlers = {
     edit: () => setCompleted({ ...completed, amount: false }),
-    change: (e) => (add) ? setNewPayment({ ...newPayment, amount: e.target.value }) : setPayment({ ...payment, amount: e.target.value }),
+    change: (e) => setPayment({ ...payment, amount: e.target.value }),
     submit: async () => {
       if (!add) await editPayment(payment);
       setCompleted({ ...completed, amount: true });
@@ -29,7 +28,7 @@ const NonEquityPayment = ({ paymentId, add, handleCreate }) => {
 
   const descriptionHandlers = {
     edit: () => setCompleted({ ...completed, description: false }),
-    change: (e) => (add) ? setNewPayment({ ...newPayment, description: e.target.value }) : setPayment({ ...payment, description: e.target.value }),
+    change: (e) => setPayment({ ...payment, description: e.target.value }),
     submit: async () => {
       if (!add) await editPayment(payment);
       setCompleted({ ...completed, description: true });
@@ -37,16 +36,16 @@ const NonEquityPayment = ({ paymentId, add, handleCreate }) => {
   };
 
   useEffect(() => {
-    const createPayment = async () => await handleCreate(newPayment);
+    const createPayment = async () => await handleCreate(payment);
     if (add & isCompleted(completed)) createPayment();
-  }, [add, completed, newPayment, handleCreate])
+  }, [add, completed, payment, handleCreate])
 
   useEffect(() => (add) ? setCompleted({ description: false, amount: false }) : setCompleted({ description: true, amount: true }), [add, setCompleted]);
 
   return (
     <>
-      <Description description={ (add) ? newPayment.description : payment.description } completed={ completed.description } handlers={ descriptionHandlers }/>
-      <Amount amount={ (add) ? newPayment.description : payment.amount } completed={ completed.amount } handlers={ amountHandlers }/>
+      <Description description={ payment.description } completed={ completed.description } handlers={ descriptionHandlers }/>
+      <Amount amount={ payment.amount } completed={ completed.amount } handlers={ amountHandlers }/>
     </>
   )
 

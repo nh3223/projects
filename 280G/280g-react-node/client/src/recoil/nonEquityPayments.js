@@ -1,11 +1,15 @@
-import { atom, atomFamily } from 'recoil';
+import { atomFamily } from 'recoil';
 
-export const nonEquityPaymentIdsState = atom({
+export const nonEquityPaymentIdsState = atomFamily({
   key: 'nonEquityPaymentIds',
   default: []
 })
 
 export const nonEquityPaymentsState = atomFamily({
   key: 'nonEquityPayments',
-  default: {}
+  default: {
+    _id: '',
+    description: '',
+    amount:  ''
+  }
 });
