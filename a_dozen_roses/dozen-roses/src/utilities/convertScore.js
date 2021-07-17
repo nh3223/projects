@@ -14,12 +14,13 @@ const levelRanges = {
 };
 
 export const convertScore = (score) => {
+  const float = 0.001;
   let currentLevelAndScore = {
     level: 1,
     score: 0,
   };
   for (let level = 1; level <= 12; level++) {
-    if (score < levelRanges[level].upper) {
+    if (score + float < levelRanges[level].upper) {
       currentLevelAndScore.level = level;
       currentLevelAndScore.score = Math.round(100 * ( score - levelRanges[level].lower ) / ( levelRanges[level].upper - levelRanges[level].lower ));
       return currentLevelAndScore;
