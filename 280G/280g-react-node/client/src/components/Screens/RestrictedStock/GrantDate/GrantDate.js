@@ -1,28 +1,23 @@
-import React, { useState } from 'react';
-import { formatISO } from 'date-fns';
+import React from 'react';
+import { parseISO } from 'date-fns';
 
 import GrantDateIdentifier from './GrantDateIdentifier';
 import GrantDateForm from './GrantDateForm';
 
-const GrantDate = ({ grantDate, handleEdit }) => {
-  
-  const [ edit, setEdit ] = useState(false);
+const GrantDate = ({ grantDate, completed, handlers: { change, edit } }) => {
 
-  const toggleEdit = () => setEdit(true);
-
-  const handleChange = async (date) => {
-    setEdit(false);
-    await handleEdit({ grantDate: formatISO(date) })
-  }
+  const date = parseISO(grantDate);
 
   return (
     <>
-      { edit
-      ? <GrantDateForm grantDate={ grantDate } handleChange={ handleChange } />
-      : <GrantDateIdentifier grantDate={ grantDate } toggleEdit={ toggleEdit }/>
+      <h2>Grant Date:</h2>
+      { (completed)
+      ? <GrantDateForm grantDate={ date } handleChange={ change } />
+      : <GrantDateIdentifier grantDate={ date } handleEdit={ edit }/>
       } 
     </>
   );
+
 };
 
 export default GrantDate;

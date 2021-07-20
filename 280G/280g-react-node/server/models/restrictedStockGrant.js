@@ -31,6 +31,11 @@ const percentageAcceleration = {
   require: true
 };
 
+const accelerationMethod = {
+  type: String,
+  require: true
+};
+
 const vestingSchedule = {
   type: [{
     oldDate: Date,
@@ -47,6 +52,7 @@ const restrictedStockGrantProperties = {
   numberShares,
   changeOfControlGrant,
   percentageAcceleration,
+  accelerationMethod,
   vestingSchedule
 };
 

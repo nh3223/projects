@@ -11,10 +11,29 @@ export const optionGrantIdsState = atomFamily({
 
 export const optionGrantState = atomFamily({
   key: 'optionGrant',
-  default: {}
+  default: {    
+    grantDate: null,
+    vestingStartDate: null,
+    numberOptions: '',
+    exercisePrice: '',
+    changeOfControlGrant: false,
+    percentageAcceleration: 100,
+    rollover: false,
+    vestingSchedule: {
+      cliff: true,
+      cliffMonths: 12,
+      cliffPercentage: 25,
+      remainderPeriods: 36,
+      remainderType: 'monthly'
+    }
+  }
 });
 
 export const optionVestingState = atomFamily({
   key: 'optionVesting',
-  default: {}
+  default: [{
+    oldDate: '',
+    newDate: '',
+    options: ''
+  }]
 });

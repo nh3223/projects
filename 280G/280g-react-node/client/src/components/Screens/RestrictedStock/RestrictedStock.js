@@ -1,35 +1,40 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilCallback } from 'recoil';
 import { createGrant } from '../../../api/restrictedStock';
 
-import { grantIdsState } from '../../../recoil/restrictedStock';
+import { grantIdsState, restrictedStockGrantState } from '../../../recoil/restrictedStock';
 
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
-import RestrictedStockForm from './RestrictedStockForm';
-import RestrictedStockListItem from './RestrictedStockListItem';
+import RestrictedStockGrant from './RestrictedStockGrant';
 
 const RestrictedStock = () => {
   
-  const { id } = useParams();
+  const { executiveId } = useParams();
 
-  const grantIds = useRecoilValue(grantIdsState(id));
+  const [ grantIds, setGrantIds ] = useRecoilState(grantIdsState(executiveId));
   const [ add, setAdd ] = useState(false);
+
+  const setGrant = useRecoilCallback(({ set }) => (grant) => set(restrictedStockGrantState(grant._id), grant), []);
 
   const handleAdd = () => setAdd(true);
 
-  const handleSubmit = async (grant) => {
-    await createGrant(grant);
+  const handleCreate = async (grant) => {
+    const newGrant = await createGrant(grant);
+    setGrant(newGrant);
+    setGrantIds([ ...grantIds, newGrant._id ]);
     setAdd(false);
   };
 
+  const removeGrantId = (grantId) => setGrantIds(grantIds.filter((id) => id !== grantId));
+
   return (
     <>
-      <ExecutiveHeader executiveId={ id } />
+      <ExecutiveHeader executiveId={ executiveId } />
       <h1>Restricted Stock Grants</h1>
       { (!add) && <button onClick={ handleAdd }>Add a Restricted Stock Grant</button> }
-      { (add) && <RestrictedStockForm handleSubmit={ handleSubmit }/>}
-      { grantIds.map((grantId) => <RestrictedStockListItem key={ grantId } grantId={ grantId } />) }
+      { (add) && <RestrictedStockGrant grantId={ null } handleCreate={ handleCreate }/>}
+      { grantIds.map((grantId) => <RestrictedStockGrant key={ grantId } grantId={ grantId } add={ add } removeGrantId={ removeGrantId } />) }
     </>
   );
 };

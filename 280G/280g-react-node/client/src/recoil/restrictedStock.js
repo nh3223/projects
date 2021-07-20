@@ -11,10 +11,29 @@ export const restrictedStockGrantIdsState = atomFamily({
 
 export const restrictedStockGrantState = atomFamily({
   key: 'restricteStockGrant',
-  default: {}
+  default: {
+    _id: '',
+    grantDate: null,
+    vestingStartDate: null,
+    numberShares: '',
+    changeOfControlGrant: false,
+    percentageAcceleration: 100,
+    accelerationMethod: 'Next to Vest',
+    vestingDetails: {
+      cliff: true,
+      cliffMonths: 12,
+      cliffPercentage: 25,
+      remainderPeriods: 36,
+      remainderType: 'monthly'
+    }
+  }
 });
 
 export const restrictedStockVestingState = atomFamily({
   key: 'restrictedStockVesting',
-  default: {}
+  default: [{
+    oldDate: '',
+    newDate: '',
+    shares: ''
+  }]
 });
