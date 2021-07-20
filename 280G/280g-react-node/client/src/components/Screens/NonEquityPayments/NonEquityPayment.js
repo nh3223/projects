@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import { deletePayment, editPayment } from '../../../api/nonEquityPayments';
 import { nonEquityPaymentsState } from '../../../recoil/nonEquityPayments';
-import { isCompleted } from '../../../utilities/isCompleted';
+import isCompleted from '../../../utilities/isCompleted';
 
 import Description from './Description/Description';
 import Amount from './Amount/Amount';

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { grantState } from '../../../recoil/restrictedStock';
+import { restrictedStockGrantState } from '../../../recoil/restrictedStock';
 import { formatISO } from 'date-fns';
 
 import GrantDate from './GrantDate/GrantDate';
@@ -9,7 +9,7 @@ import Shares from './Shares/Shares';
 import VestingStartDate from './VestingStartDate/VestingStartDate';
 import ChangeOfControl from './ChangeOfControl/ChangeOfControl';
 import Acceleration from './Acceleration/Acceleration';
-import VestingDetails from './VestingSchedule/VestingSchedule';
+import VestingDetails from './VestingDetails/VestingDetails';
 import { editGrant } from '../../../api/restrictedStock';
 import isCompleted from '../../../utilities/isCompleted';
 
@@ -17,7 +17,7 @@ const RestrictedStockGrant = ({ grantId, add, removeGrantId, handleCreate }) => 
 
   const { id } = useParams();
 
-  const [ grant, setGrant ] = useRecoilState(grantState(id));
+  const [ grant, setGrant ] = useRecoilState(restrictedStockGrantState(id));
   const [ completed, setCompleted ] = useState({ });
   const edit = useRef(false);
 

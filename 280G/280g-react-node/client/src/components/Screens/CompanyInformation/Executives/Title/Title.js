@@ -1,7 +1,7 @@
 import React from 'react';
 
-import TitleForm from './NameForm';
-import TitleIdentifier from './NameIdentifier';
+import TitleForm from './TitleForm';
+import TitleIdentifier from './TitleIdentifier';
 
 const Title = ({ title, completed, handlers: { edit, change, submit }, deleteExecutive }) => (
   completed

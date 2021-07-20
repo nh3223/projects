@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilCallback } from 'recoil';
 import { createGrant } from '../../../api/restrictedStock';
 
-import { grantIdsState, restrictedStockGrantState } from '../../../recoil/restrictedStock';
+import { restrictedStockGrantIdsState, restrictedStockGrantState } from '../../../recoil/restrictedStock';
 
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 import RestrictedStockGrant from './RestrictedStockGrant';
@@ -12,7 +12,7 @@ const RestrictedStock = () => {
   
   const { executiveId } = useParams();
 
-  const [ grantIds, setGrantIds ] = useRecoilState(grantIdsState(executiveId));
+  const [ grantIds, setGrantIds ] = useRecoilState(restrictedStockGrantIdsState(executiveId));
   const [ add, setAdd ] = useState(false);
 
   const setGrant = useRecoilCallback(({ set }) => (grant) => set(restrictedStockGrantState(grant._id), grant), []);

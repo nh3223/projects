@@ -1,6 +1,6 @@
 import React from 'react';
 
-import InputForm from '../../../Elements/InputForm';
+import InputForm from '../../../Elements/InputForm/InputForm';
 
 const CompanyNameForm = ({ companyName, handleSubmit, handleChange}) => {
   

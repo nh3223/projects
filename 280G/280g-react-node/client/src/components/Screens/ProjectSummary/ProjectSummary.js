@@ -4,21 +4,21 @@ import { useRecoilValue } from 'recoil';
 
 import CompanyHeader from '../../Navigation/CompanyHeader';
 import LoadProject from '../../Loaders/LoadProject';
-import { companyNameState } from '../../../recoil/company';
+import { companyState } from '../../../recoil/company';
 
 const ProjectSummary = () => {
 
-  const { id } = useParams();
+  const { companyId } = useParams();
 
-  const companyName = useRecoilValue(companyNameState(id));
+  const company = useRecoilValue(companyState(companyId));
   
   // Load Project Data
 
   return (
     <>
-      <CompanyHeader companyId={ id } />
-      <LoadProject companyId={ id } />
-      <h1>{ companyName }</h1>
+      <CompanyHeader companyId={ companyId } />
+      <LoadProject companyId={ companyId } />
+      <h1>{ company.comapnyName }</h1>
       <h2>280G Summary</h2>
     </>
   );

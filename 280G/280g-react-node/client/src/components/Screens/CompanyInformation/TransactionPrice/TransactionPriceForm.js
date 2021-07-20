@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import InputForm from '../../../Elements/InputForm';
+import InputForm from '../../../Elements/InputForm/InputForm';
 import ErrorMessage from '../../../Elements/ErrorMessage/ErrorMessage';
 
 const TransactionPriceForm = ({ transactionPrice, handleSubmit, handleChange }) => {

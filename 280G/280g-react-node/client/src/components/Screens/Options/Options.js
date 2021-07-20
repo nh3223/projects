@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import ExecutiveHeader from '../Navigation/ExecutiveHeader';
+import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 
 const Options = () => {
   
