@@ -1,10 +1,15 @@
 import React from 'react';
 
-const CompanyNameForm = ({ companyName, handleSubmit, handleChange}) => (
-  <form onSubmit={ handleSubmit }>
-    <label>Company Name: </label>
-    <input value={ companyName } onChange={ handleChange }></input>
-  </form>
-);
+import InputForm from '../../../Elements/InputForm';
+
+const CompanyNameForm = ({ companyName, handleSubmit, handleChange}) => {
+  
+  const validate = ({ target: { name, value } }) => handleChange(name, value);
+
+  return (
+    <InputForm name="companyName" value={ companyName } handleChange={ validate } handleSubmit={ handleSubmit } />
+  );
+
+};
 
 export default CompanyNameForm;

@@ -1,16 +1,14 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-const TransactionDateIdentifier = ({ transactionDate, handleEdit }) => {
+import Description from '../../../Elements/Description/Description';
+import EditButton from '../../../Elements/EditButton/EditButton';
 
-  const date = format(transactionDate, 'd MMM yyyy');
-  
-  return (
-    <>
-      <h2>Transaction Date: { date }</h2>
-      <button onClick={ handleEdit }>Edit</button>
-    </>
-  );
-};
+const TransactionDateIdentifier = ({ transactionDate, handleEdit }) => (
+  <>
+    <Description text={ format(transactionDate, 'd MMM yyyy') } />
+    <EditButton onClick={ handleEdit } />
+  </>
+);
 
 export default TransactionDateIdentifier;

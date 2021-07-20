@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const name = {
+const companyName = {
   type: String,
   required: true
 };
@@ -21,7 +21,7 @@ const transactionPrice = {
 }
 
 const companyProperties = {
-  name,
+  companyName,
   transactionDate,
   transactionPrice
 };

@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const TransactionPriceForm = ({ transactionPrice, handleSubmit, handleChange, error }) => (
-  <form onSubmit={ handleSubmit }>
-    <label>Transaction Price Per Share: </label>
-    <input value={ transactionPrice } onChange={ handleChange }></input>
-    { (error) && <p>Please enter a valid per share price</p> }
-  </form>
-);
+import InputForm from '../../../Elements/InputForm';
+import ErrorMessage from '../../../Elements/ErrorMessage/ErrorMessage';
+
+const TransactionPriceForm = ({ transactionPrice, handleSubmit, handleChange }) => {
+  
+  const [ error, setError ] = useState(false);
+
+  const validate = ({ target: { name, value }}) => {
+    if (Number(value)) {
+      handleChange(name, value);
+      setError(false);
+    } else {
+      setError(true)
+    }  
+  };
+
+  return (
+    <>
+      <InputForm name="transactionPrice" value={ transactionPrice } handleChange={ validate } handleSubmit={ handleSubmit } />
+      { (error) && <ErrorMessage message={ 'Please enter a valid per share price' } /> }
+    </>
+  );
+
+};
 
 export default TransactionPriceForm;

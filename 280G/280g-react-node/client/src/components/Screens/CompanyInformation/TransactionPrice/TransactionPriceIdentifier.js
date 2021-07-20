@@ -1,9 +1,12 @@
 import React from 'react';
 
+import Description from '../../../Elements/Description/Description';
+import EditButton from '../../../Elements/EditButton/EditButton';
+
 const TransactionPriceIdentifier = ({ transactionPrice, handleEdit }) => (
   <>
-    <h2>Transaction Price Per Share: { `$${ transactionPrice }` }</h2>
-    <button onClick={ handleEdit }>Edit</button>
+    <Description text={ `$${ transactionPrice }` } />
+    <EditButton onClick={ handleEdit } />
   </>
 );
 

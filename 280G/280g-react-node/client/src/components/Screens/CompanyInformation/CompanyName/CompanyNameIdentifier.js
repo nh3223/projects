@@ -1,9 +1,12 @@
 import React from 'react';
 
+import Description from '../../../Elements/Description/Description';
+import EditButton from '../../../Elements/EditButton/EditButton';
+
 const CompanyNameIdentifier = ({ companyName, handleEdit }) => (
   <>
-    <h2>Company Name: { companyName }</h2>
-    <button onClick={ handleEdit }>Edit</button>
+    <Description text={ companyName } />
+    <EditButton name={ companyName } onClick={ handleEdit } />
   </>
 );
 

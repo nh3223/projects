@@ -4,7 +4,7 @@ export const companyState = atom({
   key: 'company',
   default: {
     _id: '',
-    name: '',
+    companyName: '',
     transactionDate: new Date(),
     transactionPrice: ''
   }
