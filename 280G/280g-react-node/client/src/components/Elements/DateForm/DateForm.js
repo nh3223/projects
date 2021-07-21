@@ -3,8 +3,14 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const DateForm = ({ date, handleChange }) => (
-  <DatePicker selected={ date } onChange={ handleChange } />
-);
+const DateForm = ({ date, handleChange }) => {
+
+  console.log(date);
+
+  return (
+    <DatePicker selected={ date } onChange={ handleChange } />
+  );
+
+};
 
 export default DateForm;

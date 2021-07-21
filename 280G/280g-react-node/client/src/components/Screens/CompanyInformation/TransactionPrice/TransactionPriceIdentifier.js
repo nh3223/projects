@@ -6,7 +6,7 @@ import EditButton from '../../../Elements/EditButton/EditButton';
 const TransactionPriceIdentifier = ({ transactionPrice, handleEdit }) => (
   <>
     <Description text={ `$${ transactionPrice }` } />
-    <EditButton onClick={ handleEdit } />
+    <EditButton name="transactionPrice" handleEdit={ handleEdit } />
   </>
 );
 

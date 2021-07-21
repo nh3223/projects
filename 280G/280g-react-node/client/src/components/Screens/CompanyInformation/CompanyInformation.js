@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useRecoilState } from 'recoil'
 
 import { companyState } from '../../../recoil/company';
 import { createCompany, editCompany } from '../../../api/company';
-import isCompleted from '../../../utilities/isCompleted';
+import { allTrue } from '../../../utilities/checkObject';
 
 import LoadCompany from '../../Loaders/LoadCompany';
 import LoadExecutives from '../../Loaders/LoadExecutives';
@@ -22,70 +22,37 @@ const CompanyInformation = () => {
   const [ company, setCompany ] = useRecoilState(companyState);
   const [ completed, setCompleted ] = useState((companyId)
     ? { companyName: true, transactionDate: true, transactionPrice: true }
-    : { companyName: false, transactionDate: false, transactionPrice: false }
-  );
+    : { companyName: false, transactionDate: false, transactionPrice: false });
   
-  const edit = useRef((companyId) ? false : true);
-  
-  const handleChange = (name, value) => setCompany({ ...company, [name]: value });
-  
-  const handleEdit = ({ target: { name } }) => {
-    setCompleted({ ...completed, [name]: false });
-    edit.current = true;
-  };
-    
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setCompleted({ ...completed, [e.target.name]: true });
-  };
+  const submit = async (name, submittedCompany) => {
+    if (companyId) {
+      const companyData = JSON.stringify(submittedCompany);
+      await editCompany(companyId, companyData);
+    }
+    setCompleted({ ...completed, [name]: true })
+  }
 
-  const handlers = { handleChange, handleEdit, handleSubmit };
-
-  // const companyNameHandlers = {
-  //   change: (e) => setCompany({ ...company, name: e.target.value }),
-  //   edit: () => setCompleted({ ...completed, name: false }),
-  //   submit: () => {
-  //     setCompleted({ ...completed, name: true });
-  //     formSubmit.current = true;
-  //   }
-  // };
-  
-  // const transactionDateHandlers = {
-  //   change: (date) => {
-  //     setCompany({ ...company, transactionDate: formatISO(date) });
-  //     setCompleted({ ...completed, date: true });
-  //     formSubmit.current = true;
-  //   },
-  //   edit: () => setCompleted({ ...completed, date: false })
-  // };
-  
-  // const transactionPriceHandlers = {
-  //   change: (e) => setCompany({ ...company, transactionPrice: e.target.value }),
-  //   edit: () => setCompleted({ ...completed, price: false }),
-  //   submit: () => {
-  //     setCompleted({ ...completed, price: true });
-  //     formSubmit.current = true;
-  //   }
-  // };
+  const handlers = {
+    change: async (name, value) => {
+      setCompany({ ...company, [name]: value });
+      if (name === 'transactionDate') await submit(name, { ...company, [name]: value });
+    },
+    edit: ({ target: { name } }) => setCompleted({ ...completed, [name]: false }),
+    submit: async (e) => await submit(e.target.name, company)
+  }
 
   useEffect(() => {
     
-    const create = async (companyData) => {
+    const create = async (company) => {
+      const companyData = JSON.stringify(company);
       const savedCompany = await createCompany(companyData);
       history.push(`/company/${savedCompany._id}/info`);
     };
     
-    const edit = async (companyData) => await editCompany(companyId, companyData);
-    
-    const companyData = JSON.stringify(company);
+    if (allTrue(completed) && !companyId) create(company);
 
-    if (isCompleted(completed) && edit.current) {
-      (companyId) ? edit(companyData) : create(companyData);
-      edit.current = false;
-    }
+  }, [companyId, completed, company, history ]);
 
-  }, [companyId, completed, company, history]);
-  
   return (
     <>
       <CompanyHeader companyId={ companyId } />

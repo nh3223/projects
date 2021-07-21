@@ -7,18 +7,20 @@ const TransactionPriceForm = ({ transactionPrice, handleSubmit, handleChange }) 
   
   const [ error, setError ] = useState(false);
 
-  const validate = ({ target: { name, value }}) => {
-    if (Number(value)) {
-      handleChange(name, value);
-      setError(false);
+  const processChange = ({ target: { name, value }}) => handleChange(name, value);
+
+  const validate = (e) => {
+    if (Number(e.target[0].value) && Number(e.target[0].value > 0)) {
+      handleSubmit(e);
+      setError(false)
     } else {
       setError(true)
-    }  
+    }
   };
 
   return (
     <>
-      <InputForm name="transactionPrice" value={ transactionPrice } handleChange={ validate } handleSubmit={ handleSubmit } />
+      <InputForm name="transactionPrice" value={ transactionPrice } handleChange={ processChange } handleSubmit={ validate } />
       { (error) && <ErrorMessage message={ 'Please enter a valid per share price' } /> }
     </>
   );

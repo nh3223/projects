@@ -29,6 +29,7 @@ export const editCompany = async (id, company) => {
     headers: { "Content-Type": "application/json" },
     body: company
   };
+  console.log('edit company', company);
   const response = await fetch(url, options);
   return await response.json();
 };

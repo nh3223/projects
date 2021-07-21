@@ -1,11 +1,12 @@
 import { atom } from 'recoil';
+import { formatISO } from 'date-fns';
 
 export const companyState = atom({
   key: 'company',
   default: {
     _id: '',
     companyName: '',
-    transactionDate: new Date(),
+    transactionDate: formatISO(new Date()),
     transactionPrice: ''
   }
 });

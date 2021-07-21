@@ -11,7 +11,7 @@ import ChangeOfControl from './ChangeOfControl/ChangeOfControl';
 import Acceleration from './Acceleration/Acceleration';
 import VestingDetails from './VestingDetails/VestingDetails';
 import { editGrant } from '../../../api/restrictedStock';
-import isCompleted from '../../../utilities/isCompleted';
+import { allTrue } from '../../../utilities/checkObject';
 
 const RestrictedStockGrant = ({ grantId, add, removeGrantId, handleCreate }) => {
 
@@ -108,8 +108,8 @@ const RestrictedStockGrant = ({ grantId, add, removeGrantId, handleCreate }) => 
       await editGrant(grant);
       edit.current = false;
     };
-    if (add && isCompleted(completed)) create();
-    if (!add && edit.current && isCompleted(completed)) edit();
+    if (add && allTrue(completed)) create();
+    if (!add && edit.current && allTrue(completed)) edit();
   }, [add, completed, grant, handleCreate])
 
   useEffect(() => (add) ? setCompleted({ name: false, title: false }) : setCompleted({ name: true, title: true }), [add, setCompleted]);

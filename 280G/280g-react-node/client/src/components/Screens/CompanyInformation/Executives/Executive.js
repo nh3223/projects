@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import { executiveState } from '../../../../recoil/executive';
 import { editExecutive, deleteExecutive } from '../../../../api/executive';
-import isCompleted from '../../../../utilities/isCompleted';
+import { allTrue } from '../../../../utilities/checkObject';
 
 import Name from './Name/Name';
 import Title from './Title/Title';
@@ -40,7 +40,7 @@ const Executive = ({ executiveId, add, handleCreate, removeExecutiveId }) => {
   
   useEffect(() => {
     const createExecutive = async () => await handleCreate(executive);
-    if (add && isCompleted(completed)) createExecutive() 
+    if (add && allTrue(completed)) createExecutive() 
   }, [add, completed, executive, handleCreate])
 
   useEffect(() => (add) ? setCompleted({ name: false, title: false }) : setCompleted({ name: true, title: true }), [add, setCompleted]);

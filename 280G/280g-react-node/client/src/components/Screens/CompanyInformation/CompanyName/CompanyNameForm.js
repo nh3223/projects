@@ -4,10 +4,10 @@ import InputForm from '../../../Elements/InputForm/InputForm';
 
 const CompanyNameForm = ({ companyName, handleSubmit, handleChange}) => {
   
-  const validate = ({ target: { name, value } }) => handleChange(name, value);
+  const processChange = ({ target: { name, value } }) => handleChange(name, value);
 
   return (
-    <InputForm name="companyName" value={ companyName } handleChange={ validate } handleSubmit={ handleSubmit } />
+    <InputForm name="companyName" value={ companyName } handleChange={ processChange } handleSubmit={ handleSubmit } />
   );
 
 };

@@ -5,9 +5,9 @@ import DateForm from '../../../Elements/DateForm/DateForm';
 
 const TransactionDateForm = ({ transactionDate, handleChange }) => {
 
-  const validate = (date) => handleChange('transactionDate', formatISO(date));
+  const processChange = (date) => handleChange('transactionDate', formatISO(date));
 
-  return <DateForm selected={ transactionDate } handleChange={ validate } />;
+  return <DateForm date={ transactionDate } handleChange={ processChange } />;
 
 };
 

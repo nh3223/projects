@@ -10,7 +10,7 @@ const ProjectSummary = () => {
 
   const { companyId } = useParams();
 
-  const company = useRecoilValue(companyState(companyId));
+  const company = useRecoilValue(companyState);
   
   // Load Project Data
 

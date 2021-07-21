@@ -33,7 +33,7 @@ const Home = () => {
       { companies.map((company) => (
         <div key={ company._id }>
           <Link to={`/company/${company._id}`}>
-            <h2>{ company.name }</h2>
+            <h2>{ company.companyName }</h2>
           </Link>
           <button name={ company._id } onClick={ handleDelete }>Delete Company</button>
         </div>

@@ -6,7 +6,7 @@ import EditButton from '../../../Elements/EditButton/EditButton';
 const CompanyNameIdentifier = ({ companyName, handleEdit }) => (
   <>
     <Description text={ companyName } />
-    <EditButton name={ companyName } onClick={ handleEdit } />
+    <EditButton name="companyName" handleEdit={ handleEdit } />
   </>
 );
 

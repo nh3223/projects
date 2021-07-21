@@ -7,7 +7,7 @@ import EditButton from '../../../Elements/EditButton/EditButton';
 const TransactionDateIdentifier = ({ transactionDate, handleEdit }) => (
   <>
     <Description text={ format(transactionDate, 'd MMM yyyy') } />
-    <EditButton onClick={ handleEdit } />
+    <EditButton name="transactionDate" handleEdit={ handleEdit } />
   </>
 );
 

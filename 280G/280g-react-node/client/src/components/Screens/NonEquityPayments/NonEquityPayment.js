@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import { deletePayment, editPayment } from '../../../api/nonEquityPayments';
 import { nonEquityPaymentsState } from '../../../recoil/nonEquityPayments';
-import isCompleted from '../../../utilities/isCompleted';
+import { allTrue } from '../../../utilities/checkObject';
 
 import Description from './Description/Description';
 import Amount from './Amount/Amount';
@@ -37,7 +37,7 @@ const NonEquityPayment = ({ paymentId, add, handleCreate }) => {
 
   useEffect(() => {
     const createPayment = async () => await handleCreate(payment);
-    if (add & isCompleted(completed)) createPayment();
+    if (add & allTrue(completed)) createPayment();
   }, [add, completed, payment, handleCreate])
 
   useEffect(() => (add) ? setCompleted({ description: false, amount: false }) : setCompleted({ description: true, amount: true }), [add, setCompleted]);
