@@ -23,8 +23,6 @@ const Home = () => {
     getCompanies();
   }, [setCompanies]);
 
-  console.log(companies)
-
   return (
     <>
       <ResetExecutives />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 
 import Loading from './Loading';
 import { companyState } from '../../recoil/company';
@@ -9,7 +9,9 @@ const LoadCompany = ({ companyId }) => {
   
   const [ company, setCompany ] = useRecoilState(companyState);
   const [ loading, setLoading ] = useState(true);
-
+  
+  const resetCompany = useResetRecoilState(companyState);
+  
   useEffect(() => {
     
     const setCompanyInformation = async () => {
@@ -19,8 +21,9 @@ const LoadCompany = ({ companyId }) => {
     };
 
     if (companyId && !company._id) setCompanyInformation();
+    if (!companyId) resetCompany();
 
-  }, [companyId, loading, company._id, setCompany]);
+  }, [companyId, loading, company._id, setCompany, resetCompany]);
   
   return loading && <Loading componentMessage="Company Information" />
 

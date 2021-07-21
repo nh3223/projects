@@ -5,7 +5,7 @@ import Description from '../../../Elements/Description/Description';
 import TransactionDateIdentifier from './TransactionDateIdentifier';
 import TransactionDateForm from './TransactionDateForm';
 
-const TransactionDate = ({ transactionDate, completed, handlers: { edit, change }}) => {
+const TransactionDate = ({ transactionDate, completed, handlers: { edit, change, submit }}) => {
   
   const date = parseISO(transactionDate);
 
@@ -14,7 +14,7 @@ const TransactionDate = ({ transactionDate, completed, handlers: { edit, change 
       <Description text={ 'Transaction Date: ' } />
       { (completed)
       ? <TransactionDateIdentifier transactionDate={ date } handleEdit={ edit }/>
-      : <TransactionDateForm transactionDate={ date } handleChange={ change } />
+      : <TransactionDateForm transactionDate={ date } handleChange={ change } handleSubmit={ submit } />
       } 
     </>
   );

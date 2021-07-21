@@ -23,28 +23,25 @@ const CompanyInformation = () => {
   const [ completed, setCompleted ] = useState((companyId)
     ? { companyName: true, transactionDate: true, transactionPrice: true }
     : { companyName: false, transactionDate: false, transactionPrice: false });
-  
-  const submit = async (name, submittedCompany) => {
-    if (companyId) {
-      const companyData = JSON.stringify(submittedCompany);
-      await editCompany(companyId, companyData);
-    }
-    setCompleted({ ...completed, [name]: true })
-  }
 
   const handlers = {
-    change: async (name, value) => {
-      setCompany({ ...company, [name]: value });
-      if (name === 'transactionDate') await submit(name, { ...company, [name]: value });
-    },
+    change: async (name, value) => setCompany({ ...company, [name]: value }),
     edit: ({ target: { name } }) => setCompleted({ ...completed, [name]: false }),
-    submit: async (e) => await submit(e.target.name, company)
-  }
+    submit: async ({ target: { name } }) => {
+      if (companyId) {
+        const companyData = JSON.stringify(company);
+        await editCompany(companyId, companyData);
+      }
+      setCompleted({ ...completed, [name]: true })
+    }
+  };
 
   useEffect(() => {
     
     const create = async (company) => {
-      const companyData = JSON.stringify(company);
+      const { companyName, transactionDate, transactionPrice } = company;
+      const companyData = JSON.stringify({ companyName, transactionDate, transactionPrice });
+      console.log('create', companyData);
       const savedCompany = await createCompany(companyData);
       history.push(`/company/${savedCompany._id}/info`);
     };
@@ -52,6 +49,8 @@ const CompanyInformation = () => {
     if (allTrue(completed) && !companyId) create(company);
 
   }, [companyId, completed, company, history ]);
+
+  console.log(completed);
 
   return (
     <>

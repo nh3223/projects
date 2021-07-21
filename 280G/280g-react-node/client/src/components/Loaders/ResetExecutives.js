@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { useSetRecoilState } from "recoil";
+import { useResetRecoilState } from "recoil";
 
 import { executiveIdsState } from '../../recoil/executive';
 
 const ResetExecutives = () => {
   
-  const setExecutiveIds = useSetRecoilState(executiveIdsState);
+  const resetExecutiveIds = useResetRecoilState(executiveIdsState);
   
-  useEffect(() => setExecutiveIds([]), [setExecutiveIds])
-
+  resetExecutiveIds();
+  
   return null;
 
 };

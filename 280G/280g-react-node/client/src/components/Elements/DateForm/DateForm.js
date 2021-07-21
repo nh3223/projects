@@ -3,14 +3,17 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const DateForm = ({ date, handleChange }) => {
+const DateForm = ({ name, date, handleChange, handleSubmit }) => {
 
-  console.log(date);
+  const submit = (e) => {
+    e.preventDefault();
+    handleSubmit(e);
+  };
 
   return (
-    <DatePicker selected={ date } onChange={ handleChange } />
+    <form name={ name } onSubmit={ submit }>
+      <DatePicker name={ name } selected={ date } onChange={ handleChange } onBlur={ submit }/>
+    </form>
   );
-
 };
-
 export default DateForm;

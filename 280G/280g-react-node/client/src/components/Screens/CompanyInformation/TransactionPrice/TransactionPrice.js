@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Description from '../../../Elements/Description/StyledDescription';
+import Description from '../../../Elements/Description/Description';
 import TransactionPriceIdentifier from './TransactionPriceIdentifier';
 import TransactionPriceForm from './TransactionPriceForm';
 
 const TransactionPrice = ({ transactionPrice, completed, handlers: { change, edit, submit }}) => (
   <>
-    <Description text={ 'Transaction Price per Share:' } />
+    <Description text="Transaction Price per Share: " />
     { (completed)
     ? <TransactionPriceIdentifier transactionPrice={ transactionPrice } handleEdit={ edit }/>
     : <TransactionPriceForm transactionPrice={ transactionPrice } handleSubmit={ submit } handleChange={ change } />

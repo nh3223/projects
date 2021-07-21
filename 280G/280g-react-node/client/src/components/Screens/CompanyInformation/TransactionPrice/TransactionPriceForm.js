@@ -10,7 +10,8 @@ const TransactionPriceForm = ({ transactionPrice, handleSubmit, handleChange }) 
   const processChange = ({ target: { name, value }}) => handleChange(name, value);
 
   const validate = (e) => {
-    if (Number(e.target[0].value) && Number(e.target[0].value > 0)) {
+    const price = e.target[0].value;
+    if (Number(price) && Number(price) > 0) {
       handleSubmit(e);
       setError(false)
     } else {
