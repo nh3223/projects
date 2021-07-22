@@ -1,9 +1,9 @@
 import React from 'react';
 
+import InputForm from '../../../../Elements/InputForm/InputForm';
+
 const NameForm = ({ name, handleChange, handleSubmit }) => (
-  <form onSubmit={ handleSubmit }>
-    <input value={ name } placeholder="Name" onChange={ handleChange }></input>
-  </form>
+  <InputForm name="executiveName" value={ name } handleChange={ handleChange } handleSubmit={ handleSubmit } />
 );
 
 export default NameForm;

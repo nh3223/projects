@@ -6,8 +6,11 @@ const InputForm = ({ name, value, handleChange, handleSubmit }) => {
 
   const submit = (e) => {
     e.preventDefault();
+    console.log(e);
     handleSubmit(e);
   };
+
+  console.log('name', name);
 
   return (
     <form name={ name } onSubmit={ submit }>

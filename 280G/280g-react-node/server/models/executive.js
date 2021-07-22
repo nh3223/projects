@@ -6,9 +6,8 @@ const company = {
   ref: 'Company'
 };
 
-const name = {
+const executiveName = {
   type: String,
-  required: true
 };
 
 const title = {
@@ -30,7 +29,7 @@ const basePeriodCompensation = [{
 
 const executiveProperties = {
   company,
-  name,
+  executiveName,
   title,
   startDate,
   firstYearPayments,

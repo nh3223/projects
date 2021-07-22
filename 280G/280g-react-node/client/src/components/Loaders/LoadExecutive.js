@@ -22,7 +22,7 @@ const LoadExecutive = ({ executiveId }) => {
       const executiveData = await fetchExecutive(executiveId);
       setExecutive({
         _id: executiveData._id,
-        name: executiveData.name,
+        executiveName: executiveData.executiveName,
         title: executiveData.title,
         startDate: executiveData.startDate,
         firstYearPayments: executiveData.firstYearPayments,

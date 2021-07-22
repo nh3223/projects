@@ -1,9 +1,12 @@
 import React from 'react';
 
+import Description from '../../../../Elements/Description/Description';
+import EditButton from '../../../../Elements/EditButton/EditButton';
+
 const NameIdentifier = ({ name, handleEdit }) => (
   <>
-    <p>{ name }</p>
-    <button onClick={ handleEdit }>Edit</button>
+    <Description text={ name } />
+    <EditButton name="name" handleEdit={ handleEdit } />
   </>
 );
 

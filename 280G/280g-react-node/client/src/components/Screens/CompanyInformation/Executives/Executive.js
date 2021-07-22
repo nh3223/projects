@@ -8,47 +8,38 @@ import { allTrue } from '../../../../utilities/checkObject';
 import Name from './Name/Name';
 import Title from './Title/Title';
 
-const Executive = ({ executiveId, add, handleCreate, removeExecutiveId }) => {
+const Executive = ({ executiveId, removeExecutiveId }) => {
 
   const [ executive, setExecutive ] = useRecoilState(executiveState(executiveId));
-  const [ completed, setCompleted ] = useState({});
+  const [ completed, setCompleted ] = useState((executive.new) ? { executiveName: false, title: false } : {executiveName: true, title: true });
+  
+  console.log('Executive', executiveId, executive);
+  console.log('completed', completed);
 
-  const nameHandlers = {
-    change: (e) => setExecutive({ ...executive, name: e.target.value }),
-    edit: () => setCompleted({ ...completed, name: false }),
-    submit: async (e) => {
-      e.preventDefault();
-      if (!add) await editExecutive(executive);
-      setCompleted({ ...completed, name: true });
-    }
-  };
-
-  const titleHandlers = {
-    change: (e) => setExecutive({ ...executive, title: e.target.value }),
-    edit: () => setCompleted({ ...completed, title: false }),
-    submit: async (e) => {
-      e.preventDefault();
-      if (!add) await editExecutive(executive);
-      setCompleted({ ...completed, title: true })
+  const handlers = {
+    change: ({ target: { name, value }}) => setExecutive({ ...executive, [name]: value }),
+    edit: ({ target: { name }}) => setCompleted({ ...completed, [name]: false }),
+    submit: async ({ target: { name }}) => {
+      await editExecutive(executive);
+      setCompleted({ ...completed, [name]: true });
     },
-    deleteExecutive: async () => {
+    handleDelete: async () => {
       await deleteExecutive(executiveId);
       setExecutive({ });
       removeExecutiveId(executiveId);
     }
-  };
-  
-  useEffect(() => {
-    const createExecutive = async () => await handleCreate(executive);
-    if (add && allTrue(completed)) createExecutive() 
-  }, [add, completed, executive, handleCreate])
+  }
 
-  useEffect(() => (add) ? setCompleted({ name: false, title: false }) : setCompleted({ name: true, title: true }), [add, setCompleted]);
+  useEffect(() => {
+
+    if (executive.new && allTrue(completed)) setExecutive({ ...executive, new: false }); 
+  
+  }, [executive, completed, setExecutive])
 
   return (
     <>
-      <Name name={ executive.name } completed={ completed.name } handlers={ nameHandlers } />
-      <Title title={ executive.title } completed={ completed.title } handlers={ titleHandlers } />
+      <Name name={ executive.executiveName } completed={ completed.executiveName } handlers={ handlers } />
+      <Title title={ executive.title } completed={ completed.title } handlers={ handlers } />
     </>
   );
 

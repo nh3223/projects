@@ -33,9 +33,7 @@ export const getCompany = async (req, res) => {
 
 export const createCompany = async (req, res) => {
   const company = req.body;
-  console.log('company', company);
   const newCompany = Company(company);
-  console.log('newCompany', newCompany)
   try {
     await newCompany.save();
     res.status(201).json(newCompany);

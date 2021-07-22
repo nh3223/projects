@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-const Description = styled.h2`
+const StyledDescription = styled.h2`
 
 `;
 
-export default Description;
+export default StyledDescription;

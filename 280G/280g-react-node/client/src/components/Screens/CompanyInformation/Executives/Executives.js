@@ -2,34 +2,38 @@ import React, { useState } from 'react';
 import { useRecoilState, useRecoilCallback } from 'recoil';
 
 import Executive from './Executive';
+import SubTitle from '../../../Elements/SubTitle/SubTitle';
+import AddButton from '../../../Elements/AddButton/AddButton';
+
 import { executiveState, executiveIdsState } from '../../../../recoil/executive';
 import { createExecutive } from '../../../../api/executive';
 
 const Executives = ({ companyId }) => {
 
   const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState)
-  const [ add, setAdd ] = useState(false);
 
   const setExecutive = useRecoilCallback(({ set }) => (executive) => set(executiveState(executive._id), executive), []);
   
-  const handleAdd = () => setAdd(true);
-
-  const handleCreate = async ({ name, title }) => {
-    const executive = { company: companyId, name, title };
-    const savedExecutive = await createExecutive(executive);
-    setExecutive(savedExecutive);
-    setExecutiveIds([...executiveIds, savedExecutive._id])
-    handleAdd(false);
+  const handleAdd = async () => {
+    const executive = {
+      company: companyId,
+      executiveName: '',
+      title: ''
+    };
+    const newExecutive = await createExecutive(executive);
+    setExecutive({ ...newExecutive, new: true });
+    setExecutiveIds([ newExecutive._id, ...executiveIds ]);
   };
 
   const removeExecutiveId = (executiveId) => setExecutiveIds(executiveIds.filter((id) => id !== executiveId));
 
+  console.log('executives', 'add', 'ids', executiveIds);
+
   return (
     <>
-      <h2>Executives</h2>
-      { (!add) && <button onClick={ handleAdd }>Add an Executive</button> }
-      { (add) && <Executive executiveId={ null } handleCreate={ handleCreate } /> } 
-      { (executiveIds) && executiveIds.map((id) => <Executive key={ id } executiveId={ id } add={ add} handleCreate={ handleCreate } removeExecutiveId={ removeExecutiveId } />)}
+      <SubTitle text="Executives" />
+      { <AddButton name="addExecutive" text="Add an Executive" handleAdd={ handleAdd } /> }
+      { (executiveIds) && executiveIds.map((id) => <Executive key={ id } executiveId={ id } removeExecutiveId={ removeExecutiveId } />) }
     </>
   );
 
