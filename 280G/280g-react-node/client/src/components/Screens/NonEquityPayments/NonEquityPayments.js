@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilState } from 'recoil';
 
 import { createPayment } from '../../../api/nonEquityPayments';
-import { nonEquityPaymentIdsState } from '../../../recoil/nonEquityPayments';
+import { nonEquityPaymentIdsState, nonEquityPaymentsState } from '../../../recoil/nonEquityPayments';
 
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 import LoadNonEquityPayments from '../../Loaders/LoadNonEquityPayments';
+import SubTitle from '../../Elements/SubTitle/SubTitle';
+import AddButton from '../../Elements/AddButton/AddButton';
 import NonEquityPayment from './NonEquityPayment';
 
 const NonEquityPayments = () => {
@@ -14,25 +16,30 @@ const NonEquityPayments = () => {
   const { executiveId } = useParams();
 
   const [ paymentIds, setPaymentIds ] = useRecoilState(nonEquityPaymentIdsState(executiveId));
-  const [ add, setAdd ] = useState(false);
-  
-  const handleAdd = () => setAdd(true); 
-  
-  const handleCreate = async (payment) => {
+
+  const setPayment = useRecoilCallback(({ set }) => (payment) => set(nonEquityPaymentsState(payment._id), payment), []);
+
+  const handleAdd = async () => { 
+    const payment = {
+      executive: executiveId,
+      description: '',
+      amount: ''
+    }
     const newPayment = await createPayment(payment);
-    setPaymentIds([ ...paymentIds, newPayment._id ]);
-    setAdd(false);
+    setPayment({ ...newPayment, new: true });
+    setPaymentIds([ newPayment._id, ...paymentIds ]);
   };  
+ 
+  const removePaymentId = (paymentId) => setPaymentIds(paymentIds.filter((id) => id !== paymentId));
   
   return (
     <>
       <ExecutiveHeader executiveId={ executiveId }/>
       <LoadNonEquityPayments executiveId={ executiveId } />
-      <h2>Non-Equity Payments</h2>
-      { (!add) && <button onClick={ handleAdd }>Add a Payment</button> }
-      { (add) && <NonEquityPayment paymentId={ null } handleCreate={ handleCreate }/> }
-      { paymentIds.map((paymentId) => <NonEquityPayment key={ paymentId } paymentId= { paymentId } />) }
-  </>
+      <SubTitle text="Non-Equity Payments" />
+      <AddButton name="addPayment" text="Add a Payment" handleAdd={ handleAdd } />
+      { paymentIds.map((paymentId) => <NonEquityPayment key={ paymentId } paymentId= { paymentId } removePaymentId={ removePaymentId } />) }
+    </>
   );
   
 };

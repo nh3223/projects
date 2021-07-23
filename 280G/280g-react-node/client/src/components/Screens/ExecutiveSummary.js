@@ -5,11 +5,11 @@ import ExecutiveHeader from '../Navigation/ExecutiveHeader';
 
 const ExecutiveSummary = () => {
   
-  const { id } = useParams();
+  const { companyId, executiveId } = useParams();
 
   return (
     <>
-      <ExecutiveHeader executiveId={ id }/>
+      <ExecutiveHeader companyId={ companyId } executiveId={ executiveId }/>
       <h1>Executive Summary</h1>
     </>
   );

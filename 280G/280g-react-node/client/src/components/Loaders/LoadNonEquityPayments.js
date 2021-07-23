@@ -3,26 +3,29 @@ import { useRecoilState } from 'recoil';
 
 import Loading from './Loading';
 import { fetchPayments } from '../../api/nonEquityPayments';
-import { nonEquityPaymentsState } from '../../recoil/nonEquityPayments';
+import { nonEquityPaymentIdsState } from '../../recoil/nonEquityPayments';
+
+import LoadNonEquityPayment from './LoadNonEquityPayment';
 
 const LoadNonEquityPayments = ({ executiveId }) => {
 
-  const [ payments, setPayments ] = useRecoilState(nonEquityPaymentsState(executiveId));
-  const [ loading, setLoading ] = useState(true);
+  const [ paymentIds, setPaymentIds ] = useRecoilState(nonEquityPaymentIdsState(executiveId));
+  const [ loadComplete, setLoadComplete ] = useState(false);
 
   useEffect(() => {
 
-    const getPayments = async () => {
-      const paymentData = await fetchPayments(executiveId);
-      setPayments(paymentData);
-      setLoading(false);
+    const getPaymentIds = async () => {
+      const payments= await fetchPayments(executiveId);
+      setPaymentIds(payments.map((payment) => payment._id));
+      setLoadComplete(true);
     };
+    if (executiveId && paymentIds.length === 0) getPaymentIds();
 
-    if (payments.length === 0) getPayments();
+  }, [executiveId, paymentIds.length, setPaymentIds]);  
 
-  }, [executiveId, payments.length, setPayments]);  
-
-  return loading && <Loading componentMessage="Non-Equity Payments" />
+  return (loadComplete)
+  ? paymentIds.map((id) => <LoadNonEquityPayment key={ id } paymentId={ id } />)
+  : <Loading componentMessage="Non-Equity Payments . . ." />
 
 };
 

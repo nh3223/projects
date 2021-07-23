@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilState, useRecoilCallback } from 'recoil';
 
 import Executive from './Executive';
@@ -27,12 +27,10 @@ const Executives = ({ companyId }) => {
 
   const removeExecutiveId = (executiveId) => setExecutiveIds(executiveIds.filter((id) => id !== executiveId));
 
-  console.log('executives', 'add', 'ids', executiveIds);
-
   return (
     <>
       <SubTitle text="Executives" />
-      { <AddButton name="addExecutive" text="Add an Executive" handleAdd={ handleAdd } /> }
+      <AddButton name="addExecutive" text="Add an Executive" handleAdd={ handleAdd } />
       { (executiveIds) && executiveIds.map((id) => <Executive key={ id } executiveId={ id } removeExecutiveId={ removeExecutiveId } />) }
     </>
   );

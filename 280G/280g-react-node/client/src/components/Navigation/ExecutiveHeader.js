@@ -1,13 +1,14 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-const ExecutiveHeader = ({ executiveId }) => (
+import HeaderItem from './HeaderItem';
+
+const ExecutiveHeader = ({ companyId, executiveId }) => (
   <>
-    <NavLink to={ `/executive/${executiveId}` }>Executive Summary</NavLink>
-    <NavLink to={ `/executive/${executiveId}/compensation` }>Compensation</NavLink>
-    <NavLink to={ `/executive/${executiveId}/non-equity-payments` }>Non-Equity Payments</NavLink>
-    <NavLink to={ `/executive/${executiveId}/options` }>Options</NavLink>
-    <NavLink to={ `/executive/${executiveId}/restricted-stock` }>Restricted Stock</NavLink>
+    <HeaderItem path={ `/company/${companyId}/executive/${executiveId}` } text="Executive Summary" />
+    <HeaderItem path={ `/company/${companyId}/executive/${executiveId}/compensation` } text="Compensation" />
+    <HeaderItem path={ `/company/${companyId}/executive/${executiveId}/non-equity-payments` } text="Non-Equity Payments" />
+    <HeaderItem path={ `/company/${companyId}/executive/${executiveId}/options` } text="Options" />
+    <HeaderItem path={ `/company/${companyId}/executive/${executiveId}/restricted-stock` } text="Restricted Stock" />
   </>
 );
 

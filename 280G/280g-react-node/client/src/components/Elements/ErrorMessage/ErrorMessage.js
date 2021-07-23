@@ -2,8 +2,8 @@ import React from 'react';
 
 import StyledErrorMessage from './StyledErrorMessage';
 
-const ErrorMessage = ({ message }) => (
-  <StyledErrorMessage>{ message }</StyledErrorMessage>
+const ErrorMessage = ({ text }) => (
+  <StyledErrorMessage>{ text }</StyledErrorMessage>
 );
 
 export default ErrorMessage;

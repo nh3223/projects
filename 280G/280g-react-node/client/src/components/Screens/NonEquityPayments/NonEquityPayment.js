@@ -5,47 +5,38 @@ import { deletePayment, editPayment } from '../../../api/nonEquityPayments';
 import { nonEquityPaymentsState } from '../../../recoil/nonEquityPayments';
 import { allTrue } from '../../../utilities/checkObject';
 
-import Description from './Description/Description';
-import Amount from './Amount/Amount';
+import PaymentDescription from './PaymentDescription/PaymentDescription';
+import PaymentAmount from './PaymentAmount/PaymentAmount';
 
-const NonEquityPayment = ({ paymentId, add, handleCreate }) => {
+const NonEquityPayment = ({ paymentId, removePaymentId }) => {
 
   const [ payment, setPayment ] = useRecoilState(nonEquityPaymentsState(paymentId));
-  const [ completed, setCompleted ] = useState({ });
+  const [ completed, setCompleted ] = useState((payment.new) ? {description: false, amount: false} : {description: true, amount: true});
 
-  const amountHandlers = {
-    edit: () => setCompleted({ ...completed, amount: false }),
-    change: (e) => setPayment({ ...payment, amount: e.target.value }),
-    submit: async () => {
-      if (!add) await editPayment(payment);
-      setCompleted({ ...completed, amount: true });
+  const handlers = {
+    change: ({ target: { name, value }}) => setPayment({ ...payment, [name]: value }),
+    edit: ({ target: { name }}) => setCompleted({ ...completed, [name]: false }),
+    submit: async ({ target: { name }}) => {
+      await editPayment(payment);
+      setCompleted({ ...completed, [name]: true });
     },
     deletePayment: async () => {
       await deletePayment(paymentId);
       setPayment({ });
-    }
-  };
-
-  const descriptionHandlers = {
-    edit: () => setCompleted({ ...completed, description: false }),
-    change: (e) => setPayment({ ...payment, description: e.target.value }),
-    submit: async () => {
-      if (!add) await editPayment(payment);
-      setCompleted({ ...completed, description: true });
-    }
+      removePaymentId(paymentId);
+    }    
   };
 
   useEffect(() => {
-    const createPayment = async () => await handleCreate(payment);
-    if (add & allTrue(completed)) createPayment();
-  }, [add, completed, payment, handleCreate])
 
-  useEffect(() => (add) ? setCompleted({ description: false, amount: false }) : setCompleted({ description: true, amount: true }), [add, setCompleted]);
+    if (payment.new && allTrue(completed)) setPayment({ ...payment, new: false }); 
+  
+  }, [payment, completed, setPayment])
 
   return (
     <>
-      <Description description={ payment.description } completed={ completed.description } handlers={ descriptionHandlers }/>
-      <Amount amount={ payment.amount } completed={ completed.amount } handlers={ amountHandlers }/>
+      <PaymentDescription description={ payment.description } completed={ completed.description } handlers={ handlers }/>
+      <PaymentAmount amount={ payment.amount } completed={ completed.amount } handlers={ handlers }/>
     </>
   )
 

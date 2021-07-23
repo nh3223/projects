@@ -13,6 +13,8 @@ import LoadNonEquityPayments from './LoadNonEquityPayments';
 
 const LoadExecutive = ({ executiveId }) => {
   
+  console.log('executiveId', executiveId);
+
   const [ executive, setExecutive ] = useRecoilState(executiveState(executiveId));
   const [ loading, setLoading ] = useState(true);
 

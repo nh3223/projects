@@ -41,7 +41,6 @@ const CompanyInformation = () => {
     const create = async (company) => {
       const { companyName, transactionDate, transactionPrice } = company;
       const companyData = JSON.stringify({ companyName, transactionDate, transactionPrice });
-      console.log('create', companyData);
       const savedCompany = await createCompany(companyData);
       history.push(`/company/${savedCompany._id}/info`);
     };
@@ -50,13 +49,11 @@ const CompanyInformation = () => {
 
   }, [companyId, completed, company, history ]);
 
-  console.log(completed);
-
   return (
     <>
-      <CompanyHeader companyId={ companyId } />
       <LoadCompany companyId={ companyId } />
       <LoadExecutives companyId={ companyId } />
+      <CompanyHeader companyId={ companyId } />
       <h2>Company Information</h2>
       <CompanyName companyName={ company.companyName } completed={ completed.companyName } handlers={ handlers } />
       <TransactionDate transactionDate={ company.transactionDate } completed={ completed.transactionDate } handlers={ handlers } />

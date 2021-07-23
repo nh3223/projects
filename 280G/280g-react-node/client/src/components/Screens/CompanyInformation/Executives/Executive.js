@@ -12,9 +12,6 @@ const Executive = ({ executiveId, removeExecutiveId }) => {
 
   const [ executive, setExecutive ] = useRecoilState(executiveState(executiveId));
   const [ completed, setCompleted ] = useState((executive.new) ? { executiveName: false, title: false } : {executiveName: true, title: true });
-  
-  console.log('Executive', executiveId, executive);
-  console.log('completed', completed);
 
   const handlers = {
     change: ({ target: { name, value }}) => setExecutive({ ...executive, [name]: value }),

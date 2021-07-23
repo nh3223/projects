@@ -7,9 +7,5 @@ export const nonEquityPaymentIdsState = atomFamily({
 
 export const nonEquityPaymentsState = atomFamily({
   key: 'nonEquityPayments',
-  default: {
-    _id: '',
-    description: '',
-    amount:  ''
-  }
+  default: { }
 });

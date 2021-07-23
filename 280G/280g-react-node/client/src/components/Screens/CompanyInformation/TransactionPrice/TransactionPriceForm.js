@@ -22,7 +22,7 @@ const TransactionPriceForm = ({ transactionPrice, handleSubmit, handleChange }) 
   return (
     <>
       <InputForm name="transactionPrice" value={ transactionPrice } handleChange={ processChange } handleSubmit={ validate } />
-      { (error) && <ErrorMessage message={ 'Please enter a valid per share price' } /> }
+      { (error) && <ErrorMessage text={ 'Please enter a valid per share price' } /> }
     </>
   );
 
