@@ -3,13 +3,11 @@ import React from 'react';
 import SubTitle from '../../../Elements/SubTitle/SubTitle';
 import BasePeriodCompensationYear from './BasePeriodCompensationYear';
 
-const BasePeriodCompensation = ({ basePeriodCompensation, handlers }) => (
+const BasePeriodCompensation = ({ basePeriodCompensation, completed, handlers }) => (
   <>
     <SubTitle text="Annual Compensation" />
-    { basePeriodCompensation.map((basePeriodYear) => (
-        (basePeriodYear.year)
-        ? <BasePeriodCompensationYear key={ basePeriodYear.index } basePeriodYear={ basePeriodYear } handlers={ handlers } />
-        : null
+    { Object.entries(basePeriodCompensation).map(([year, compensation]) => (
+        <BasePeriodCompensationYear key={ year } completed={ completed.year } year={ year } compensation={ compensation } handlers={ handlers } />
       ))
     }
   </>
