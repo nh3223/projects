@@ -1,13 +1,14 @@
 import React from 'react';
-import DatePicker from "react-datepicker";
+import { formatISO } from 'date-fns';
 
-import "react-datepicker/dist/react-datepicker.css";
+import DateForm from '../../../Elements/DateForm/DateForm';
 
-const StartDateForm = ({ startDate, handleChange }) => (
-  <>
-    <h2>Employment Start Date: </h2>
-    <DatePicker selected={ startDate } onChange={ handleChange } />
-  </>
-);
+const StartDateForm = ({ startDate, handleChange, handleSubmit }) => {
+  
+  const processChange = (date) => handleChange('transactionDate', formatISO(date));
+
+  return <DateForm name="startDate" date={ startDate } handleChange={ processChange } handleSubmit={ handleSubmit } />;
+
+};
 
 export default StartDateForm;

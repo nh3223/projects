@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { formatISO } from 'date-fns';
 
 import LoadExecutive from '../../Loaders/LoadExecutive';
 import StartDate from './StartDate/StartDate';
@@ -21,53 +20,37 @@ const Compensation = () => {
   const onLoad = useRef(true);
   const startDate = useRef(executive.startDate);
 
-  const startDateHandlers = {
-    change: async (date) => {
-      const updatedExecutive = { ...executive, startDate: formatISO(date) }
-      setExecutive(updatedExecutive);
-      await editExecutive(updatedExecutive);
-      setCompleted({ ...completed, startDate: true });
-    },
-    edit: () => setCompleted({ ...completed, startDate: false })
-  };
-
-  const basePeriodCompensationHandlers = {
-    change: ({ target: { name, value }}) => {
-      const year = Number(name);
-      setExecutive({ ...executive, basePeriodCompensation: { ...executive.basePeriocCompensation, [year]: value} });
-    },
-    edit: (e) => {
-      const year = Number(e.target.name);
-      setCompleted({ ...completed, basePeriodCompensation: { ...executive.basePeriodCompensation, [year]: false } });
-    },
-    submit: async (year) => {
-      await editExecutive(executive);
-      setCompleted({ ...completed, basePeriodCompensation: { ...executive.basePeriodCompensation, [year]: true } });
+  const handlers = {
+    change: (name, value) => setExecutive({ ...executive, [name]: value }),
+    edit: ({ target: { name }}) => setCompleted({ ...completed, [name]: false }),
+    submit: async ({ target: { name }}) => {
+      await editExecutive({ [name]: executive[name] });
+      setCompleted({ ...completed, [name]: true });
     }
   };
 
-  const firstYearPaymentHandlers = {
-    change: (e) => setExecutive({ ...executive, firstYearPayments: e.target.value }),
-    edit: () => setCompleted({ ...completed, firstYearPayments: false }),
-    submit: async () => {
-      await editExecutive(executive);
-      setCompleted({ ...completed, firstYearPayments: true });
+  const basePeriodCompensationHandlers = {
+    change: (name, value) => setExecutive({ ...executive, basePeriodCompensation: { ...executive.basePeriodCompensation, [name]: value }}),
+    edit: ({target: { name }}) => setCompleted({ ...completed, basePeriodCompensation: { ...executive.basePeriodCompensation, [name]: false }}),
+    submit: async ({Target: { name }}) => {
+      const basePeriodCompensation = []
+      for (const [year, compensation] in Object.entries(executive.basePeriodCompensation)) {
+        basePeriodCompensation.push({ year, compensation });
+      } 
+      await editExecutive({ basePeriodCompensation });
+      setCompleted({ ...completed, basePeriodCompensation: { ...executive.basePeriodCompensation, [name]: true } });
     }
   };
 
   useEffect(() => {    
     if (onLoad) {  
-      const startDateCompleted = (executive.startDate) ? true : false;
-      const firstYearPaymentsCompleted = (executive.firstYearPayments) ? true : false;
-      const compensationCompleted = {};
-      for (const year in executive.basePeriodCompensation) {
-        compensationCompleted[year] = (executive.basePeriodCompensation[year]) ? true : false;
+      const basePeriodCompleted = {};
+      basePeriodCompleted['startDate'] = (executive.startDate) ? true : false;
+      basePeriodCompleted['firstYearPayments'] = (executive.firstYearPayments) ? true : false;
+      for (const [year, compensation] in Object.entries(executive.basePeriodCompensation)) {
+        basePeriodCompleted[year] = (compensation) ? true : false;
       }
-      setCompleted({
-        startDate: startDateCompleted,
-        firstYearPayments: firstYearPaymentsCompleted,
-        basePeriodCompensation: compensationCompleted
-      });
+      setCompleted(basePeriodCompleted);
       onLoad.current = false;
     }
   }, [executive, setCompleted])
@@ -75,8 +58,8 @@ const Compensation = () => {
   useEffect(() => {
     if ((startDate.current !== executive.startDate) && executive.startDate) {
       const years = (getYears(executive.startDate));
-      const compensation = getCompensation(years, executive.basePeriodCompensation);
-      setExecutive({ ...executive, basePeriodCompensation: compensation });
+      const basePeriodCompensation = getCompensation(years, executive.basePeriodCompensation);
+      setExecutive({ ...executive, basePeriodCompensation });
       startDate.current = executive.startDate;
     }
   }, [executive, setExecutive]);
@@ -86,9 +69,9 @@ const Compensation = () => {
       <ExecutiveHeader executiveId={ executiveId } />
       <LoadExecutive executiveId={ executiveId } />
       <h1>Executive: { executive.name }</h1>
-      <StartDate startDate={ executive.startDate } completed={ completed.startDate } handlers={ startDateHandlers } />
-      <BasePeriodCompensation  basePeriodCompensation={ executive.basePeriodCompensation } startDate={ executive.startDate } completed={ completed.basePeriodCompensation } handlers={ basePeriodCompensationHandlers } />
-      <FirstYearPayments firstYearPayments={ executive.firstYearPayments } completed={ completed.firstYearPayments } handlers={ firstYearPaymentHandlers } />        
+      <StartDate startDate={ executive.startDate } completed={ completed.startDate } handlers={ handlers } />
+      <BasePeriodCompensation  basePeriodCompensation={ executive.basePeriodCompensation } handlers={ basePeriodCompensationHandlers } />
+      <FirstYearPayments firstYearPayments={ executive.firstYearPayments } completed={ completed.firstYearPayments } handlers={ handlers } />        
     </>  
   );
 };

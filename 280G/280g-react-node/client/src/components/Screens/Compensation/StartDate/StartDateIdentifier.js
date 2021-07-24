@@ -1,16 +1,11 @@
 import React from 'react';
-import { format } from 'date-fns';
 
-const StartDateIdentifier = ({ startDate, handleEdit }) => {
-  
-  const formattedDate = format(startDate, 'd MMM yyyy');
-  
-  return (
-    <>
-      <h2>Employment Start Date: { formattedDate }</h2>
-      <button onClick={ handleEdit }>Edit</button>
-    </>
-  );
-};
+import { formatDate } from '../../../../utilities/formatDate';
+
+import Identifier from '../../../Elements/Identifier/Identifier';
+
+const StartDateIdentifier = ({ startDate, handleEdit }) => (
+  <Identifier text={ formatDate(startDate) } name="startDate" handleEdit={ handleEdit } />
+);
 
 export default StartDateIdentifier;

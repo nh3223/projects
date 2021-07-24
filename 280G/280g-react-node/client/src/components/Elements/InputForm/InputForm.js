@@ -1,18 +1,21 @@
 import React from 'react';
 
 import StyledInput from './StyledInput';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
-const InputForm = ({ name, value, handleChange, handleSubmit }) => {
+const InputForm = ({ name, value, handleChange, handleSubmit, errorMessage }) => {
 
-  const submit = (e) => {
+  const processChange = ({ target: { name, value }}) => handleChange(name, value);
+
+  const processSubmit = (e) => {
     e.preventDefault();
-    console.log('inputForm submit');
     handleSubmit(e);
   };
 
   return (
-    <form name={ name } onSubmit={ submit }>
-      <StyledInput name={ name } type="text" value={ value } onChange={ handleChange } />
+    <form name={ name } onSubmit={ processSubmit }>
+      <StyledInput name={ name } type="text" value={ value } onChange={ processChange } />
+      <ErrorMessage text={ errorMessage } />
     </form>
   );
 

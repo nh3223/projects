@@ -1,7 +1,6 @@
 import { getYear } from 'date-fns';
 
 export const convertCompensation = (compensation) => {
-  console.log('convertcompensation', compensation);
   if (!compensation) return {};
   const executiveCompensation = {}
   for (const year of compensation) {
@@ -23,7 +22,7 @@ export const getYears = (startDate) => {
 };
 
 export const getCompensation = (years, compensation) => {
-  const basePeriodCompensation = {};
+  const basePeriodCompensation = { } 
   for (const year of years) {
     basePeriodCompensation[year] = (Object.keys(compensation).includes(year.toString())) ? compensation[year] : '';
   }

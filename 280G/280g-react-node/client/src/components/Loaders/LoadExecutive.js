@@ -3,18 +3,16 @@ import { useRecoilState } from "recoil";
 
 import { executiveState } from '../../recoil/executive';
 import { fetchExecutive } from '../../api/executive';
-import { convertCompensation } from '../../utilities/getCompensation';
 
 import Loading from './Loading';
 import LoadNonEquityPayments from './LoadNonEquityPayments';
+import { convertCompensation } from '../../utilities/getCompensation';
 
 // import LoadOptions from './LoadOptions';
 // import LoadRestrictedStock from './LoadRestrictedStock';
 
 const LoadExecutive = ({ executiveId }) => {
   
-  console.log('executiveId', executiveId);
-
   const [ executive, setExecutive ] = useRecoilState(executiveState(executiveId));
   const [ loading, setLoading ] = useState(true);
 

@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 
-import FirstYearPaymentsIdentifier from './FirstYearPaymentsIdentifier';
-import FirstYearPaymentsForm from './FirstYearPaymentsForm';
+import Description from '../../../Elements/Description/Description';
+import Identifier from '../../../Elements/Identifier/Identifier';
+import InputForm from '../../../Elements/InputForm/InputForm';
 
 const FirstYearPayments = ({ firstYearPayments, completed, handlers: { change, edit, submit }}) => {
 
-  const [ error, setError ] = useState(false);
+  const [ errorMessage, setErrorMessage ] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const payments = Number(firstYearPayments);
-    if (payments) {
-      await submit();
-      setError(false);
+  const validate = async (e) => {
+    if (Number(firstYearPayments) && Number(firstYearPayments) > 0) {
+      await submit(e);
+      setErrorMessage(null);
     } else {
-      setError(true);
+      setErrorMessage('Please enter a valid payment amount');
     }
   };
 
   return (
     <>
+      <Description text="Non-recurring payments in first year of employment: " />
       { completed
-      ? <FirstYearPaymentsIdentifier firstYearPayments={ firstYearPayments } handleEdit={ edit }/>
-      : <FirstYearPaymentsForm firstYearPayments={ firstYearPayments } handleSubmit={ handleSubmit } handleChange={ change } error={ error } />
+      ? <Identifier name="firstYearPayments" text={ `$${firstYearPayments}` } handleEdit={ edit }/>
+      : <InputForm name="firstYearPayments" value={ firstYearPayments } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage } />
       } 
     </>
   );

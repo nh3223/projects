@@ -8,3 +8,4 @@ const BasePeriodCompensationIdentifier = ({ year, compensation, handleEdit }) =>
 );
 
 export default BasePeriodCompensationIdentifier;
+

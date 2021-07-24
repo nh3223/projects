@@ -8,3 +8,5 @@ const BasePeriodCompensationForm = ({ year, compensation, handleChange, handleSu
 );
 
 export default BasePeriodCompensationForm;
+
+<InputForm name={ year } value

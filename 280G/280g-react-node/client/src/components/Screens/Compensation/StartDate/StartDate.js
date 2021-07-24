@@ -1,19 +1,22 @@
 import React from 'react';
-import { parseISO } from 'date-fns';
 
-import StartDateIdentifier from './StartDateIdentifier';
-import StartDateForm from './StartDateForm';
+import { parse, formatDate } from '../../../../utilities/formatDate';
+
+import Description from '../../../Elements/Description/Description';
+import Identifier from '../../../Elements/Identifier/Identifier';
+import DateForm from '../../../Elements/DateForm/DateForm';
 
 
-const StartDate = ({ startDate, completed, handlers: { change, edit }}) => {
+const StartDate = ({ startDate, completed, handlers: { change, edit, submit }}) => {
   
-  const date = parseISO(startDate);
+  const date = parse(startDate);
   
   return (
     <>
+      <Description text="Employment Start Date" />
       { completed
-      ? <StartDateIdentifier startDate={ date } handleEdit={ edit }/>
-      : <StartDateForm startDate={ date } handleChange={ change } />
+      ? <Identifier text={ formatDate(date) } name="startDate" handleEdit={ edit }/>
+      : <DateForm name="startDate" date={ date } handleChange={ change } handleSubmit={ submit }/>
       } 
     </>
   );
