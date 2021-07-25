@@ -28,10 +28,7 @@ const CompanyInformation = () => {
     change: async (name, value) => setCompany({ ...company, [name]: value }),
     edit: ({ target: { name } }) => setCompleted({ ...completed, [name]: false }),
     submit: async ({ target: { name } }) => {
-      if (companyId) {
-        const companyData = JSON.stringify(company);
-        await editCompany(companyId, companyData);
-      }
+      if (companyId) await editCompany(companyId, company);
       setCompleted({ ...completed, [name]: true })
     }
   };
@@ -39,9 +36,7 @@ const CompanyInformation = () => {
   useEffect(() => {
     
     const create = async (company) => {
-      const { companyName, transactionDate, transactionPrice } = company;
-      const companyData = JSON.stringify({ companyName, transactionDate, transactionPrice });
-      const savedCompany = await createCompany(companyData);
+      const savedCompany = await createCompany(company);
       history.push(`/company/${savedCompany._id}/info`);
     };
     

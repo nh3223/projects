@@ -1,20 +1,22 @@
 import React from 'react';
-import { parseISO } from 'date-fns';
+
+import { parse, formatDate } from '../../../../utilities/formatDate';
+
 
 import Description from '../../../Elements/Description/Description';
-import TransactionDateIdentifier from './TransactionDateIdentifier';
-import TransactionDateForm from './TransactionDateForm';
+import Identifier from '../../../Elements/Identifier/Identifier';
+import DateForm from '../../../Elements/DateForm/DateForm';
 
 const TransactionDate = ({ transactionDate, completed, handlers: { edit, change, submit }}) => {
   
-  const date = parseISO(transactionDate);
+  const date = parse(transactionDate);
 
   return (
     <>
       <Description text={ 'Transaction Date: ' } />
       { (completed)
-      ? <TransactionDateIdentifier transactionDate={ date } handleEdit={ edit }/>
-      : <TransactionDateForm transactionDate={ date } handleChange={ change } handleSubmit={ submit } />
+      ? <Identifier name="transactionDate" text={ formatDate(date) } handleEdit={ edit }/>
+      : <DateForm name="transactionDate" date={ transactionDate } handleChange={ change } handleSubmit={ submit } />
       } 
     </>
   );

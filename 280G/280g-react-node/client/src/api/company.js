@@ -15,7 +15,7 @@ export const createCompany = async (company) => {
   const options = {
     method: 'POST', 
     headers: { "Content-Type": "application/json" },
-    body: company
+    body: JSON.stringify(company)
   };
   console.log('create company', options)
   const response = await fetch(url, options);
@@ -27,9 +27,8 @@ export const editCompany = async (id, company) => {
   const options = {
     method: 'PATCH', 
     headers: { "Content-Type": "application/json" },
-    body: company
+    body: JSON.stringify(company)
   };
-  console.log('edit company', company);
   const response = await fetch(url, options);
   return await response.json();
 };
