@@ -1,15 +1,20 @@
 import React from 'react';
 
 import Description from '../../../../Elements/Description/Description';
-import TitleForm from './TitleForm';
-import TitleIdentifier from './TitleIdentifier';
+import Identifier from '../../../../Elements/Identifier/Identifier';
+import DeleteButton from '../../../../Elements/DeleteButton/DeleteButton';
+import InputForm from '../../../../Elements/InputForm/InputForm';
+
 
 const Title = ({ title, completed, handlers: { edit, change, submit, handleDelete }}) => (
   <>
     <Description text="Title: " />
     { completed
-      ? <TitleIdentifier title={ title } handleEdit={ edit } handleDelete={ handleDelete } />
-      : <TitleForm title={ title } handleChange={ change } handleSubmit={ submit } />
+      ? <>
+          <Identifier name="title" text={ title } handleEdit={ edit } />
+          <DeleteButton name="deleteExecutive" text="Delete Executive" handleDelete={ handleDelete } />
+        </>
+      : <InputForm name={ title } value={ title } handleChange={ change } handleSubmit={ submit } />
     }
   </>
 

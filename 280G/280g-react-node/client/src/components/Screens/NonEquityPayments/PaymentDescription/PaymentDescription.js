@@ -1,15 +1,15 @@
 import React from 'react';
 
 import Description from '../../../Elements/Description/Description';
-import PaymentDescriptionForm from './PaymentDescriptionForm';
-import PaymentDescriptionIdentifier from './PaymentDescriptionIdentifier';
+import Identifier from '../../../Elements/Identifier/Identifier';
+import InputForm from '../../../Elements/InputForm/InputForm';
 
 const PaymentDescription = ({ description, completed, handlers: { edit, change, submit } }) => (
   <>
     <Description text="Payment Description: " />
     { completed
-      ? <PaymentDescriptionIdentifier description={ description } handleEdit={ edit } />
-      : <PaymentDescriptionForm description={ description } handleChange={ change } handleSubmit={ submit } />
+      ? <Identifier name="paymentDescription" text={ description } handleEdit={ edit } />
+      : <InputForm name="paymentDescription" value={ description } handleChange={ change } handleSubmit={ submit } />
     }
   </>
 );
