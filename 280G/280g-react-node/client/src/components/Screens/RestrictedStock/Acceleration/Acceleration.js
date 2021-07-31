@@ -1,12 +1,20 @@
 import React from 'react';
 
-import AccelerationForm from './AccelerationForm';
-import AccelerationIdentifier from './AccelerationIdentifier';
+import CheckboxForm from '../../../Elements/CheckboxForm/CheckBoxForm';
+import AccelerationPercentage from './AccelerationPercentage';
+import AccelerationMethod from './AccelerationMethod';
 
-const Acceleration = ({ percentageAcceleration, accelerationMethod, completed, handlers }) => (
-  (completed)
-    ? <AccelerationForm percentageAcceleration={ percentageAcceleration } accelerationMethod={ accelerationMethod } handlers={ handlers } />
-    : <AccelerationIdentifier percentageAcceleration={ percentageAcceleration } accelerationMethod={ accelerationMethod } handlers={ handlers } />
+const Acceleration = ({ grant: { acceleration, accelerationPercentage, accelerationMethod }, completed, handlers }) => (
+  <>
+    <CheckboxForm name="acceleration" text="Are the shares subject to acceleration?" checked={ acceleration } handleChange={ handlers.change } />
+    { (acceleration)
+      ? <>
+          <AccelerationPercentage name="accelerationPercentage" completed={ completed } accelerationPercentage={ accelerationPercentage } handlers={ handlers } />
+          <AccelerationMethod name="accelerationMethod" accelerationMethod={ accelerationMethod } handleChange={ handlers.change }/>
+        </>
+      : null
+    }
+  </>
 );
 
 export default Acceleration;

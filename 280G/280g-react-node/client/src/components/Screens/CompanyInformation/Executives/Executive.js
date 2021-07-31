@@ -35,8 +35,8 @@ const Executive = ({ executiveId, removeExecutiveId }) => {
 
   return (
     <>
-      <Name name={ executive.executiveName } completed={ completed.executiveName } handlers={ handlers } />
-      <Title title={ executive.title } completed={ completed.title } handlers={ handlers } />
+      <Name name="executiveName" executiveName={ executive.executiveName } completed={ completed.executiveName } handlers={ handlers } />
+      <Title name="executiveTitle" title={ executive.title } completed={ completed.title } handlers={ handlers } />
     </>
   );
 

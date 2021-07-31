@@ -1,23 +1,19 @@
 import React from 'react';
-import { parseISO } from 'date-fns';
 
-import GrantDateIdentifier from './GrantDateIdentifier';
-import GrantDateForm from './GrantDateForm';
+import { formatDate } from '../../../../utilities/formatDate';
 
-const GrantDate = ({ grantDate, completed, handlers: { change, edit } }) => {
+import Description from '../../../Elements/Description/Description';
+import Identifier from '../../../Elements/Identifier/Identifier';
+import DateForm from '../../../Elements/DateForm/DateForm';
 
-  const date = parseISO(grantDate);
-
-  return (
-    <>
-      <h2>Grant Date:</h2>
-      { (completed)
-      ? <GrantDateForm grantDate={ date } handleChange={ change } />
-      : <GrantDateIdentifier grantDate={ date } handleEdit={ edit }/>
-      } 
-    </>
-  );
-
-};
+const GrantDate = ({ name, grantDate, completed, handlers: { change, edit, submit } }) => (
+  <>
+    <Description text="Grant Date" />
+    { (completed)
+    ? <Identifier name={ name } text={ formatDate(grantDate) } handleEdit={ edit } />
+    : <DateForm name={ name } date={ grantDate } handleChange={ change } handleSubmit={ submit } />
+    } 
+  </>
+);
 
 export default GrantDate;

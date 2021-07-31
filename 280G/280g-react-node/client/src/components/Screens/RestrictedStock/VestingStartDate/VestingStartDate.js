@@ -1,22 +1,19 @@
 import React from 'react';
-import { parseISO } from 'date-fns';
 
-import VestingStartDateIdentifier from './VestingStartDateIdentifier';
-import VestingStartDateForm from './VestingStartDateForm';
+import { formatDate } from '../../../../utilities/formatDate';
 
-const VestingStartDate = ({ vestingStartDate, completed, handlers: { change, edit } }) => {
+import Description from '../../../Elements/Description/Description';
+import Identifier from '../../../Elements/Identifier/Identifier';
+import DateForm from '../../../Elements/DateForm/DateForm';
 
-  const date = parseISO(vestingStartDate);
-
-  return (
-    <>
-      { (completed)
-      ? <VestingStartDateForm vestingStartDate={ date } handleChange={ change } />
-      : <VestingStartDateIdentifier vestingStartDate={ date } handleEdit={ edit }/>
-      } 
-    </>
-  );
-
-};
+const VestingStartDate = ({ name, vestingStartDate, completed, handlers: { change, edit, submit } }) => (
+  <>
+    <Description text="Vesting Start Date: " />
+    { (completed)
+    ? <Identifier name={ name } text={ formatDate(vestingStartDate) } handleEdit={ edit }/>
+    : <DateForm name={ name } date={ vestingStartDate } handleChange={ change } handleSubmit={ submit }/>
+    } 
+  </>
+);
 
 export default VestingStartDate;

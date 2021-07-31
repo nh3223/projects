@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useRecoilState, useRecoilCallback } from 'recoil';
-import { createGrant } from '../../../api/restrictedStock';
+import { createGrant, deleteGrant } from '../../../api/restrictedStock';
 
 import { restrictedStockGrantIdsState, restrictedStockGrantState } from '../../../recoil/restrictedStock';
 
+import CompanyHeader from '../../Navigation/CompanyHeader';
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
+import SubTitle from '../../Elements/SubTitle/SubTitle';
+import AddButton from '../../Elements/AddButton/AddButton';
 import RestrictedStockGrant from './RestrictedStockGrant';
+import GrantListItem from '../../Elements/ListItem/GrantListItem/GrantListItem';
 
 const RestrictedStock = () => {
   
-  const { executiveId } = useParams();
+  const { companyId, executiveId } = useParams();
 
   const [ grantIds, setGrantIds ] = useRecoilState(restrictedStockGrantIdsState(executiveId));
   const [ add, setAdd ] = useState(false);
+
+  const history = useHistory();
 
   const setGrant = useRecoilCallback(({ set }) => (grant) => set(restrictedStockGrantState(grant._id), grant), []);
 
@@ -24,17 +30,24 @@ const RestrictedStock = () => {
     setGrant(newGrant);
     setGrantIds([ ...grantIds, newGrant._id ]);
     setAdd(false);
+    history.push(`/company/${companyId}/executive/${executiveId}/restricted-stock/${newGrant._id}`)
   };
 
-  const removeGrantId = (grantId) => setGrantIds(grantIds.filter((id) => id !== grantId));
+  const handleDelete = async (grantId) => {
+    await deleteGrant(grantId);
+    setGrantIds(grantIds.filter((id) => id !== grantId));
+  }
 
   return (
     <>
+      <CompanyHeader companyId={ companyId } />
       <ExecutiveHeader executiveId={ executiveId } />
-      <h1>Restricted Stock Grants</h1>
-      { (!add) && <button onClick={ handleAdd }>Add a Restricted Stock Grant</button> }
-      { (add) && <RestrictedStockGrant grantId={ null } handleCreate={ handleCreate }/>}
-      { grantIds.map((grantId) => <RestrictedStockGrant key={ grantId } grantId={ grantId } add={ add } removeGrantId={ removeGrantId } />) }
+      <SubTitle text="Restricted Stock Grants" />
+      { (add)
+        ? <RestrictedStockGrant grantId={ null } add={ add } handleCreate={ handleCreate }/>
+        : <AddButton name="addRestrictedStockGrant" text="Add a Restricted Stock Grant" handleAdd={ handleAdd } />
+      }
+      { grantIds.map((grantId) => <GrantListItem key={ grantId } companyId={ companyId } executiveId={ executiveId } grantId={ grantId } handleDelete={ handleDelete } />) }
     </>
   );
 };

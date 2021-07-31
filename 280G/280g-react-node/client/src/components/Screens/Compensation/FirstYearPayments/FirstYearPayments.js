@@ -4,7 +4,7 @@ import Description from '../../../Elements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/InputForm/InputForm';
 
-const FirstYearPayments = ({ firstYearPayments, completed, handlers: { change, edit, submit }}) => {
+const FirstYearPayments = ({ name, firstYearPayments, completed, handlers: { change, edit, submit }}) => {
 
   const [ errorMessage, setErrorMessage ] = useState(null);
 
@@ -21,8 +21,8 @@ const FirstYearPayments = ({ firstYearPayments, completed, handlers: { change, e
     <>
       <Description text="Non-recurring payments in first year of employment: " />
       { completed
-      ? <Identifier name="firstYearPayments" text={ `$${firstYearPayments}` } handleEdit={ edit }/>
-      : <InputForm name="firstYearPayments" value={ firstYearPayments } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage } />
+      ? <Identifier name={ name } text={ `$${firstYearPayments}` } handleEdit={ edit }/>
+      : <InputForm name={ name } value={ firstYearPayments } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage } />
       } 
     </>
   );

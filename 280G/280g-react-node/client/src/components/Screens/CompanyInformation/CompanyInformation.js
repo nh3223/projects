@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil'
 import { companyState } from '../../../recoil/company';
 import { createCompany, editCompany } from '../../../api/company';
 import { allTrue } from '../../../utilities/checkObject';
+import { parse } from '../../../utilities/formatDate';
 
 import LoadCompany from '../../Loaders/LoadCompany';
 import LoadExecutives from '../../Loaders/LoadExecutives';
@@ -13,6 +14,7 @@ import CompanyName from './CompanyName/CompanyName';
 import TransactionDate from './TransactionDate/TransactionDate';
 import TransactionPrice from './TransactionPrice/TransactionPrice';
 import Executives from './Executives/Executives';
+import SubTitle from '../../Elements/SubTitle/SubTitle';
 
 const CompanyInformation = () => {
 
@@ -49,10 +51,10 @@ const CompanyInformation = () => {
       <LoadCompany companyId={ companyId } />
       <LoadExecutives companyId={ companyId } />
       <CompanyHeader companyId={ companyId } />
-      <h2>Company Information</h2>
-      <CompanyName companyName={ company.companyName } completed={ completed.companyName } handlers={ handlers } />
-      <TransactionDate transactionDate={ company.transactionDate } completed={ completed.transactionDate } handlers={ handlers } />
-      <TransactionPrice transactionPrice={ company.transactionPrice } completed={ completed.transactionPrice } handlers={ handlers } />
+      <SubTitle text="Company Information" />
+      <CompanyName name="companyName" companyName={ company.companyName } completed={ completed.companyName } handlers={ handlers } />
+      <TransactionDate name="transactionDate" transactionDate={ parse(company.transactionDate) } completed={ completed.transactionDate } handlers={ handlers } />
+      <TransactionPrice name="transactionPrice" transactionPrice={ company.transactionPrice } completed={ completed.transactionPrice } handlers={ handlers } />
       { companyId && <Executives companyId={ companyId }/> }
     </>
   );

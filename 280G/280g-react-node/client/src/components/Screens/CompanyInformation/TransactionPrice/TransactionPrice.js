@@ -4,7 +4,7 @@ import Description from '../../../Elements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/InputForm';
 
-const TransactionPrice = ({ transactionPrice, completed, handlers: { change, edit, submit }}) => {
+const TransactionPrice = ({ name, transactionPrice, completed, handlers: { change, edit, submit }}) => {
 
   const [ errorMessage, setErrorMessage ] = useState(null);
 
@@ -21,8 +21,8 @@ const TransactionPrice = ({ transactionPrice, completed, handlers: { change, edi
     <>
       <Description text="Transaction Price per Share: " />
       { (completed)
-      ? <Identifier name="transactionPrice" text={ transactionPrice } handleEdit={ edit }/>
-      : <InputForm name="transactionPrice" value={ transactionPrice } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage }/>
+      ? <Identifier name={ name } text={ transactionPrice } handleEdit={ edit }/>
+      : <InputForm name={ name } value={ transactionPrice } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage }/>
       } 
     </>
   );

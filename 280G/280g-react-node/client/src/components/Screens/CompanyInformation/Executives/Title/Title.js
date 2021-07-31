@@ -6,15 +6,15 @@ import DeleteButton from '../../../../Elements/DeleteButton/DeleteButton';
 import InputForm from '../../../../Elements/InputForm/InputForm';
 
 
-const Title = ({ title, completed, handlers: { edit, change, submit, handleDelete }}) => (
+const Title = ({ name, title, completed, handlers: { edit, change, submit, handleDelete }}) => (
   <>
     <Description text="Title: " />
     { completed
       ? <>
-          <Identifier name="title" text={ title } handleEdit={ edit } />
+          <Identifier name={ name } text={ title } handleEdit={ edit } />
           <DeleteButton name="deleteExecutive" text="Delete Executive" handleDelete={ handleDelete } />
         </>
-      : <InputForm name={ title } value={ title } handleChange={ change } handleSubmit={ submit } />
+      : <InputForm name={ name } value={ title } handleChange={ change } handleSubmit={ submit } />
     }
   </>
 

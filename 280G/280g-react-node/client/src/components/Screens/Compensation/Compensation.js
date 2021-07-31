@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
+import { parse } from '../../../utilities/formatDate';
+
 import LoadExecutive from '../../Loaders/LoadExecutive';
 import StartDate from './StartDate/StartDate';
 import BasePeriodCompensation from './BasePeriodCompensation/BasePeriodCompensation';
@@ -69,9 +71,9 @@ const Compensation = () => {
       <ExecutiveHeader executiveId={ executiveId } />
       <LoadExecutive executiveId={ executiveId } />
       <h1>Executive: { executive.name }</h1>
-      <StartDate startDate={ executive.startDate } completed={ completed.startDate } handlers={ handlers } />
+      <StartDate name="startDate" startDate={ parse(executive.startDate) } completed={ completed.startDate } handlers={ handlers } />
       <BasePeriodCompensation  basePeriodCompensation={ executive.basePeriodCompensation } handlers={ basePeriodCompensationHandlers } />
-      <FirstYearPayments firstYearPayments={ executive.firstYearPayments } completed={ completed.firstYearPayments } handlers={ handlers } />        
+      <FirstYearPayments name="firstYearPayments" firstYearPayments={ executive.firstYearPayments } completed={ completed.firstYearPayments } handlers={ handlers } />        
     </>  
   );
 };

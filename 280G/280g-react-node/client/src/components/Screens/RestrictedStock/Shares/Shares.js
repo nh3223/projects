@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 
-import SharesIdentifier from './SharesIdentifier';
-import SharesForm from './SharesForm';
+import Description from '../../../Elements/Description/Description';
+import Identifier from '../../../Elements/Identifier/Identifier';
+import InputForm from '../../../Elements/InputForm/InputForm';
 
-const Shares = ({ numberShares, completed, handlers: { change, edit, submit }}) => {
+const Shares = ({ name, numberShares, completed, handlers: { change, edit, submit }}) => {
 
-  const [ error, setError ] = useState(false);
+  const [ errorMessage, setErrorMessage ] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (Number(numberShares)) {
-      submit();
-      setError(false);
+  const validate = async (e) => {
+     if (Number(numberShares) && Number(numberShares) > 0) {
+      submit(e);
+      setErrorMessage(null);
     } else {
-      setError(true)
+      setErrorMessage('Please enter a valid number of shares')
     }  
   };
 
   return (
     <>
-      <h2>Number of Shares:</h2>
+      <Description text="Number of Shares: " />
       { (completed)
-      ? <SharesIdentifier numberShares={ numberShares } handleEdit={ edit }/>
-      : <SharesForm numberShares={ numberShares } handleSubmit={ handleSubmit } handleChange={ change } error={ error } />
+      ? <Identifier name={ name } text={ numberShares } handleEdit={ edit }/>
+      : <InputForm name={ name } value={ numberShares } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage } />
       } 
     </>
   );

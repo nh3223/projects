@@ -21,39 +21,61 @@ const numberShares = {
   require: true
 };
 
-const changeOfControlGrant = {
+const changeOfControl = {
   type: Boolean,
   require: true
 };
 
-const percentageAcceleration = {
+const acceleration = {
+  type: Boolean,
+  require: true
+}
+
+const accelerationPercentage = {
+  type: Number
+};
+
+const accelerationMethod = {
+  type: String
+};
+
+const cliff = {
+  type: Boolean,
+  require: true
+};
+
+const cliffPercentage = {
+  type: Number
+};
+
+const cliffDuration = {
+  type: Number
+};
+
+const remainderPeriods = {
   type: Number,
   require: true
 };
 
-const accelerationMethod = {
+const remainderType = {
   type: String,
   require: true
-};
-
-const vestingSchedule = {
-  type: [{
-    oldDate: Date,
-    newDate: Date,
-    shares: Number
-  }],
-  required: true
-};
+}
 
 const restrictedStockGrantProperties = {
   executive,
   grantDate,
   vestingStartDate,
   numberShares,
-  changeOfControlGrant,
-  percentageAcceleration,
+  changeOfControl,
+  acceleration,
+  accelerationPercentage,
   accelerationMethod,
-  vestingSchedule
+  cliff,
+  cliffPercentage,
+  cliffDuration,
+  remainderPeriods,
+  remainderType
 };
 
 const restrictedStockGrantSchema = mongoose.Schema(restrictedStockGrantProperties);
