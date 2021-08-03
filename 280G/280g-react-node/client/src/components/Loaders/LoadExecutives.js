@@ -24,8 +24,6 @@ const LoadExecutives = ({ companyId }) => {
 
   }, [companyId, executiveIds.length, setExecutiveIds ]);
 
-  console.log('ids', executiveIds);
-
   return (loadComplete)
     ? executiveIds.map((id) => <LoadExecutive key={ id } executiveId={ id } />)
     : <Loading componentMessage="Executives . . ." />

@@ -5,7 +5,7 @@ export const setGrantData = (grant) => ({
   numberShares: grant.numberShares,
   changeOfControl: grant.changeOfControl,
   acceleration: grant.acceleration,
-  percentageAcceleration: grant.percentageAcceleration,
+  accelerationPercentage: grant.accelerationPercentage,
   accelerationMethod: grant.accelerationMethod,
   cliff: grant.cliff,
   cliffDuration: grant.cliffDuration,
@@ -18,17 +18,17 @@ export const defaultNew = {
   grantDate: false,
   vestingStartDate: false,
   numberShares: false,
-  percentageAcceleration: true,
+  accelerationPercentage: true,
   cliffDuration: true,
   cliffPercentage: true,
-  remainderPeriods: true
+  remainderPeriods: false
 };
 
 export const defaultOld = {
   grantDate: true,
   vestingStartDate: true,
   numberShares: true,
-  percentageAcceleration: true,
+  accelerationPercentage: true,
   cliffDuration: true,
   cliffPercentage: true,
   remainderPeriods: true

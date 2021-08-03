@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CheckboxForm from '../../../Elements/CheckboxForm/CheckBoxForm';
+import CheckboxForm from '../../../Elements/CheckboxForm/CheckboxForm';
 import Note from '../../../Elements/Note/Note';
 
 const ChangeOfControl = ({ changeOfControl, handleChange }) => (

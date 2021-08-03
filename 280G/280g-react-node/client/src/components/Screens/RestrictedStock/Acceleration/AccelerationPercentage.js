@@ -18,6 +18,8 @@ const AccelerationPercentage = ({ name, completed, accelerationPercentage, handl
     }
   } 
   
+  console.log('accelerationpercentage', accelerationPercentage);
+
   return (
     <>
       <Description text="Percentage of unvested shares accelerating: " />

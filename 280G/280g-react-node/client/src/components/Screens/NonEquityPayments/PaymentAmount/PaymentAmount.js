@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import Description from '../../Elements/Description/Description';
+import Description from '../../../Elements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
 import DeleteButton from '../../../Elements/DeleteButton/DeleteButton';
-import InputForm from '../../../../Elements/InputForm/InputForm';
+import InputForm from '../../../Elements/InputForm/InputForm';
 
 const PaymentAmount = ({ amount, completed, handlers: { edit, change, submit, deletePayment }}) => {
   

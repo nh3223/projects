@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Description from '../../../Elements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
-import InputForm from '../../../Elements/InputForm';
+import InputForm from '../../../Elements/InputForm/InputForm';
 
 const TransactionPrice = ({ name, transactionPrice, completed, handlers: { change, edit, submit }}) => {
 

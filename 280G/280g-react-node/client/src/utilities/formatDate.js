@@ -4,4 +4,4 @@ export const parse = (date) => parseISO(date);
 
 export const stringify = (date) => formatISO(date);
 
-export const formatDate = (date) => format(date, 'd MMM yyyy');
+export const formatDate = (date) => format(parse(date), 'd MMM yyyy');

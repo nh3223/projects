@@ -5,7 +5,6 @@ import { useRecoilState } from 'recoil'
 import { companyState } from '../../../recoil/company';
 import { createCompany, editCompany } from '../../../api/company';
 import { allTrue } from '../../../utilities/checkObject';
-import { parse } from '../../../utilities/formatDate';
 
 import LoadCompany from '../../Loaders/LoadCompany';
 import LoadExecutives from '../../Loaders/LoadExecutives';
@@ -53,7 +52,7 @@ const CompanyInformation = () => {
       <CompanyHeader companyId={ companyId } />
       <SubTitle text="Company Information" />
       <CompanyName name="companyName" companyName={ company.companyName } completed={ completed.companyName } handlers={ handlers } />
-      <TransactionDate name="transactionDate" transactionDate={ parse(company.transactionDate) } completed={ completed.transactionDate } handlers={ handlers } />
+      <TransactionDate name="transactionDate" transactionDate={ company.transactionDate } completed={ completed.transactionDate } handlers={ handlers } />
       <TransactionPrice name="transactionPrice" transactionPrice={ company.transactionPrice } completed={ completed.transactionPrice } handlers={ handlers } />
       { companyId && <Executives companyId={ companyId }/> }
     </>

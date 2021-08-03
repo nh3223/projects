@@ -2,9 +2,11 @@ import React from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { stringify } from '../../../utilities/formatDate';
+import { parse, stringify } from '../../../utilities/formatDate';
 
 const DateForm = ({ name, date, handleChange, handleSubmit }) => {
+
+  date = (date) ? parse(date) : new Date();
 
   const processChange = (date) => handleChange(name, stringify(date));
 

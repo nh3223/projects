@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckboxForm from '../../../../Elements/CheckboxForm/CheckBoxForm';
+import CheckboxForm from '../../../Elements/CheckboxForm/CheckboxForm';
 
 import CliffPercentage from './CliffPercentage';
 import CliffDuration from './CliffDuration';

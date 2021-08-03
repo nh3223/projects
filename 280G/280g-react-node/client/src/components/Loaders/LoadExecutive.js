@@ -9,7 +9,7 @@ import LoadNonEquityPayments from './LoadNonEquityPayments';
 import { convertCompensation } from '../../utilities/getCompensation';
 
 // import LoadOptions from './LoadOptions';
-// import LoadRestrictedStock from './LoadRestrictedStock';
+import LoadRestrictedStock from './LoadRestrictedStock';
 
 const LoadExecutive = ({ executiveId }) => {
   
@@ -24,8 +24,8 @@ const LoadExecutive = ({ executiveId }) => {
         _id: executiveData._id,
         executiveName: executiveData.executiveName,
         title: executiveData.title,
-        startDate: executiveData.startDate,
-        firstYearPayments: executiveData.firstYearPayments,
+        startDate: executiveData.startDate || '',
+        firstYearPayments: executiveData.firstYearPayments || '',
         basePeriodCompensation: convertCompensation(executiveData.compensation)
       });
       setLoading(false);
@@ -39,6 +39,7 @@ const LoadExecutive = ({ executiveId }) => {
     <>
       { loading && <Loading componentMessage="Executive" /> }
        <LoadNonEquityPayments executiveId={ executiveId } />
+       <LoadRestrictedStock executiveId={ executiveId } />
     </>
   );
 

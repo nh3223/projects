@@ -10,6 +10,7 @@ export const createGrant = async (grant) => {
 };
 
 export const deleteGrant = async (id) => {
+  console.log('api-restrictedstock-delete', id);
   const url = `http://localhost:5000/restrictedStock/${id}`;
   const options = { method: 'DELETE' };
   const response = await fetch(url, options);

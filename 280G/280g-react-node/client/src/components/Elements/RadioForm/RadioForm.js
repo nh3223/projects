@@ -3,17 +3,23 @@ import React from 'react';
 import StyledRadio from './StyledRadio';
 import Description from '../Description/Description';
 
-const RadioForm = ({ name, values, criteria, handleChange }) => (
+const RadioForm = ({ name, values, criteria, handleChange }) => {
   
-  <form onChange={ handleChange } >
-    { values.map((value) => (
-      <>
-        <StyledRadio name={ name } type="radio" value={ value } checked={ value === criteria } />
-        <Description text={ value } />
-      </> 
-    ))}
-  </form>
+  const processChange = ({ target: { name, value }}) => handleChange(name, value);
 
-);
+  return (
+  
+    <form>
+      { values.map((value) => (
+        <div key={ value }>
+          <StyledRadio name={ name } type="radio" value={ value } checked={ value === criteria } onChange={ processChange } />
+          <Description text={ value } />
+        </div> 
+      ))}
+    </form>
+
+  );
+
+};
 
 export default RadioForm;

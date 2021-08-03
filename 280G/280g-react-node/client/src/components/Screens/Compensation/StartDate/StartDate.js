@@ -7,7 +7,11 @@ import Identifier from '../../../Elements/Identifier/Identifier';
 import DateForm from '../../../Elements/DateForm/DateForm';
 
 
-const StartDate = ({ name, startDate, completed, handlers: { change, edit, submit }}) => (
+const StartDate = ({ name, startDate, completed, handlers: { change, edit, submit }}) => {
+
+  console.log('StartDate', startDate );
+  
+  return (
   <>
     <Description text="Employment Start Date" />
     { completed
@@ -16,5 +20,5 @@ const StartDate = ({ name, startDate, completed, handlers: { change, edit, submi
     } 
   </>
 );
-
+  };
 export default StartDate;

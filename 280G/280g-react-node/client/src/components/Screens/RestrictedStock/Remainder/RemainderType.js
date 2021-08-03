@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RadioForm from '../../../../Elements/RadioForm/RadioForm';
+import RadioForm from '../../../Elements/RadioForm/RadioForm';
 
 const RemainderType = ({ remainderType, handleChange }) => {
   
@@ -11,7 +11,7 @@ const RemainderType = ({ remainderType, handleChange }) => {
     'Other'
   ]
 
-  return <RadioForm values={ values } criteria={ remainderType } handleChange={ handleChange } /> 
+  return <RadioForm name="remainderType" values={ values } criteria={ remainderType } handleChange={ handleChange } /> 
   
 };
 

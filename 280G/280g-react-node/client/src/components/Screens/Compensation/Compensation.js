@@ -71,7 +71,7 @@ const Compensation = () => {
       <ExecutiveHeader executiveId={ executiveId } />
       <LoadExecutive executiveId={ executiveId } />
       <h1>Executive: { executive.name }</h1>
-      <StartDate name="startDate" startDate={ parse(executive.startDate) } completed={ completed.startDate } handlers={ handlers } />
+      <StartDate name="startDate" startDate={ executive.startDate } completed={ completed.startDate } handlers={ handlers } />
       <BasePeriodCompensation  basePeriodCompensation={ executive.basePeriodCompensation } handlers={ basePeriodCompensationHandlers } />
       <FirstYearPayments name="firstYearPayments" firstYearPayments={ executive.firstYearPayments } completed={ completed.firstYearPayments } handlers={ handlers } />        
     </>  

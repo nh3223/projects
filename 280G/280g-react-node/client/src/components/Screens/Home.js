@@ -9,7 +9,7 @@ import { companyState } from '../../recoil/company';
 import { executiveIdsState } from '../../recoil/executive';
 
 import Title from '../Elements/Title/Title';
-import CompanyListItem from '../Elements/CompanyListItem/CompanyListItem';
+import CompanyListItem from '../Elements/ListItem/CompanyListItem/CompanyListItem';
 import AddButton from '../Elements/AddButton/AddButton';
 
 const Home = () => {

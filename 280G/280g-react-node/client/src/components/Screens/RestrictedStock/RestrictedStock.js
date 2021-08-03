@@ -26,14 +26,15 @@ const RestrictedStock = () => {
   const handleAdd = () => setAdd(true);
 
   const handleCreate = async (grant) => {
+    setAdd(false);
     const newGrant = await createGrant(grant);
     setGrant(newGrant);
     setGrantIds([ ...grantIds, newGrant._id ]);
-    setAdd(false);
     history.push(`/company/${companyId}/executive/${executiveId}/restricted-stock/${newGrant._id}`)
   };
 
   const handleDelete = async (grantId) => {
+    console.log('RestrictedStock-handleDelete',grantId)
     await deleteGrant(grantId);
     setGrantIds(grantIds.filter((id) => id !== grantId));
   }
@@ -47,7 +48,7 @@ const RestrictedStock = () => {
         ? <RestrictedStockGrant grantId={ null } add={ add } handleCreate={ handleCreate }/>
         : <AddButton name="addRestrictedStockGrant" text="Add a Restricted Stock Grant" handleAdd={ handleAdd } />
       }
-      { grantIds.map((grantId) => <GrantListItem key={ grantId } companyId={ companyId } executiveId={ executiveId } grantId={ grantId } handleDelete={ handleDelete } />) }
+      { grantIds.map((grantId) => <GrantListItem key={ grantId } companyId={ companyId } executiveId={ executiveId } type="restricted-stock" grantId={ grantId } handleDelete={ handleDelete } />) }
     </>
   );
 };
