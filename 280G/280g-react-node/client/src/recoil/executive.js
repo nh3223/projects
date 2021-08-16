@@ -20,3 +20,14 @@ export const executivePortal = selectorFamily({
   }
 });
 
+
+export const executiveName = atomFamily({
+  key: 'executiveName',
+  default: ''
+});
+
+export const executiveTitle = atomFamily({
+  key: 'executiveTitle',
+  default: ''
+});
+

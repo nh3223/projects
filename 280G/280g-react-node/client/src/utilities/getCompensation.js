@@ -1,4 +1,24 @@
-import { getYear } from 'date-fns';
+import { getYear, endOfYear, getDaysInYear, differenceInCalendarDays } from 'date-fns';
+
+export const annualize = (startDate, firstYearPayments, basePeriodCompensation) => {
+  const workingDays = differenceInCalendarDays( endOfYear(startDate), startDate) + 1
+  const firstYearCompensation = basePeriodCompensation[0].compensation;
+  return firstYearPayments + (firstYearCompensation - firstYearPayments) * getDaysInYear(startDate) / workingDays
+};
+
+export const getBaseAmount = (annualizedFirstYearCompensation, basePeriodCompensation) => {
+  let totalCompensation = annualizedFirstYearCompensation;
+  for (let index = 1; index <= basePeriodCompensation.length; index++) {
+    totalCompensation += basePeriodCompensation[index].compensation;
+  }
+  return totalCompensation / basePeriodCompensation.length;
+}
+
+export const parachuteThreshold = (baseAmount) => baseAmount * 3;
+
+export const waiverAmount = (parachuteThreshold, payments) => {
+  return (payments < parachuteThreshold) ? 0 : payments - parachuteThreshold + 1;
+}
 
 export const convertCompensation = (compensation) => {
   if (!compensation) return {};

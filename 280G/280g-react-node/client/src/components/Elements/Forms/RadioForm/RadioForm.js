@@ -1,7 +1,7 @@
 import React from 'react';
 
 import StyledRadio from './StyledRadio';
-import Description from '../Description/Description';
+import Description from '../../TextElements/Description/Description';
 
 const RadioForm = ({ name, values, criteria, handleChange }) => {
   
