@@ -65,6 +65,6 @@ test('should render description after submit', async () => {
   const input = getByRole('textbox');
   userEvent.type(input, givenCompanyName);
   await act(() => userEvent.type(input, '{enter}'));
-  const companyName = getByText(givenCompanyName);
-  await waitFor(() => expect(companyName).toBeInTheDocument());
+  const companyName = await waitFor(() => getByText(givenCompanyName));
+  expect(companyName).toBeInTheDocument();
 });

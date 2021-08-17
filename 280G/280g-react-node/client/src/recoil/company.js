@@ -18,7 +18,7 @@ export const companyNameState = atom({
 
 export const transactionDateState = atom({
   key: 'transactionDate',
-  default: stringify(new Date())
+  default: ''
 });
 
 export const transactionPriceState = atom({
@@ -28,6 +28,6 @@ export const transactionPriceState = atom({
 
 export const defaultCompany = {
   companyName: '',
-  transactionDate: stringify(new Date()),
+  transactionDate: '',
   transactionPrice: ''
 };

@@ -7,9 +7,9 @@ const InputForm = ({ name, value, handleChange, handleSubmit, errorMessage }) =>
 
   // const processChange = ({ target: { name, value }}) => handleChange(name, value);
 
-  const processSubmit = (e) => {
+  const processSubmit = async (e) => {
     e.preventDefault();
-    handleSubmit(e);
+    await handleSubmit(e);
   };
 
   return (

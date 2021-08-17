@@ -1,28 +1,40 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
-import Description from '../../../Elements/Description/Description';
+import { transactionPriceState } from '../../../../recoil/company';
+import { editCompany } from '../../../../api/company/editCompany';
+
+import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
-import InputForm from '../../../Elements/InputForm/InputForm';
+import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const TransactionPrice = ({ name, transactionPrice, completed, handlers: { change, edit, submit }}) => {
+const TransactionPrice = ({ companyId }) => {
 
+  const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState);
+  const [ completed, setCompleted ] = useState((transactionPrice) ? true : false);
   const [ errorMessage, setErrorMessage ] = useState(null);
 
-  const validate = (e) => {
-    if (Number(transactionPrice) && Number(transactionPrice) > 0) {
-      submit(e);
+  const handleChange = ({ target: { value }}) => setTransactionPrice(value);
+
+  const handleEdit = () => setCompleted(false);
+
+  const validate = async (e) => {
+    const price = Number(transactionPrice);
+    if (price && price > 0) {
+      await editCompany(companyId, { transactionPrice: price });
+      setCompleted(true);
       setErrorMessage(null)
     } else {
       setErrorMessage('Please enter a valid per share price')
     }
   };
-  
+
   return (
     <>
       <Description text="Transaction Price per Share: " />
       { (completed)
-      ? <Identifier name={ name } text={ transactionPrice } handleEdit={ edit }/>
-      : <InputForm name={ name } value={ transactionPrice } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage }/>
+      ? <Identifier text={ transactionPrice } handleEdit={ handleEdit }/>
+      : <InputForm value={ transactionPrice } handleSubmit={ validate } handleChange={ handleChange } errorMessage={ errorMessage }/>
       } 
     </>
   );
