@@ -7,11 +7,9 @@ export const annualize = (startDate, firstYearPayments, basePeriodCompensation) 
 };
 
 export const getBaseAmount = (annualizedFirstYearCompensation, basePeriodCompensation) => {
-  let totalCompensation = annualizedFirstYearCompensation;
-  for (let index = 1; index <= basePeriodCompensation.length; index++) {
-    totalCompensation += basePeriodCompensation[index].compensation;
-  }
-  return totalCompensation / basePeriodCompensation.length;
+  // let totalCompensation = annualizedFirstYearCompensation;
+  const remainingYearsCompensation = basePeriodCompensation.reduce((total, year) => total + year.compensation, 0) - basePeriodCompensation[0].compensation
+  return (annualizedFirstYearCompensation + remainingYearsCompensation) / basePeriodCompensation.length;
 }
 
 export const parachuteThreshold = (baseAmount) => baseAmount * 3;
@@ -21,6 +19,7 @@ export const waiverAmount = (parachuteThreshold, payments) => {
 }
 
 export const convertCompensation = (compensation) => {
+
   if (!compensation) return {};
   const executiveCompensation = {}
   for (const year of compensation) {

@@ -1,18 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
-import Description from '../../../Elements/Description/Description';
+import { companyNameState } from '../../../../recoil/company';
+import { editCompany } from '../../../../api/company/editCompany';
+
+import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
-import InputForm from '../../../Elements/InputForm/InputForm';
+import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const CompanyName = ({ name, companyName, completed, handlers: { change, edit, submit }}) => (
-  <>
-    <Description text="Company Name: " />
-    { (completed)
-    ? <Identifier name={ name } text={ companyName } handleEdit={ edit }/>
-    : <InputForm name={ name } value={ companyName } handleChange={ change } handleSubmit={ submit } />
-    } 
-  </>
-);
+const CompanyName = ({ companyId }) => {
+  
+    const [ companyName, setCompanyName ] = useRecoilState(companyNameState)  
+    const [ completed, setCompleted ] = useState((companyName) ? true : false);
+
+    const handleChange = ({ target: { value }}) => setCompanyName(value);
+
+    const handleEdit = () => setCompleted(false);
+
+    const handleSubmit = async () => {
+      await editCompany(companyId, { companyName });
+      setCompleted(true);
+    }
+  
+    return (
+      <>
+        <Description text="Company Name: " />
+        { (completed)
+        ? <Identifier text={ companyName } handleEdit={ handleEdit }/>
+        : <InputForm value={ companyName } handleChange={ handleChange } handleSubmit={ handleSubmit } />
+        } 
+      </>
+    );
+
+};
 
 export default CompanyName;
 

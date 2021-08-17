@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useRecoilState } from 'recoil'
 
 import { companyState } from '../../../recoil/company';
-import { createCompany, editCompany } from '../../../api/company';
+import { createCompany, editCompany } from '../../../api/company/company';
 import { allTrue } from '../../../utilities/checkObject';
 
 import LoadCompany from '../../Loaders/LoadCompany';
@@ -20,30 +20,30 @@ const CompanyInformation = () => {
   const { companyId } = useParams();
   const history = useHistory();
 
-  const [ company, setCompany ] = useRecoilState(companyState);
-  const [ completed, setCompleted ] = useState((companyId)
-    ? { companyName: true, transactionDate: true, transactionPrice: true }
-    : { companyName: false, transactionDate: false, transactionPrice: false });
+  // const [ company, setCompany ] = useRecoilState(companyState);
+  // const [ completed, setCompleted ] = useState((companyId)
+  //   ? { companyName: true, transactionDate: true, transactionPrice: true }
+  //   : { companyName: false, transactionDate: false, transactionPrice: false });
 
-  const handlers = {
-    change: async (name, value) => setCompany({ ...company, [name]: value }),
-    edit: ({ target: { name } }) => setCompleted({ ...completed, [name]: false }),
-    submit: async ({ target: { name } }) => {
-      if (companyId) await editCompany(companyId, company);
-      setCompleted({ ...completed, [name]: true })
-    }
-  };
+  // const handlers = {
+  //   change: async (name, value) => setCompany({ ...company, [name]: value }),
+  //   edit: ({ target: { name } }) => setCompleted({ ...completed, [name]: false }),
+  //   submit: async ({ target: { name } }) => {
+  //     if (companyId) await editCompany(companyId, company);
+  //     setCompleted({ ...completed, [name]: true })
+  //   }
+  // };
 
   useEffect(() => {
     
-    const create = async (company) => {
-      const savedCompany = await createCompany(company);
+    const create = async () => {
+      const savedCompany = await createCompany();
       history.push(`/company/${savedCompany._id}/info`);
     };
     
-    if (allTrue(completed) && !companyId) create(company);
+    if (!companyId) create();
 
-  }, [companyId, completed, company, history ]);
+  }, [companyId, history]);
 
   return (
     <>
@@ -51,10 +51,10 @@ const CompanyInformation = () => {
       <LoadExecutives companyId={ companyId } />
       <CompanyHeader companyId={ companyId } />
       <SubTitle text="Company Information" />
-      <CompanyName name="companyName" companyName={ company.companyName } completed={ completed.companyName } handlers={ handlers } />
-      <TransactionDate name="transactionDate" transactionDate={ company.transactionDate } completed={ completed.transactionDate } handlers={ handlers } />
-      <TransactionPrice name="transactionPrice" transactionPrice={ company.transactionPrice } completed={ completed.transactionPrice } handlers={ handlers } />
-      { companyId && <Executives companyId={ companyId }/> }
+      <CompanyName companyId={ companyId }/>
+      <TransactionDate companyId={ companyId }/>
+      <TransactionPrice companyId={ companyId }/>
+      <Executives companyId={ companyId }/>
     </>
   );
 };

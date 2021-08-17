@@ -3,7 +3,7 @@ import { useRecoilState, useResetRecoilState } from "recoil";
 
 import Loading from './Loading';
 import { companyState } from '../../recoil/company';
-import { fetchCompany } from '../../api/company';
+import { fetchCompany } from '../../api/company/company';
 
 const LoadCompany = ({ companyId }) => {
   

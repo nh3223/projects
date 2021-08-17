@@ -1,18 +1,15 @@
 import mongoose from 'mongoose';
 
 const companyName = {
-  type: String,
-  required: true
+  type: String
 };
 
 const transactionDate = {
-  type: Date,
-  required: true
+  type: Date
 }
 
 const transactionPrice = {
   type: Number,
-  required: true,
   validate(value) {
     if (value < 0) {
       throw new Error('Transaction Price must be a positive number');

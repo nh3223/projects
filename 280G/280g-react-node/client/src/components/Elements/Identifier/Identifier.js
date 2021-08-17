@@ -1,8 +1,8 @@
 import React from 'react';
 
 import StyledIdentifier from './StyledIdentifier';
-import Description from '../Description/Description';
-import EditButton from '../EditButton/EditButton';
+import Description from '../TextElements/Description/Description';
+import EditButton from '../Buttons/EditButton/EditButton';
 
 const Identifier = ({ name, text, handleEdit }) => (
   <StyledIdentifier>
