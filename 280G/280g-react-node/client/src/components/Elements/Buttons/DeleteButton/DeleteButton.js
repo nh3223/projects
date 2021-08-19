@@ -5,7 +5,7 @@ const DeleteButton = ({ name, text, handleDelete }) => {
   const processDelete = ({ target: { name }}) => handleDelete(name);
   
   return (
-    <button name={ name } onClick={ processDelete }>{ text }</button>
+    <button aria-label={ `${text} ${name}` } onClick={ handleDelete }>{ text }</button>
   );
 
 };

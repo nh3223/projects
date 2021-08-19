@@ -68,7 +68,7 @@ test('should show value in form if user types in form', async () => {
 
 test('should render description after submit', async () => {
   
-  jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({
+  const spy = jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({
     json: () => Promise.resolve({ companyName: givenExecutiveTitle }),
   }));
 
@@ -76,6 +76,7 @@ test('should render description after submit', async () => {
   const input = getByRole('textbox');
   userEvent.type(input, givenExecutiveTitle);
   await act(() => userEvent.type(input, '{enter}'));
+  await waitFor(() => expect(spy).toHaveBeenCalledWith(executiveId, { executiveTitle: givenExecutiveTitle }));
   const executiveTitle = await waitFor(() => getByText(givenExecutiveTitle));
   expect(executiveTitle).toBeInTheDocument();
 });
