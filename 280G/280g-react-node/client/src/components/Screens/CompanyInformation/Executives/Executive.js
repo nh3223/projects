@@ -5,7 +5,7 @@ import { executiveState } from '../../../../recoil/executive';
 import { editExecutive, deleteExecutive } from '../../../../api/executive';
 import { allTrue } from '../../../../utilities/checkObject';
 
-import Name from './Name/Name';
+import Name from './Name/ExecutiveName';
 import Title from './Title/Title';
 
 const Executive = ({ executiveId, removeExecutiveId }) => {

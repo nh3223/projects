@@ -21,12 +21,12 @@ export const executivePortal = selectorFamily({
 });
 
 
-export const executiveName = atomFamily({
+export const executiveNameState = atomFamily({
   key: 'executiveName',
   default: ''
 });
 
-export const executiveTitle = atomFamily({
+export const executiveTitleState = atomFamily({
   key: 'executiveTitle',
   default: ''
 });
