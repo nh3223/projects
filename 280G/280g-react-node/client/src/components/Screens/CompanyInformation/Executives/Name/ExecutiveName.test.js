@@ -23,15 +23,15 @@ const InitializeState = ({ executiveId, name }) => {
   return null;
 };
 
-const component = (executiveId, executiveName, newExecutive) => (
+const component = (executiveId, executiveName) => (
   <RecoilRoot>
     <InitializeState executiveId={ executiveId } name={ executiveName } />
-    <ExecutiveName executiveId={ executiveId } newExecutive={ newExecutive } />
+    <ExecutiveName executiveId={ executiveId } />
   </RecoilRoot>
 );
 
 test('should render description and form if no executive name is provided', () => {
-  const { getByRole, getByText } = render(component(executiveId, defaultExecutiveName, true)); 
+  const { getByRole, getByText } = render(component(executiveId, defaultExecutiveName)); 
   const description = getByText(descriptionText);
   expect(description).toBeInTheDocument();
   const input = getByRole('textbox');
@@ -40,7 +40,7 @@ test('should render description and form if no executive name is provided', () =
 
 
 test('should render description if executive name is provided', async () => {
-  const { getByText } = render(component(executiveId, givenExecutiveName, false));  
+  const { getByText } = render(component(executiveId, givenExecutiveName));  
   const description = getByText(descriptionText);
   expect(description).toBeInTheDocument();
   const executiveName = await waitFor(() => getByText(givenExecutiveName));
@@ -49,7 +49,7 @@ test('should render description if executive name is provided', async () => {
 
 
 test('should render form if Edit button is pressed', () => {
-  const { getByText, getByRole } = render(component(executiveId, givenExecutiveName, false));  
+  const { getByText, getByRole } = render(component(executiveId, givenExecutiveName));  
   const editButton = getByText('Edit');
   expect(editButton).toBeInTheDocument();  
   userEvent.click(editButton);  
@@ -59,7 +59,7 @@ test('should render form if Edit button is pressed', () => {
 
 
 test('should show value in form if user types in form', async () => {
-  const { getByRole } = render(component(executiveId, defaultExecutiveName, true));
+  const { getByRole } = render(component(executiveId, defaultExecutiveName));
   const input = getByRole('textbox');
   userEvent.type(input, givenExecutiveName);
   await waitFor(() => expect(input).toHaveValue(givenExecutiveName));
@@ -72,8 +72,7 @@ test('should render description after submit', async () => {
     json: () => Promise.resolve({ companyName: givenExecutiveName }),
   }));
 
-  const newExecutive = true;
-  const { getByRole, getByText } = render(component(executiveId, defaultExecutiveName, newExecutive));
+  const { getByRole, getByText } = render(component(executiveId, defaultExecutiveName));
   const input = getByRole('textbox');
   userEvent.type(input, givenExecutiveName);
   await act(() => userEvent.type(input, '{enter}'));
