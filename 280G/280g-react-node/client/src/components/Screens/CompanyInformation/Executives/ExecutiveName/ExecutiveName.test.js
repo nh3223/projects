@@ -64,9 +64,7 @@ test('should show value in form if user types in form', async () => {
 
 test('should render description after submit', async () => {
   
-  const spy = jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({
-    json: () => Promise.resolve({ companyName: givenExecutiveName }),
-  }));
+  const spy = jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({ companyName: givenExecutiveName }));
 
   const { getByRole, getByText } = render(component(executiveId, defaultExecutiveName));
   const input = getByRole('textbox');

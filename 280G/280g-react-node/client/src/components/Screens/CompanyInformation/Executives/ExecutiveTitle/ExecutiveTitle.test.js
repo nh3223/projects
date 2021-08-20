@@ -8,10 +8,6 @@ import ExecutiveTitle from './ExecutiveTitle';
 import { executiveTitleState } from '../../../../../recoil/executive';
 import * as editExecutive from '../../../../../api/executive/editExecutive';
 
-// const InitializeState = ({ set }) => (executiveId, executiveName) => {
-//   set(executiveNameState(executiveId), () => 'John Doe')
-// };
-
 const defaultExecutiveTitle = '';
 const givenExecutiveTitle = 'CEO';
 const descriptionText = 'Title:';
@@ -68,9 +64,7 @@ test('should show value in form if user types in form', async () => {
 
 test('should render description after submit', async () => {
   
-  const spy = jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({
-    json: () => Promise.resolve({ companyName: givenExecutiveTitle }),
-  }));
+  const spy = jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({ companyName: givenExecutiveTitle }));
 
   const { getByRole, getByText } = render(component(executiveId, defaultExecutiveTitle));
   const input = getByRole('textbox');

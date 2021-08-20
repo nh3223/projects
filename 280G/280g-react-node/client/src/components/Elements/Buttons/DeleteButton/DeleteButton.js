@@ -1,13 +1,7 @@
 import React from 'react';
 
-const DeleteButton = ({ name, text, handleDelete }) => {
-  
-  const processDelete = ({ target: { name }}) => handleDelete(name);
-  
-  return (
-    <button aria-label={ `${text} ${name}` } onClick={ handleDelete }>{ text }</button>
-  );
+import Button from '../Button/Button';
 
-};
+const DeleteButton = ({ name, text, handleDelete }) => <Button name={ (name) ? name : '' } text={ text } handleClick={ handleDelete } />;
 
 export default DeleteButton;

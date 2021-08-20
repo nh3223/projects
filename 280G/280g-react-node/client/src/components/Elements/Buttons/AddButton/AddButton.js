@@ -1,7 +1,7 @@
 import React from 'react';
 
-const AddButton = ({ name, text, handleAdd }) => (
-  <button name={ name } onClick={ handleAdd }>{ text }</button>
-);
+import Button from '../Button/Button';
+
+const AddButton = ({ name, text, handleAdd }) => <Button name={ (name) ? name : '' } text={ text } handleClick={ handleAdd } />;
 
 export default AddButton;

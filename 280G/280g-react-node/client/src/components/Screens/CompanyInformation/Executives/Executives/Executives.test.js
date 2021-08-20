@@ -9,10 +9,6 @@ import { executiveIdsState, executiveNameState, executiveTitleState } from '../.
 import * as createExecutive from '../../../../../api/executive/createExecutive';
 import * as deleteExecutive from '../../../../../api/executive/deleteExecutive';
 
-// const InitializeState = ({ set }) => (executiveId, executiveName) => {
-//   set(executiveNameState(executiveId), () => 'John Doe')
-// };
-
 const companyId = 12;
 
 const executive1Name = 'John Doe';
@@ -97,9 +93,7 @@ test('should render name, title and delete button for each executive', () => {
 
 test('should not render name, title or delete button when delete button for one executive is pressed', async () => {
   
-  const spy = jest.spyOn(deleteExecutive, 'deleteExecutive').mockImplementationOnce(() => Promise.resolve({
-    json: () => Promise.resolve({ }),
-  }));
+  const spy = jest.spyOn(deleteExecutive, 'deleteExecutive').mockImplementationOnce(() => Promise.resolve({ }));
   
   const { getByText, getByRole } = render(component(executiveIds, executiveNames, executiveTitles));
   const name1 = getByText(executive1Name);
