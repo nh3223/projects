@@ -1,23 +1,23 @@
 import { atomFamily, selectorFamily } from "recoil";
 
-import annualize from '../utilities/compensation';
+import annualize from '../utilities/compensation/compensation';
 
-export const startDate = atomFamily({
+export const startDateState = atomFamily({
   key: 'startDate',
-  default: new Date()
+  default: ''
 });
 
-export const firstYearPayments = atomFamily({
+export const firstYearPaymentsState = atomFamily({
   key: 'firstYearPayments',
   default: ''
 });
 
-export const basePeriodCompensation = atomFamily({
+export const basePeriodCompensationState = atomFamily({
   key: 'basePeriodCompensation',
   default: [ ]
 });
 
-export const annualizedFirstYearCompensation = selectorFamily({
+export const annualizedFirstYearCompensationState = selectorFamily({
   key: 'annualizedFirstYearCompensation',
-  get: executiveId => ({ get }) => annualize(get(startDate(executiveId)), get(firstYearPayments(executiveId)), get(basePeriodCompensation(executiveId)))
+  get: executiveId => ({ get }) => annualize(get(startDateState(executiveId)), get(firstYearPaymentsState(executiveId)), get(basePeriodCompensationState(executiveId)))
 });

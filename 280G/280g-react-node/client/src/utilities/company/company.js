@@ -1,4 +1,4 @@
-import { fetchCompany } from "../api/company";
+import { fetchCompany } from '../../api/company/fetchCompany';
 
 const getCompanyData = (id, company) => {
   
@@ -10,16 +10,15 @@ const getCompanyData = (id, company) => {
   });
 };
 
-const getDefaultCompanyData = () => ({
-  id: '',
+export const defaultCompany = {
   name: '',
   transactionDate: '',
   transactionPrice: ''
-});
+};
 
 export const getCompany = async (id) => {
   const company = await fetchCompany(id);
-  return (id) ? getCompanyData(id, company) : getDefaultCompanyData();
+  return (id) ? getCompanyData(id, company) : defaultCompany();
 };
 
 export const getCompanyCompleted = (id) => ((id)
