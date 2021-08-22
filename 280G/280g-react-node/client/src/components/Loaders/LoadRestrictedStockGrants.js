@@ -1,38 +1,82 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSetRecoilState, useRecoilCallback } from 'recoil';
+import React, { useState, useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import Loading from './Loading';
-import { fetchGrants } from '../../api/restrictedStock';
-import { grantIdsState, grantState } from '../../recoil/restrictedStock';
-import { setGrantData } from '../../utilities/restrictedStock';
+import { fetchGrant } from '../../api/restrictedStock/fetchGrant';
+import { 
+  restrictedStockAccelerationMethodState, 
+  restrictedStockAccelerationPercentageState, 
+  restrictedStockAccelerationState, 
+  restrictedStockChangeOfControlState, 
+  restrictedStockCliffDurationState, 
+  restrictedStockCliffPercentageState, 
+  restrictedStockCliffState, 
+  restrictedStockGrantDateState, 
+  restrictedStockNumberSharesState, 
+  restrictedStockRemainderPeriodsState, 
+  restrictedStockRemainderTypeState,
+  restrictedStockVestingScheduleState, 
+  restrictedStockVestingStartDateState
+} from '../../recoil/restrictedStock';
 
-const LoadRestrictedStockGrants = ({ executiveId }) => {
+const LoadRestrictedStockGrant = ({ grantId }) => {
 
-  const setGrantIds = useSetRecoilState(grantIdsState(executiveId));
-  const [ loading, setLoading ] = useState(true);
-  const loaded = useRef(false);
+  const setGrantDate = useSetRecoilState(restrictedStockGrantDateState(grantId));
+  const setVestingStartDate = useSetRecoilState(restrictedStockVestingStartDateState(grantId));
+  const setNumberShares = useSetRecoilState(restrictedStockNumberSharesState(grantId));
+  const setChangeOfControl = useSetRecoilState(restrictedStockChangeOfControlState(grantId));
+  const setAcceleration = useSetRecoilState(restrictedStockAccelerationState(grantId));
+  const setAccelerationPercentage = useSetRecoilState(restrictedStockAccelerationPercentageState(grantId));
+  const setAccelerationMethod = useSetRecoilState(restrictedStockAccelerationMethodState(grantId));
+  const setCliff = useSetRecoilState(restrictedStockCliffState(grantId));
+  const setCliffDuration = useSetRecoilState(restrictedStockCliffDurationState(grantId));
+  const setCliffPercentage = useSetRecoilState(restrictedStockCliffPercentageState(grantId));
+  const setRemainderPeriods = useSetRecoilState(restrictedStockRemainderPeriodsState(grantId));
+  const setRemainderType = useSetRecoilState(restrictedStockRemainderTypeState(grantId));
+  const setVestingSchedule = useSetRecoilState(restrictedStockVestingScheduleState(grantId));
 
-  const setGrant = useRecoilCallback(({ set }) => (grant) => set(grantState(grant._id), setGrantData(grant)), []);
+  const [ loading, setLoading ] = useState(null);
+  const [ error, setError ] = useState(null);
 
   useEffect(() => {
 
-    const getGrants = async () => {
-      const grants = await fetchGrants(executiveId);
-      const grantIds = [];
-      for (const grant of grants) {
-        setGrant(grant);
-        grantIds.push(grant._id);
+    const setGrant = async () => {
+      
+      setLoading(true);
+
+      try {
+        const grant = await fetchGrant(grantId);
+        setGrantDate(grant.grantDate);
+        setVestingStartDate(grant.vestingStartDate);
+        setNumberShares(grant.numberShares);
+        setChangeOfControl(grant.changeOfControl);
+        setAcceleration(grant.acceleration);
+        setAccelerationPercentage(grant.accelerationPercentage);
+        setAccelerationMethod(grant.accelerationMethod);
+        setCliff(grant.cliff);
+        setCliffDuration(grant.cliffDuration);
+        setCliffPercentage(grant.cliffPercentage);
+        setRemainderPeriods(grant.remainderPeriods);
+        setRemainderType(grant.remainderType);
+        setVestingSchedule(grant.vestingSchedule);
+        setLoading(false);
       }
-      setGrantIds(grantIds);
-      loaded.current(true);
+
+      catch (e) {
+        setError(e.message);
+      }
+
     };
 
-    (loaded.current) ? setLoading(false) : getGrants();
+    setGrant();
 
-  }, [executiveId, setGrant, setGrantIds, setLoading]);  
+  }, [grantId, setGrantDate, setVestingStartDate, setNumberShares, setChangeOfControl, setAcceleration, setAccelerationPercentage, setAccelerationMethod,
+      setCliff, setCliffDuration, setCliffPercentage, setRemainderPeriods, setRemainderType, setVestingSchedule, setLoading ]);  
 
-  return loading && <Loading componentMessage="Restricted Stock Grants" />
+  return loading 
+    ? <Loading componentMessage="Restricted Stock Grants" errorMessage={ error } />
+    : null
 
 };
 
-export default LoadRestrictedStockGrants;
+export default LoadRestrictedStockGrant;

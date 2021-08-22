@@ -11,7 +11,6 @@ import LoadNonEquityPayments from './LoadNonEquityPayments';
 import LoadOptions from './LoadOptions';
 import LoadRestrictedStock from './LoadRestrictedStock';
 
-
 const LoadExecutive = ({ executiveId }) => {
   
   const setExecutiveName = useSetRecoilState(executiveNameState(executiveId));
@@ -19,18 +18,30 @@ const LoadExecutive = ({ executiveId }) => {
   const setStartDate = useSetRecoilState(startDateState(executiveId));
   const setFirstYearPayments = useSetRecoilState(firstYearPaymentsState(executiveId));
   const setBasePeriodCompensation = useSetRecoilState(basePeriodCompensationState(executiveId));
-  const [ loading, setLoading ] = useState(true);
+  
+  const [ loading, setLoading ] = useState(null);
+  const [ error, setError ] = useState(null);
 
   useEffect(() => {
     
     const setExecutiveState = async () => {
-      const { executiveName, executiveTitle, startDate, firstYearPayments, compensation} = await fetchExecutive(executiveId);
-      setExecutiveName(executiveName);
-      setExecutiveTitle(executiveTitle);
-      setStartDate((startDate) ? startDate : '');
-      setFirstYearPayments((firstYearPayments) ? firstYearPayments : '');
-      setBasePeriodCompensation(convertCompensation(compensation))
-      setLoading(false);
+      
+      setLoading(true);
+      
+      try {      
+        const { executiveName, executiveTitle, startDate, firstYearPayments, compensation} = await fetchExecutive(executiveId);
+        setExecutiveName(executiveName);
+        setExecutiveTitle(executiveTitle);
+        setStartDate((startDate) ? startDate : '');
+        setFirstYearPayments((firstYearPayments) ? firstYearPayments : '');
+        setBasePeriodCompensation(convertCompensation(compensation))
+        setLoading(false);
+      }
+
+      catch (e) {
+        setError(e.message);
+      }
+
     };
 
     setExecutiveState();
@@ -39,7 +50,7 @@ const LoadExecutive = ({ executiveId }) => {
 
   return (
     <>
-      { loading ? <Loading componentMessage="Executive" /> : null }
+      { loading ? <Loading componentMessage={ `Executive ${executiveId}` } errorMessage={ error } /> : null }
        <LoadNonEquityPayments executiveId={ executiveId } />
        <LoadOptions executiveId={ executiveId } />
        <LoadRestrictedStock executiveId={ executiveId } />
@@ -49,5 +60,3 @@ const LoadExecutive = ({ executiveId }) => {
 };
 
 export default LoadExecutive;
-
-

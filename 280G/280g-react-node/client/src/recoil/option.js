@@ -84,13 +84,13 @@ export const optionRemainderPeriodsState = atomFamily({
   default: ''
 });
 
-export const optionRemainderType = atomFamily({
+export const optionRemainderTypeState = atomFamily({
   // parameter: grantId
   key: 'optionRemainderType',
   default: 'Monthly'
 });
 
-export const optionVestingState = atomFamily({
+export const optionVestingScheduleState = atomFamily({
   // parameter: grantId
   key: 'optionVesting',
   default: [{

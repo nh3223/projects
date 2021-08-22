@@ -1,24 +1,44 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecoilState } from "recoil";
 
-import { companyState } from '../../recoil/company';
+import { companyNameState, transactionDateState, transactionPriceState } from '../../recoil/company';
 import { fetchCompany } from '../../api/company';
 
 const useLoadCompany = (companyId) => {
   
-  const [ company, setCompany ] = useRecoilState(companyState);
+  const [ companyName, setCompanyName ] = useRecoilState(companyNameState(companyId));
+  const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState(companyId));
+  const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState(companyId));
   
+  const [ loading, setLoading ] = useState(null);
+  const [ error, setError ] = useState(null);
+
   useEffect(() => {
     
-    const setCompanyInformation = async () => {
-      const companyData = await fetchCompany(companyId);
-      setCompany(companyData);
+    const setCompany = async () => {
+
+      setLoading(true);
+
+      try {
+        const { name, date, price } = await fetchCompany(companyId);
+        setCompanyName(name);
+        setTransactionDate(date);
+        setTransactionPrice(price);
+        setLoading(false);
+      } 
+      
+      catch (e) {
+        setError(e.message)
+      }
+
     };
-
-    if (companyId && !company._id) setCompanyInformation();
-
-  }, [companyId, company._id, setCompany]);
   
+    if (!companyName || !transactionDate || !transactionPrice) setCompany();
+  
+  }, [companyId, companyName, transactionDate, transactionPrice, setCompanyName, setTransactionDate, setTransactionPrice]);
+
+  return { loading, error };
+
 };
 
 export default useLoadCompany;

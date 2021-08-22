@@ -10,22 +10,35 @@ import LoadRestrictedStockGrant from './LoadNonEquityPayment';
 const LoadRestrictedStock = ({ executiveId }) => {
 
   const [ grantIds, setGrantIds ] = useRecoilState(restrictedStockGrantIdsState(executiveId));
-  const [ loadComplete, setLoadComplete ] = useState(false);
+  
+  const [ loading, setLoading ] = useState(null);
+  const [ error, setError ] = useState(null);
 
   useEffect(() => {
 
     const getGrantIds = async () => {
-      const grants= await fetchGrants(executiveId);
-      setGrantIds(grants.map((grant) => grant._id));
-      setLoadComplete(true);
+
+      setLoading(true);
+
+      try {
+        const grants= await fetchGrants(executiveId);
+        setGrantIds(grants.map((grant) => grant._id));
+        setLoading(false);
+      }
+
+      catch (e) {
+        setError(e.message);
+      }
+
     };
-    if (executiveId && grantIds.length === 0) getGrantIds();
+
+    if (grantIds.length === 0) getGrantIds();
 
   }, [executiveId, grantIds.length, setGrantIds]);  
 
-  return (loadComplete)
-  ? grantIds.map((id) => <LoadRestrictedStockGrant key={ id } paymentId={ id } />)
-  : <Loading componentMessage="Restricted Stock Grants . . ." />
+  return (loading)
+  ? <Loading componentMessage="Restricted Stock Grants . . ." errorMessage={ error } />
+  : grantIds.map((grantId) => <LoadRestrictedStockGrant key={ grantId } paymentId={ grantId } />)
 
 };
 

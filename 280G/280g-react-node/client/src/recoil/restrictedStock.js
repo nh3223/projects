@@ -72,13 +72,13 @@ export const restrictedStockRemainderPeriodsState = atomFamily({
   default: ''
 });
 
-export const restrictedStockRemainderType = atomFamily({
+export const restrictedStockRemainderTypeState = atomFamily({
   // parameter: grantId
   key: 'restrictedStockRemainderType',
   default: 'Monthly'
 });
 
-export const restrictedStockVestingState = atomFamily({
+export const restrictedStockVestingScheduleState = atomFamily({
   // parameter: grantId
   key: 'restrictedStockVesting',
   default: [{

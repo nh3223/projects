@@ -9,24 +9,36 @@ import Loading from './Loading';
 
 const LoadExecutives = ({ companyId }) => {
   
-  const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState);
+  const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState(companyId));
+  
   const [ loading, setLoading ] = useState(true);
+  const [ error, setError ] = useState(null);
 
    useEffect(() => {
     
     const getExecutiveIds = async () => {
-      const executives = await fetchExecutives(companyId);
-      setExecutiveIds(executives.map((executive) => executive._id));
-      setLoading(false);
+      
+      setLoading(true);
+
+      try {      
+        const executives = await fetchExecutives(companyId);
+        setExecutiveIds(executives.map((executive) => executive._id));
+        setLoading(false);
+      }
+
+      catch (e) {
+        setError(e.message);
+      }
+
     };
 
-    if (companyId && executiveIds.length === 0) getExecutiveIds();
+    if (executiveIds.length === 0) getExecutiveIds();
 
-  }, [companyId, executiveIds.length, setExecutiveIds ]);
+  }, [companyId, error, executiveIds.length, setExecutiveIds, setLoading, setError ]);
 
   return (loading)
-    ? <Loading componentMessage="Executives . . ." />
-    : executiveIds.map((id) => <LoadExecutive key={ id } executiveId={ id } />)
+    ? <Loading componentMessage="Executives . . ." errorMessage={ error } />
+    : executiveIds.map((executiveId) => <LoadExecutive key={ executiveId } executiveId={ executiveId } />)
 
 };
 

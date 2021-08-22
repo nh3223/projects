@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 import Loading from './Loading';
 import { companyNameState, transactionDateState, transactionPriceState } from '../../recoil/company';
@@ -7,33 +7,38 @@ import { fetchCompany } from '../../api/company/fetchCompany';
 
 const LoadCompany = ({ companyId }) => {
   
-  const setCompanyName = useSetRecoilState(companyNameState);
-  const setTransactionDate = useSetRecoilState(transactionDateState);
-  const setTransactionPrice = useSetRecoilState(transactionPriceState);
-  const [ loading, setLoading ] = useState(true);
+  const [ companyName, setCompanyName ] = useRecoilState(companyNameState(companyId));
+  const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState(companyId));
+  const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState(companyId));
   
+  const [ loading, setLoading ] = useState(null);
+  const [ error, setError ] = useState(null);
+
   useEffect(() => {
     
     const setCompany = async () => {
-      const { companyName, transactionDate, transactionPrice } = await fetchCompany(companyId);
-      setCompanyName(companyName);
-      setTransactionDate(transactionDate);
-      setTransactionPrice(transactionPrice);
-      setLoading(false);
+
+      setLoading(true);
+
+      try {
+        const company = await fetchCompany(companyId);
+        setCompanyName(company.companyName);
+        setTransactionDate(company.transactionDate);
+        setTransactionPrice(company.transactionPrice);
+        setLoading(false);
+      }
+
+      catch (e) {
+        setError(e.message);
+      }
+
     };
   
-    const resetCompany = () => {
-      console.log('reset company');
-      setCompanyName('');
-      setTransactionDate('');
-      setTransactionPrice('');
-    };
+    if (!companyName || !transactionDate || !transactionPrice) setCompany();
 
-    (companyId) ? setCompany() : resetCompany();
-
-  }, [companyId, setCompanyName, setTransactionDate, setTransactionPrice, setLoading]);
+  }, [companyId, error, companyName, transactionDate, transactionPrice, setCompanyName, setTransactionDate, setTransactionPrice, setLoading, setError]);
   
-  return loading ? <Loading componentMessage="Company Information" /> : null
+  return loading ? <Loading componentMessage="Company Information" errorMessage={ error } /> : null
 
 };
 
