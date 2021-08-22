@@ -1,44 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
-import { executiveState } from '../../recoil/executive';
+import { executiveNameState, executiveTitleState } from '../../recoil/executive';
+import { basePeriodCompensationState, firstYearPaymentsState, startDateState } from '../../recoil/compensation';
 import { fetchExecutive } from '../../api/executive';
+import { convertCompensation } from '../../utilities/compensation/compensation';
 
 import Loading from './Loading';
 import LoadNonEquityPayments from './LoadNonEquityPayments';
-import { convertCompensation } from '../../utilities/getCompensation';
-
-// import LoadOptions from './LoadOptions';
+import LoadOptions from './LoadOptions';
 import LoadRestrictedStock from './LoadRestrictedStock';
+
 
 const LoadExecutive = ({ executiveId }) => {
   
-  const [ executive, setExecutive ] = useRecoilState(executiveState(executiveId));
+  const setExecutiveName = useSetRecoilState(executiveNameState(executiveId));
+  const setExecutiveTitle = useSetRecoilState(executiveTitleState(executiveId));
+  const setStartDate = useSetRecoilState(startDateState(executiveId));
+  const setFirstYearPayments = useSetRecoilState(firstYearPaymentsState(executiveId));
+  const setBasePeriodCompensation = useSetRecoilState(basePeriodCompensationState(executiveId));
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
     
     const setExecutiveState = async () => {
-      const executiveData = await fetchExecutive(executiveId);
-      setExecutive({
-        _id: executiveData._id,
-        executiveName: executiveData.executiveName,
-        title: executiveData.title,
-        startDate: executiveData.startDate || '',
-        firstYearPayments: executiveData.firstYearPayments || '',
-        basePeriodCompensation: convertCompensation(executiveData.compensation)
-      });
+      const { executiveName, executiveTitle, startDate, firstYearPayments, compensation} = await fetchExecutive(executiveId);
+      setExecutiveName(executiveName);
+      setExecutiveTitle(executiveTitle);
+      setStartDate((startDate) ? startDate : '');
+      setFirstYearPayments((firstYearPayments) ? firstYearPayments : '');
+      setBasePeriodCompensation(convertCompensation(compensation))
       setLoading(false);
     };
 
-    if (executive._id !== executiveId) setExecutiveState();
+    setExecutiveState();
 
-  }, [executive._id, executiveId, setExecutive, setLoading ]);
+  }, [executiveId, setExecutiveName, setExecutiveTitle, setStartDate, setFirstYearPayments, setBasePeriodCompensation, setLoading ]);
 
   return (
     <>
-      { loading && <Loading componentMessage="Executive" /> }
+      { loading ? <Loading componentMessage="Executive" /> : null }
        <LoadNonEquityPayments executiveId={ executiveId } />
+       <LoadOptions executiveId={ executiveId } />
        <LoadRestrictedStock executiveId={ executiveId } />
     </>
   );

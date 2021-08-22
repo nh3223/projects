@@ -1,10 +1,7 @@
 import React from 'react';
 
-const Loading = ({ componentMessage }) => {
+import Description from '../Elements/TextElements/Description/Description';
 
-  return null;
-
-  // return <p>Loading { componentMessage }...</p>
-};
+const Loading = ({ componentMessage }) => <Description text={ `Loading ${componentMessage}...` } />
 
 export default Loading;

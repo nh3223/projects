@@ -6,6 +6,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import Executives from './Executives';
 import { executiveIdsState, executiveNameState, executiveTitleState } from '../../../../../recoil/executive';
+import { defaultExecutive } from '../../../../../utilities/executive/executive';
 import * as createExecutive from '../../../../../api/executive/createExecutive';
 import * as deleteExecutive from '../../../../../api/executive/deleteExecutive';
 
@@ -55,20 +56,16 @@ test('should render subtitle', () => {
 test('should render and handle addExecutive button', async () => {
   
   const newExecutiveId = 3;
-  const newCompany = {
-    company: companyId,
-    executiveName: '',
-    executiveTitle: ''
-  };
+  const newExecutive = { company: companyId, ...defaultExecutive };
 
-  const spy = jest.spyOn(createExecutive, 'createExecutive').mockImplementationOnce(() => Promise.resolve({ ...newCompany, _id: newExecutiveId }));
+  const spy = jest.spyOn(createExecutive, 'createExecutive').mockResolvedValue({ ...newExecutive, _id: newExecutiveId });
   
   const { getByRole } = render(component(executiveIds, executiveNames, executiveTitles));
   const addButton = getByRole('button', { name: 'Add an Executive' });
   expect(addButton).toBeInTheDocument();
   userEvent.click(addButton);
   await waitFor(() => {
-    expect(spy).toHaveBeenCalledWith(newCompany);
+    expect(spy).toHaveBeenCalledWith(companyId);
     const newDeleteButton = getByRole('button', { name: `Delete Executive ${newExecutiveId}` });
     expect(newDeleteButton).toBeInTheDocument();
   });

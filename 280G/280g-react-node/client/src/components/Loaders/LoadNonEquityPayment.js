@@ -1,29 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
-import { nonEquityPaymentsState } from '../../recoil/nonEquityPayments';
+import { nonEquityPaymentAmountState, nonEquityPaymentDescriptionState } from '../../recoil/nonEquityPayments';
 import { fetchPayment } from '../../api/nonEquityPayments';
 
 import Loading from './Loading';
 
 const LoadNonEquityPayment = ({ paymentId }) => {
   
-  const [ payment, setPayment ] = useRecoilState(nonEquityPaymentsState(paymentId));
+  const setPaymentDescription = useSetRecoilState(nonEquityPaymentDescriptionState(paymentId));
+  const setPaymentAmount = useSetRecoilState(nonEquityPaymentAmountState(paymentId));
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
     
     const setPaymentState = async () => {
-      const { _id, description, amount } = await fetchPayment(paymentId);
-      setPayment({ _id, description, amount });
+      const { description, amount } = await fetchPayment(paymentId);
+      setPaymentDescription(description);
+      setPaymentAmount(amount);
       setLoading(false);
     };
 
-    if (payment._id !== paymentId) setPaymentState();
+    setPaymentState();
 
-  }, [payment._id, paymentId, setPayment, setLoading ]);
+  }, [paymentId, setPaymentDescription, setPaymentAmount, setLoading ]);
 
-  return loading && <Loading componentMessage="Payment" />
+  return  loading
+          ? <Loading componentMessage="Payment" />
+          : null
 
 };
 

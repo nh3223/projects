@@ -1,32 +1,19 @@
-import { atom, atomFamily, selectorFamily } from 'recoil';
+import { atomFamily } from 'recoil';
 
-export const executiveState = atomFamily({
-  key: 'executive',
-  default: { }
-});
-
-export const executiveIdsState = atom({
+export const executiveIdsState = atomFamily({
+  // parameter: companyId
   key: 'executiveIds',
   default: []
 });
 
-
-export const executivePortal = selectorFamily({
-  key: 'executivePortal',
-  get: (executiveId) => ({ get }) => get(executiveState(executiveId)),
-  set: (executiveId) => ({ set }, executive) => {
-    set(executiveState(executiveId), executive);
-    set(executiveIdsState, [ executiveId, ...executiveIdsState]);
-  }
-});
-
-
 export const executiveNameState = atomFamily({
+  // parameter: executiveId
   key: 'executiveName',
   default: ''
 });
 
 export const executiveTitleState = atomFamily({
+  // parameter: executiveId
   key: 'executiveTitle',
   default: ''
 });

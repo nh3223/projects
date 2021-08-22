@@ -13,12 +13,7 @@ const Executives = ({ companyId }) => {
   const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState)
 
   const handleAdd = async () => {
-    const executive = {
-      company: companyId,
-      executiveName: '',
-      executiveTitle: ''
-    };
-    const newExecutive = await createExecutive(executive);
+    const newExecutive = await createExecutive(companyId);
     setExecutiveIds([ newExecutive._id, ...executiveIds ]);
   };
 

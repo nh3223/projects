@@ -1,16 +1,19 @@
-import { atom } from 'recoil';
+import { atomFamily } from 'recoil';
 
-export const companyNameState = atom({
+export const companyNameState = atomFamily({
+  // parameter: companyId
   key: 'companyName',
   default: ''
 });
 
-export const transactionDateState = atom({
+export const transactionDateState = atomFamily({
+  // parameter: companyId
   key: 'transactionDate',
   default: ''
 });
 
-export const transactionPriceState = atom({
+export const transactionPriceState = atomFamily({
+  // parameter: companyId
   key: 'transactionPrice',
   default: ''
 });
