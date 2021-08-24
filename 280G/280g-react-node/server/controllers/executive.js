@@ -13,7 +13,6 @@ export const getExecutive = async (req, res) => {
 
 export const createExecutive = async (req, res) => {
   const executive = req.body;
-  console.log('executive', executive)
   const newExecutive = Executive(executive);
   try {
     await newExecutive.save();

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 import companyRoutes from './routes/company.js';
 import executiveRoutes from './routes/executive.js';
+import compensationRoutes from './routes/compensation.js';
 import nonEquityPaymentRoutes from './routes/nonEquityPayments.js';
 import restrictedStockRoutes from './routes/restrictedStockGrant.js';
 import optionRoutes from './routes/optionGrant.js';
@@ -17,13 +18,14 @@ app.use(express.json());
 
 app.use('/company', companyRoutes);
 app.use('/executive', executiveRoutes);
+app.use('/compensation', compensationRoutes);
 app.use('/nonequitypayment', nonEquityPaymentRoutes);
 app.use('/restrictedStock', restrictedStockRoutes);
 app.use('/option', optionRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
   .catch((error) => console.log(error.message));
 
