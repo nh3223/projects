@@ -1,7 +1,7 @@
 export const getPool = (level, times, problems) => {
   let pool = [];
   for (const id in times) {
-    // Note: 13 replaces level temporarily to present all potential problems
+    // Note: 13 replaces level temporarily to present all potential problemscd 
     if (problems[id].level <= 13) {
       pool.push({
         id,

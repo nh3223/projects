@@ -11,7 +11,7 @@ import DateForm from '../../../Elements/Forms/DateForm/DateForm';
 
 const TransactionDate = ({ companyId }) => {
   
-  const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState);
+  const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState(companyId));
   const [ completed, setCompleted ] = useState((transactionDate) ? true : false);
 
   const handleChange = async (date) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const NotFound = () => (
-  <h1>Page Not Found</h1>
-);
+import Title from '../Elements/TextElements/Title/Title';
+
+const NotFound = () => <Title text="Page Not Found" />
 
 export default NotFound;

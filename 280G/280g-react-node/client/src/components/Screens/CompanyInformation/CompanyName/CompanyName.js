@@ -10,7 +10,7 @@ import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
 const CompanyName = ({ companyId }) => {
   
-    const [ companyName, setCompanyName ] = useRecoilState(companyNameState)  
+    const [ companyName, setCompanyName ] = useRecoilState(companyNameState(companyId))  
     const [ completed, setCompleted ] = useState((companyName) ? true : false);
 
     const handleChange = ({ target: { value }}) => setCompanyName(value);
@@ -35,5 +35,3 @@ const CompanyName = ({ companyId }) => {
 };
 
 export default CompanyName;
-
-

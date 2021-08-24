@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
-import Description from '../../../Elements/Description/Description';
+import { firstYearPaymentsState } from '../../../../recoil/compensation';
+import { editExecutive } from '../../../../api/executive/editExecutive';
+
+import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
-import InputForm from '../../../Elements/InputForm/InputForm';
+import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const FirstYearPayments = ({ name, firstYearPayments, completed, handlers: { change, edit, submit }}) => {
+const FirstYearPayments = ({ executiveId }) => {
 
+  const [ firstYearPayments, setFirstYearPayments ] = useRecoilState(firstYearPaymentsState(executiveId));
+  const [ completed, setCompleted ] = useState((firstYearPayments) ? true : false);
   const [ errorMessage, setErrorMessage ] = useState(null);
 
+  const handleChange = ({ target: { value }}) => setFirstYearPayments(value);
+
+  const handleEdit = () => setCompleted(false);
+
   const validate = async (e) => {
-    if (Number(firstYearPayments) && Number(firstYearPayments) > 0) {
-      await submit(e);
+    const payments = Number(firstYearPayments);
+    if (payments && payments > 0) {
+      await editExecutive(executiveId, { firstYearPayments: payments });
+      setCompleted(true);
       setErrorMessage(null);
     } else {
       setErrorMessage('Please enter a valid payment amount');
@@ -21,8 +33,8 @@ const FirstYearPayments = ({ name, firstYearPayments, completed, handlers: { cha
     <>
       <Description text="Non-recurring payments in first year of employment: " />
       { completed
-      ? <Identifier name={ name } text={ `$${firstYearPayments}` } handleEdit={ edit }/>
-      : <InputForm name={ name } value={ firstYearPayments } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage } />
+      ? <Identifier text={ `$${firstYearPayments}` } handleEdit={ handleEdit }/>
+      : <InputForm value={ firstYearPayments } handleSubmit={ validate } handleChange={ handleChange } errorMessage={ errorMessage } />
       } 
     </>
   );

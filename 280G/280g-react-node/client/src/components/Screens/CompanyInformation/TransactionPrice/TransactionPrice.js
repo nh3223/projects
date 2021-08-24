@@ -10,7 +10,7 @@ import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
 const TransactionPrice = ({ companyId }) => {
 
-  const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState);
+  const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState(companyId));
   const [ completed, setCompleted ] = useState((transactionPrice) ? true : false);
   const [ errorMessage, setErrorMessage ] = useState(null);
 
