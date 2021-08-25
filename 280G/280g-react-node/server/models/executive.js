@@ -10,14 +10,14 @@ const executiveName = {
   type: String,
 };
 
-const title = {
+const executiveTitle = {
   type: String
 };
 
 const executiveProperties = {
   company,
   executiveName,
-  title
+  executiveTitle
 };
 
 const executiveSchema = mongoose.Schema(executiveProperties);

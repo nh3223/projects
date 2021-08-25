@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from "recoil";
 
-import { executiveNameState, executiveTitleState } from '../../recoil/executive';
-import { fetchExecutive } from '../../api/executive/fetchExecutive';
+import { executiveNameState, executiveTitleState } from '../recoil/executive';
+import { fetchExecutive } from '../api/executive/fetchExecutive';
 
 const useLoadExecutive = (executiveId) => {
   
@@ -25,9 +25,9 @@ const useLoadExecutive = (executiveId) => {
       setLoaded(false);
 
       try {
-        const { name, title } = await fetchExecutive(executiveId);
-        setExecutiveName(name);
-        setExecutiveTitle(title)
+        const executive = await fetchExecutive(executiveId);
+        setExecutiveName(executive.executiveName);
+        setExecutiveTitle(executive.executiveTitle)
         setLoaded(true);
       } 
       

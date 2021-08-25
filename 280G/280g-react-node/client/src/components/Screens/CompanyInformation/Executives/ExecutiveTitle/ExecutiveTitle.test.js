@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -14,15 +14,27 @@ const descriptionText = 'Title:';
 const executiveId = 1;
 
 const InitializeState = ({ executiveId, title }) => {
+  
   const setExecutiveTitle = useSetRecoilState(executiveTitleState(executiveId));
-  useEffect(() => setExecutiveTitle(title), [title, setExecutiveTitle]);
-  return null;
+  const [ loaded, setLoaded ] = useState(false);
+  const [ loading, setLoading ] = useState(true);
+  
+  useEffect(() => {
+    if (loaded) setLoading(false)
+  }, [loaded, setLoading])
+
+  useEffect(() => {
+    setExecutiveTitle(title);
+    setLoaded(true);
+  }, [title, setExecutiveTitle, setLoaded]);
+
+  return loading ? null : <ExecutiveTitle executiveId={ executiveId } />
+
 };
 
 const component = (executiveId, executiveTitle) => (
   <RecoilRoot>
     <InitializeState executiveId={ executiveId } title={ executiveTitle } />
-    <ExecutiveTitle executiveId={ executiveId } />
   </RecoilRoot>
 );
 

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from "recoil";
 
-import { executiveIdsState } from '../../recoil/executive';
-import { fetchExecutives } from '../../api/executive/fetchExecutives';
+import { executiveIdsState } from '../recoil/executive';
+import { fetchExecutives } from '../api/executive/fetchExecutives';
 
 const useLoadExecutives = (companyId) => {
   
