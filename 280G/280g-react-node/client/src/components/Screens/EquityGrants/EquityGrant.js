@@ -5,7 +5,7 @@ import { restrictedStockGrantState } from '../../../recoil/restrictedStock';
 
 import { editGrant } from '../../../api/restrictedStock';
 import { allTrue } from '../../../utilities/checkObject';
-import { defaultNew, defaultOld } from '../../../utilities/restrictedStock';
+import { defaultNew, defaultOld } from '../../../utilities/equityGrant/restrictedStock';
 
 import GrantDate from './GrantDate/GrantDate';
 import Shares from './Shares/Shares';

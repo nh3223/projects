@@ -9,7 +9,7 @@ import CompanyHeader from '../../Navigation/CompanyHeader';
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 import SubTitle from '../../Elements/SubTitle/SubTitle';
 import AddButton from '../../Elements/AddButton/AddButton';
-import RestrictedStockGrant from './RestrictedStockGrant';
+import RestrictedStockGrant from './EquityGrant';
 import GrantListItem from '../../Elements/ListItem/GrantListItem/GrantListItem';
 
 const RestrictedStock = () => {

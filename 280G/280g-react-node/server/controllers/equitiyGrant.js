@@ -3,10 +3,10 @@ import OptionGrant from '../models/optionGrant.js';
 import Executive from '../models/executive.js';
 
 export const getGrants = async (req, res) => {
-  const { id: _id } = req.params;
+  const { executiveId: _id } = req.params;
   try {
-    const executive = await Executive.findById(_id).populate('optionGrants');
-    const grants = executive.optionGrants;
+    const executive = await Executive.findById(_id).populate('equityGrants');
+    const grants = executive.equityGrants;
     res.status(200).json(grants);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -14,9 +14,9 @@ export const getGrants = async (req, res) => {
 };
 
 export const getGrant = async (req, res) => {
-  const { id: _id } = req.params;
+  const { grantId: _id } = req.params;
   try {
-    const grant = await OptionGrant.findById(_id);
+    const grant = await EquityGrant.findById(_id);
     res.status(200).json(grant)
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -25,7 +25,7 @@ export const getGrant = async (req, res) => {
 
 export const createGrant = async (req, res) => {
   const grant = req.body;
-  const newGrant = OptionGrant(grant);
+  const newGrant = EquityGrant(grant);
   try {
     await newGrant.save();
     res.status(201).json(newGrant);
@@ -40,7 +40,7 @@ export const editGrant = async (req, res) => {
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
 
-  const updatedGrant = await OptionGrant.findByIdAndUpdate(_id, grantUpdates, { new: true });
+  const updatedGrant = await EquityGrant.findByIdAndUpdate(_id, grantUpdates, { new: true });
   res.json(updatedGrant);
 };
 
@@ -49,6 +49,6 @@ export const deleteGrant = async (req, res) => {
   
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
 
-  await OptionGrant.findByIdAndDelete(_id);
+  await EquityGrant.findByIdAndDelete(_id);
   res.json({ message: "Grant Removed Successfully "});
 };

@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 
 import Loading from './Loading';
 import { fetchGrants } from '../../api/option';
-import { optionGrantIdsState } from '../../recoil/option';
+import { optionGrantIdsState } from '../../recoil/equityGrant';
 
 import LoadOptionGrant from './LoadNonEquityPayment';
 

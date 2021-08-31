@@ -28,14 +28,8 @@ executiveSchema.virtual('nonEquityPayments', {
   foreignField: 'executive'
 });
 
-executiveSchema.virtual('restrictedStockGrants', {
-  ref: 'RestrictedStockGrant',
-  localField: '_id',
-  foreignField: 'executive'
-});
-
-executiveSchema.virtual('optionGrants', {
-  ref: 'OptionGrant',
+executiveSchema.virtual('equityGrants', {
+  ref: 'EquityGrant',
   localField: '_id',
   foreignField: 'executive'
 });

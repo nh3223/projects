@@ -7,8 +7,7 @@ import companyRoutes from './routes/company.js';
 import executiveRoutes from './routes/executive.js';
 import compensationRoutes from './routes/compensation.js';
 import nonEquityPaymentRoutes from './routes/nonEquityPayments.js';
-import restrictedStockRoutes from './routes/restrictedStockGrant.js';
-import optionRoutes from './routes/optionGrant.js';
+import equityGrantRoutes from './routes/equitygrant.js'
 
 const app = express();
 dotenv.config();
@@ -20,8 +19,7 @@ app.use('/company', companyRoutes);
 app.use('/executive', executiveRoutes);
 app.use('/compensation', compensationRoutes);
 app.use('/nonequitypayment', nonEquityPaymentRoutes);
-app.use('/restrictedStock', restrictedStockRoutes);
-app.use('/option', optionRoutes);
+app.use('/equitygrant', equityGrantRoutes);
 
 const PORT = process.env.PORT || 5000;
 

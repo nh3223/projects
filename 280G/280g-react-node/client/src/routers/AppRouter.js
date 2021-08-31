@@ -7,10 +7,8 @@ import CompanyInformation from '../components/Screens/CompanyInformation/Company
 import ExecutiveSummary from '../components/Screens/ExecutiveSummary';
 import Compensation from '../components/Screens/Compensation/Compensation';
 import NonEquityPayments from '../components/Screens/NonEquityPayments/NonEquityPayments';
-import RestrictedStock from '../components/Screens/RestrictedStock/RestrictedStock';
-import RestrictedStockGrant from '../components/Screens/RestrictedStock/RestrictedStockGrant';
-import Options from '../components/Screens/Options/Options';
-import OptionGrant from '../components/Screens/Options/OptionGrant';
+import EquityGrants from '../components/Screens/EquityGrants/EquityGrants';
+import EquityGrant from '../components/Screens/EquityGrants/EquityGrant';
 import NotFound from '../components/Screens/NotFound';
 
 const AppRouter = () => (
@@ -23,10 +21,8 @@ const AppRouter = () => (
         <Route exact path="/company/:companyId/executive/:executiveId" component={ ExecutiveSummary } />
         <Route exact path="/company/:companyId/executive/:executiveId/compensation" component={ Compensation } />
         <Route exact path="/company/:companyId/executive/:executiveId/non-equity-payments" component={ NonEquityPayments } />
-        <Route exact path="/company/:companyId/executive/:executiveId/options" component={ Options } />
-        <Route exact path="/company/:companyId/executive/:executiveId/options/:optionId" component={ OptionGrant } />
-        <Route exact path="/company/:companyId/executive/:executiveId/restricted-stock" component={ RestrictedStock } />
-        <Route exact path="/company/:companyId/executive/:executiveId/restricted-stock/:restrictedStockId" component={ RestrictedStockGrant } />
+        <Route exact path="/company/:companyId/executive/:executiveId/equity-grants" component={ EquityGrants } />
+        <Route exact path="/company/:companyId/executive/:executiveId/equity-grants/:grantId" component={ EquityGrant } />
         <Route component={ NotFound } />
       </Switch>
   </Router>
