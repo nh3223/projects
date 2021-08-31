@@ -5,7 +5,7 @@ import { getCompanies, getExecutives, getCompany, createCompany, editCompany, de
 const companyRoutes = Router();
 
 companyRoutes.get('/', getCompanies);
-companyRoutes.get('/executives/:id', getExecutives)
+companyRoutes.get('/:id/executives', getExecutives)
 companyRoutes.get('/:id', getCompany);
 companyRoutes.post('/', createCompany);
 companyRoutes.patch('/:id', editCompany);

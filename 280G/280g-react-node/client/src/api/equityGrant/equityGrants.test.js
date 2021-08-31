@@ -6,7 +6,7 @@ import { deleteGrant } from './deleteGrant';
 
 import { defaultGrant } from '../../utilities/equityGrant/default';
 
-const base_url = 'http://localhost:5000/equitygrant';
+const baseUrl = 'http://localhost:5000/equitygrant';
 const headers = { "Content-Type": "application/json" };
 const executiveId = 3;
 const grantId = 1;
@@ -18,7 +18,7 @@ test('fetchGrants should call fetch with correct url', async () => {
     json: () => Promise.resolve([ ])
   }));
   
-  const url = `${base_url}/executive/${executiveId}`
+  const url = `${baseUrl}/executive/${executiveId}`
 
   fetchGrants(executiveId);
   expect(fetchSpy).toHaveBeenCalledWith(url);
@@ -30,7 +30,7 @@ test('fetchGrant should call fetch with correct url', () => {
     json: () => Promise.resolve({ _id: grantId, ...defaultGrant })
   }));
   
-  const url = `${base_url}/${grantId}`;
+  const url = `${baseUrl}/${grantId}`;
   fetchGrant(grantId);
   expect(fetchSpy).toHaveBeenCalledWith(url);
 });
@@ -41,13 +41,17 @@ test('createGrant should call fetch with correct url and options', () => {
     json: () => Promise.resolve({ _id: executiveId, ...defaultGrant })
   }));
   
+  const newGrant = JSON.stringify({
+    executive: executiveId,
+    ...defaultGrant
+  });
   const options = {
     method: 'POST',
     headers,
-    body: JSON.stringify({ executive: executiveId, ...defaultGrant })
+    body: newGrant
   }
   createGrant(executiveId);
-  expect(fetchSpy).toHaveBeenCalledWith(base_url, options);
+  expect(fetchSpy).toHaveBeenCalledWith(baseUrl, options);
 });
 
 test('editGrant should call fetch with correct url and options', () => {
@@ -56,7 +60,7 @@ test('editGrant should call fetch with correct url and options', () => {
     json: () => Promise.resolve(edits)
   }));
   
-  const url = `${base_url}/${grantId}`;
+  const url = `${baseUrl}/${grantId}`;
   const options = {
     method: 'PATCH',
     headers,
@@ -72,7 +76,7 @@ test('deleteGrant should call fetch with correct url and options', () => {
     json: () => Promise.resolve({ })
   }));
   
-  const url = `${base_url}/${grantId}`;
+  const url = `${baseUrl}/${grantId}`;
   const options = { method: 'DELETE' }
   deleteGrant(grantId)
   expect(fetchSpy).toHaveBeenCalledWith(url, options)

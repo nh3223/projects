@@ -10,11 +10,7 @@ const getCompanyData = (id, company) => {
   });
 };
 
-export const defaultCompany = {
-  name: '',
-  transactionDate: '',
-  transactionPrice: ''
-};
+
 
 export const getCompany = async (id) => {
   const company = await fetchCompany(id);

@@ -4,7 +4,7 @@ import {render} from '@testing-library/react'
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import Executive from './Executive';
-import { executiveNameState, executiveTitleState } from '../../../../../recoil/executive';
+import { executiveNameState, executiveTitleState } from '../../../../recoil/executive';
 
 const executiveName = 'John Doe';
 const executiveTitle = 'CEO';

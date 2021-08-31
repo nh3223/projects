@@ -3,16 +3,12 @@ import { createCompensation } from './createCompensation';
 import { editCompensation } from './editCompensation';
 import { deleteCompensation } from './deleteCompensation';
 
-import { defaultCompensation } from '../../utilities/compensation/defaultCompensation';
+import { defaultCompensation } from '../../utilities/compensation/default';
 
-const base_url = 'http://localhost:5000/compensation';
+const baseUrl = 'http://localhost:5000/compensation';
 const headers = { "Content-Type": "application/json" }
 const executiveId = 1;
 const edits = { firstYearPayments: 1000 }
-
-// const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-//   json: () => Promise.resolve(edits)
-// }));
 
 test('fetchCompensation should call fetch with correct url', () => {
   
@@ -20,7 +16,7 @@ test('fetchCompensation should call fetch with correct url', () => {
     json: () => Promise.resolve({ executive: executiveId, ...defaultCompensation })
   }));
   
-  const url = `${base_url}/${executiveId}`;
+  const url = `${baseUrl}/${executiveId}`;
   fetchCompensation(executiveId);
   expect(fetchSpy).toHaveBeenCalledWith(url);
 });
@@ -31,13 +27,17 @@ test('createCompensation should call fetch with correct url and options', () => 
     json: () => Promise.resolve({ executive: executiveId, ...defaultCompensation })
   }));
   
+  const newCompensation = JSON.stringify({
+    executive: executiveId,
+    ...defaultCompensation
+  });
   const options = {
     method: 'POST',
     headers,
-    body: JSON.stringify({ executive: executiveId, ...defaultCompensation })
-  }
+    body: newCompensation
+  };
   createCompensation(executiveId);
-  expect(fetchSpy).toHaveBeenCalledWith(base_url, options);
+  expect(fetchSpy).toHaveBeenCalledWith(baseUrl, options);
 });
 
 test('editCompensation should call fetch with correct url and options', () => {
@@ -46,7 +46,7 @@ test('editCompensation should call fetch with correct url and options', () => {
     json: () => Promise.resolve(edits)
   }));
   
-  const url = `${base_url}/${executiveId}`;
+  const url = `${baseUrl}/${executiveId}`;
   const options = {
     method: 'PATCH',
     headers,
@@ -62,7 +62,7 @@ test('deleteCompensation should call fetch with correct url and options', () => 
     json: () => Promise.resolve({ })
   }));
   
-  const url = `${base_url}/${executiveId}`;
+  const url = `${baseUrl}/${executiveId}`;
   const options = { method: 'DELETE' }
   deleteCompensation(executiveId)
   expect(fetchSpy).toHaveBeenCalledWith(url, options)

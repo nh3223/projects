@@ -1,14 +1,14 @@
 import React from 'react';
 
-import useLoadExecutive from '../../../../../hooks/useLoadExecutive';
-import { deleteExecutive } from '../../../../../api/executive/deleteExecutive';
-import { deleteCompensation } from '../../../../../api/compensation/deleteCompensation';
+import useLoadExecutive from '../../../../hooks/useLoadExecutive';
+import { deleteExecutive } from '../../../../api/executive/deleteExecutive';
+import { deleteCompensation } from '../../../../api/compensation/deleteCompensation';
 
-import Loading from '../../../../Loaders/Loading';
-import SingleLineLayout from '../../../../Elements/Layouts/SingleLineLayout';
+import Loading from '../../../Loaders/Loading';
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 import Name from '../ExecutiveName/ExecutiveName';
 import Title from '../ExecutiveTitle/ExecutiveTitle';
-import DeleteButton from '../../../../Elements/Buttons/DeleteButton/DeleteButton';
+import DeleteButton from '../../../Elements/Buttons/DeleteButton/DeleteButton';
 
 const Executive = ({ executiveId, removeExecutiveId }) => {
 

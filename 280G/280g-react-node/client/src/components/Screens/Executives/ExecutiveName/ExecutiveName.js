@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { executiveNameState } from '../../../../../recoil/executive';
-import { editExecutive } from '../../../../../api/executive/editExecutive';
+import { executiveNameState } from '../../../../recoil/executive';
+import { editExecutive } from '../../../../api/executive/editExecutive';
 
-import SingleLineLayout from '../../../../Elements/Layouts/SingleLineLayout';
-import Description from '../../../../Elements/TextElements/Description/Description';
-import Identifier from '../../../../Elements/Identifier/Identifier';
-import InputForm from '../../../../Elements/Forms/InputForm/InputForm';
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
+import Description from '../../../Elements/TextElements/Description/Description';
+import Identifier from '../../../Elements/Identifier/Identifier';
+import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
 const ExecutiveName = ({ executiveId }) => {
   

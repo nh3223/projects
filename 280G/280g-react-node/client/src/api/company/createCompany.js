@@ -1,4 +1,4 @@
-import { defaultCompany } from "../../utilities/company/company";
+import { defaultCompany } from "../../utilities/company/default";
 
 export const createCompany = async () => {
   const url = 'http://localhost:5000/company';

@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event'
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import ExecutiveName from './ExecutiveName';
-import { executiveNameState } from '../../../../../recoil/executive';
-import * as editExecutive from '../../../../../api/executive/editExecutive';
+import { executiveNameState } from '../../../../recoil/executive';
+import * as editExecutive from '../../../../api/executive/editExecutive';
 
 const defaultExecutiveName = '';
 const givenExecutiveName = 'John Doe';

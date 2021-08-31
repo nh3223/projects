@@ -1,15 +1,15 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 
-import { executiveIdsState } from '../../../../../recoil/executive';
-import useLoadExecutives from '../../../../../hooks/useLoadExecutives';
-import { createExecutive } from '../../../../../api/executive/createExecutive';
-import { createCompensation } from '../../../../../api/compensation/createCompensation';
+import { executiveIdsState } from '../../../../recoil/executive';
+import useLoadExecutives from '../../../../hooks/useLoadExecutives';
+import { createExecutive } from '../../../../api/executive/createExecutive';
+import { createCompensation } from '../../../../api/compensation/createCompensation';
 
-import Loading from '../../../../Loaders/Loading';
+import Loading from '../../../Loaders/Loading';
 import Executive from '../Executive/Executive';
-import SubTitle from '../../../../Elements/TextElements/SubTitle/SubTitle';
-import AddButton from '../../../../Elements/Buttons/AddButton/AddButton';
+import SubTitle from '../../../Elements/TextElements/SubTitle/SubTitle';
+import AddButton from '../../../Elements/Buttons/AddButton/AddButton';
 
 const Executives = ({ companyId }) => {
 

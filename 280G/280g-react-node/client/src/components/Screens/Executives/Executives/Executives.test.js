@@ -5,13 +5,13 @@ import userEvent from '@testing-library/user-event'
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import Executives from './Executives';
-import { executiveIdsState, executiveNameState, executiveTitleState } from '../../../../../recoil/executive';
-import { defaultExecutive } from '../../../../../utilities/executive/executive';
-import * as createExecutive from '../../../../../api/executive/createExecutive';
-import * as deleteExecutive from '../../../../../api/executive/deleteExecutive';
-import * as createCompensation from '../../../../../api/compensation/createCompensation';
-import * as deleteCompensation from '../../../../../api/compensation/deleteCompensation';
-import * as fetchExecutive from '../../../../../api/executive/fetchExecutive';
+import { executiveIdsState, executiveNameState, executiveTitleState } from '../../../../recoil/executive';
+import { defaultExecutive } from '../../../../utilities/executive/default';
+import * as createExecutive from '../../../../api/executive/createExecutive';
+import * as deleteExecutive from '../../../../api/executive/deleteExecutive';
+import * as createCompensation from '../../../../api/compensation/createCompensation';
+import * as deleteCompensation from '../../../../api/compensation/deleteCompensation';
+import * as fetchExecutive from '../../../../api/executive/fetchExecutive';
 
 const companyId = 12;
 
