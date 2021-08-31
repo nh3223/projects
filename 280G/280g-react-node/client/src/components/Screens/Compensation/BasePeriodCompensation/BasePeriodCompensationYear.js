@@ -1,31 +1,39 @@
 import React, { useState } from 'react';
 
-import Description from '../../../Elements/Description/Description';
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
+import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
-import InputForm from '../../../Elements/InputForm/InputForm';
+import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const BasePeriodCompensationYear = ({ completed, year, compensation, handlers: { change, edit, submit }}) => {
+const BasePeriodCompensationYear = ({ year, compensation, handleSubmit}) => {
 
-  const [ errorMessage, setErrorMessage ] = useState({});
+  const [ annualCompensation, setAnnualCompensation ] = useState(compensation)
+  const [ completed, setCompleted ] = useState((compensation) ? true : false)
+  const [ errorMessage, setErrorMessage ] = useState(null);
+
+  const handleChange = ({ target: { value }}) => setAnnualCompensation(value);
+
+  const handleEdit = () => setCompleted(false);
 
   const validate = async (e) => {
-    if (Number(compensation) && Number(compensation) >= 0) {
-      await submit(e);
-      setErrorMessage({ ...errorMessage, [year]: null });
+    const annualComp = Number(annualCompensation);
+    if (annualComp && annualComp >= 0) {
+      await handleSubmit(year, annualComp);
+      setCompleted(true);
+      setErrorMessage(null);
     } else {
-      setErrorMessage({ ...errorMessage, [year]: 'Please enter a valid compensation amount' });
+      setErrorMessage('Please enter a valid compensation amount');
     }
   };
 
-
   return (
-    <>
+    <SingleLineLayout>
       <Description text={ `${ year }: ` } />
       { completed
-        ? <Identifier name={ year } text={ `$${ compensation}` } handleEdit={ edit } />
-        : <InputForm name={ year } value={ compensation } handleChange={ change } handleSubmit={ validate } errorMessage={ errorMessage[year] } />
+        ? <Identifier text={ `$${ annualCompensation}` } handleEdit={ handleEdit } />
+        : <InputForm value={ annualCompensation } handleChange={ handleChange } handleSubmit={ validate } errorMessage={ errorMessage } />
       }
-    </>
+    </SingleLineLayout>
   );
 
 };

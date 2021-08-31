@@ -6,7 +6,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import FirstYearPayments from './FirstYearPayments';
 import { firstYearPaymentsState } from '../../../../recoil/compensation';
-import * as editExecutive from '../../../../api/executive/editExecutive';
+import * as editCompensation from '../../../../api/compensation/editCompensation';
 
 const InitializeState = ({ executiveId, payments }) => {
   
@@ -30,7 +30,6 @@ const InitializeState = ({ executiveId, payments }) => {
 const component = (executiveId, payments) => (
   <RecoilRoot>
     <InitializeState executiveId={ executiveId } payments={ payments } />
-    {/* <FirstYearPayments executiveId={ executiveId } /> */}
   </RecoilRoot>
 );
 
@@ -102,7 +101,7 @@ test('should show error message if non-positive transaction price is submitted',
 
 test('should render description after valid submit', async () => {
   
-  jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({
+  jest.spyOn(editCompensation, 'editCompensation').mockImplementationOnce(() => Promise.resolve({
     json: () => Promise.resolve({ firstYearPayments: validFirstYearPayments }),
   }));
 

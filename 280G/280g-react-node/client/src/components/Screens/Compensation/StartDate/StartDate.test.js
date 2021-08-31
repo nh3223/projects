@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {fireEvent, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -6,19 +6,31 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import StartDate from './StartDate';
 import { startDateState } from '../../../../recoil/compensation';
-import * as editExecutive from '../../../../api/executive/editExecutive';
+import * as editCompensation from '../../../../api/compensation/editCompensation';
 import { stringify, formatDate } from '../../../../utilities/formatDate';
 
 const InitializeState = ({ executiveId, startDate }) => {
+  
   const setStartDate = useSetRecoilState(startDateState(executiveId));
-  useEffect(() => setStartDate(startDate), [startDate, setStartDate]);
-  return null;
+  const [ loaded, setLoaded ] = useState(false);
+  const [ loading, setLoading ] = useState(true);
+  
+  useEffect(() => {
+    if (loaded) setLoading(false);
+  }, [loaded, setLoading])
+
+  useEffect(() => {
+    setStartDate(startDate);
+    setLoaded(true);
+  }, [ startDate, setStartDate, setLoaded]);
+  
+  return loading? null : <StartDate executiveId={ executiveId } />;
+
 };
 
 const component = (executiveId, startDate) => (
   <RecoilRoot>
     <InitializeState executiveId={ executiveId } startDate={ startDate } />
-    <StartDate executiveId={ executiveId } />
   </RecoilRoot>
 );
 
@@ -58,7 +70,7 @@ test('should render form if Edit button is pressed', () => {
 
 test('should render description after change', async () => {
   
-  jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({
+  jest.spyOn(editCompensation, 'editCompensation').mockImplementationOnce(() => Promise.resolve({
     json: () => Promise.resolve({ startDate: isoFormatGivenStartDate }),
   }));
 

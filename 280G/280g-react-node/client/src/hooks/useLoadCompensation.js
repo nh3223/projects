@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from "recoil";
 
-import { firstYearPaymentsState, startDateState, basePeriodCompensationState } from '../../recoil/compensation';
-import { fetchExecutive } from '../../api/executive/fetchExecutive';
+import { firstYearPaymentsState, startDateState, basePeriodCompensationState } from '../recoil/compensation';
+import { fetchExecutive } from '../api/executive/fetchExecutive';
 
-const useLoadCompensation = (executiveId) => {
+export const useLoadCompensation = (executiveId) => {
   
   const [ startDate, setStartDate ] = useRecoilState(startDateState(executiveId));
   const setFirstYearPayments = useSetRecoilState(firstYearPaymentsState(executiveId));
@@ -47,4 +47,4 @@ const useLoadCompensation = (executiveId) => {
 
 };
 
-export default useLoadCompensation;
+// export default useLoadCompensation;
