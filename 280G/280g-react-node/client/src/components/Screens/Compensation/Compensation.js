@@ -6,29 +6,41 @@ import { executiveNameState } from '../../../recoil/executive';
 import { useLoadCompensation } from '../../../hooks/useLoadCompensation';
 
 import Loading from '../../Loaders/Loading';
+import Headers from '../../Elements/Layouts/Headers';
+import MultiLineLayout from '../../Elements/Layouts/MultiLineLayout';
 import StartDate from './StartDate/StartDate';
 import BasePeriodCompensation from './BasePeriodCompensation/BasePeriodCompensation';
 import FirstYearPayments from './FirstYearPayments/FirstYearPayments';
+import CompanyHeader from '../../Navigation/CompanyHeader';
 import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 
 const Compensation = () => {
 
-  const { executiveId } = useParams();
+  const { companyId, executiveId } = useParams();
   const executiveName = useRecoilValue(executiveNameState(executiveId));
   const { loading, error } = useLoadCompensation(executiveId);
 
-  console.log('executiveId', executiveId);
-
+  if (loading) return <Loading component="Compensation" error={ error } />
+  
   return (
-    loading
-    ? <Loading componentMessage="Compensation" errorMessage={ error } />
-    : <>
+    <>
+
+      <Headers>
+        <CompanyHeader companyId={ companyId } />
         <ExecutiveHeader executiveId={ executiveId } />
+      </Headers>
+
+      <MultiLineLayout>
         <h1>Executive: { executiveName }</h1>
         <StartDate executiveId={ executiveId } />
         <BasePeriodCompensation executiveId={ executiveId } />
-        <FirstYearPayments executiveId={ executiveId } />        
-      </>  
+        <FirstYearPayments executiveId={ executiveId } />  
+      </MultiLineLayout>
+      
+    </>  
+
   );
+
 };
+
 export default Compensation;

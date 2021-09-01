@@ -8,7 +8,7 @@ import ExecutiveHeaderItem from './ExecutiveHeaderItem';
 
 const CompanyHeader = ({ companyId }) => {
 
-  const executiveIds = useRecoilValue(executiveIdsState);
+  const executiveIds = useRecoilValue(executiveIdsState(companyId));
 
   return (
     <>

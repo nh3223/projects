@@ -8,6 +8,7 @@ import { editCompany } from '../../../../api/company/editCompany';
 import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
 import DateForm from '../../../Elements/Forms/DateForm/DateForm';
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 
 const TransactionDate = ({ companyId }) => {
   
@@ -23,13 +24,13 @@ const TransactionDate = ({ companyId }) => {
   const handleEdit = () => setCompleted(false);
 
   return (
-    <>
+    <SingleLineLayout>
       <Description text={ 'Transaction Date: ' } />
       { (completed)
       ? <Identifier text={ (transactionDate) ? formatDate(transactionDate) : '' } handleEdit={ handleEdit }/>
       : <DateForm date={ transactionDate } handleChange={ handleChange } />
       } 
-    </>
+    </SingleLineLayout>
   );
 
 };

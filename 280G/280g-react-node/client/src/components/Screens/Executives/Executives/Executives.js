@@ -24,16 +24,17 @@ const Executives = ({ companyId }) => {
 
   const removeExecutiveId = (executiveId) => setExecutiveIds(executiveIds.filter((id) => id !== executiveId));
 
+  if (loading) return <Loading component="Executives" error={ error } />
+
   return (
-    loading
-    ? <Loading componentMessage="Executives" errorMessage={ error } />
-    : <>
-        <SubTitle text="Executives" />
-        <AddButton text="Add an Executive" handleAdd={ handleAdd } />
-        { (executiveIds) 
-          ? executiveIds.map((id) => <Executive key={ id } executiveId={ id } removeExecutiveId={ removeExecutiveId } />)
-          : null }
-      </>
+    <>
+      <SubTitle text="Executives" />
+      <AddButton text="Add an Executive" handleAdd={ handleAdd } />
+      { (executiveIds) 
+        ? executiveIds.map((id) => <Executive key={ id } executiveId={ id } removeExecutiveId={ removeExecutiveId } />)
+        : null }
+    </>
+
   );
 
 };

@@ -1,5 +1,5 @@
-export const editPayment = async (grantId, edits) => {
-  const url = `http://localhost:5000/nonequitypayment/${grantId}`;
+export const editPayment = async (paymentId, edits) => {
+  const url = `http://localhost:5000/nonequitypayment/${paymentId}`;
   const options = {
     method: 'PATCH',
     headers: { "Content-Type": "application/json" },

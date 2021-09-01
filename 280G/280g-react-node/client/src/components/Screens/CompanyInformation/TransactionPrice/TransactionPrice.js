@@ -7,6 +7,7 @@ import { editCompany } from '../../../../api/company/editCompany';
 import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 
 const TransactionPrice = ({ companyId }) => {
 
@@ -30,13 +31,13 @@ const TransactionPrice = ({ companyId }) => {
   };
 
   return (
-    <>
+    <SingleLineLayout>
       <Description text="Transaction Price per Share: " />
       { (completed)
       ? <Identifier text={ transactionPrice } handleEdit={ handleEdit }/>
       : <InputForm value={ transactionPrice } handleSubmit={ validate } handleChange={ handleChange } errorMessage={ errorMessage }/>
       } 
-    </>
+    </SingleLineLayout>
   );
 
 };
