@@ -1,25 +1,18 @@
 import React from 'react';
 
 import StyledRadio from './StyledRadio';
-import Description from '../../TextElements/Description/Description';
+import RadioLabel from './RadioLabel';
 
-const RadioForm = ({ name, values, criteria, handleChange }) => {
-  
-  const processChange = ({ target: { name, value }}) => handleChange(name, value);
+const RadioForm = ({ name, formChoices, checked, handleChange }) => (
+  <form>
+    { formChoices.map((choice) => (
+      <div key={ choice }>
+        <StyledRadio name={ name } id={ choice } type="radio" value={ choice } checked={ choice === checked } onChange={ handleChange } />
+        <RadioLabel choice={ choice } text={ choice } />
+      </div> 
+    ))}
+  </form>
 
-  return (
-  
-    <form>
-      { values.map((value) => (
-        <div key={ value }>
-          <StyledRadio name={ name } type="radio" value={ value } checked={ value === criteria } onChange={ processChange } />
-          <Description text={ value } />
-        </div> 
-      ))}
-    </form>
-
-  );
-
-};
+);
 
 export default RadioForm;
