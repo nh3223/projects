@@ -1,20 +1,40 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 
-import CheckboxForm from '../../../Elements/CheckboxForm/CheckboxForm';
+import { accelerationState } from '../../../../recoil/equityGrant';
+import { editGrant } from '../../../../api/equityGrant/editGrant';
+
+import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
+import CheckboxForm from '../../../Elements/Forms/CheckboxForm/CheckboxForm';
 import AccelerationPercentage from './AccelerationPercentage';
 import AccelerationMethod from './AccelerationMethod';
 
-const Acceleration = ({ grant: { acceleration, accelerationPercentage, accelerationMethod }, completed, handlers }) => (
-  <>
-    <CheckboxForm name="acceleration" text="Are the shares subject to acceleration?" checked={ acceleration } handleChange={ handlers.changeAcceleration } />
-    { (acceleration)
-      ? <>
-          <AccelerationPercentage name="accelerationPercentage" completed={ completed } accelerationPercentage={ accelerationPercentage } handlers={ handlers } />
-          <AccelerationMethod name="accelerationMethod" accelerationMethod={ accelerationMethod } handleChange={ handlers.change }/>
-        </>
-      : null
-    }
-  </>
-);
+const Acceleration = ({ grantId }) => {
+
+  const [ acceleration, setAcceleration ] = useRecoilState(accelerationState(grantId));
+
+  const handleChange = async ({ target: { checked }}) => {
+    setAcceleration(checked);
+    await editGrant(grantId, { acceleration: checked });
+  };
+
+  const name = 'Acceleration';
+  const text = 'Check if shares are subject to acceleration';
+
+  return (
+    <MultiLineLayout>
+      <CheckboxForm name={ name } text={ text } checked={ acceleration } handleChange={ handleChange } />
+      { (acceleration)
+        ? <>
+            <AccelerationPercentage grantId={ grantId } />
+            <AccelerationMethod grantId={ grantId } />
+          </>
+        : null
+      }
+    </MultiLineLayout>
+
+  );
+
+};
 
 export default Acceleration;

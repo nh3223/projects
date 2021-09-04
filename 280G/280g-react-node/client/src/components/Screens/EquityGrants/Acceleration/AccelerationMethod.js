@@ -1,17 +1,38 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 
-import RadioForm from '../../../Elements/RadioForm/RadioForm';
+import { editGrant } from '../../../../api/equityGrant/editGrant';
+import { accelerationMethodState } from '../../../../recoil/equityGrant';
 
-const MethodForm = ({ name, accelerationMethod, handleChange }) => {
-  
-  const values = [
+import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
+import Description from '../../../Elements/TextElements/Description/Description';
+import RadioForm from '../../../Elements/Forms/RadioForm/RadioForm';
+
+const MethodForm = ({ grantId }) => {
+
+  const [ accelerationMethod, setAccelerationMethod ] = useRecoilState(accelerationMethodState(grantId));
+
+  const handleChange = async ({ target: { value }}) => {
+    setAccelerationMethod(value);
+    await editGrant(grantId, { accelerationMethod: value });
+  };
+
+  const name = 'Acceleration Method';
+  const text = 'Method of Acceleration'
+
+  const formChoices = [
     'Next to Vest',
     'Last to Vest',
     'Proportional',
     'Other'
   ];
   
-  return <RadioForm name={ name } values={ values } criteria={ accelerationMethod } handleChange={ handleChange } /> ;
+  return (
+    <MultiLineLayout>
+      <Description text={ text } />
+      <RadioForm name={ name } formChoices={ formChoices } checked={ accelerationMethod } handleChange={ handleChange } />
+    </MultiLineLayout>
+  );
     
 };
 

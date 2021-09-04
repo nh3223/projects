@@ -1,11 +1,10 @@
 import React from 'react';
 
+import Label from '../Label/Label';
 import StyledInput from './StyledInput';
 import ErrorMessage from '../../TextELements/ErrorMessage/ErrorMessage';
 
 const InputForm = ({ name, value, handleChange, handleSubmit, errorMessage }) => {
-
-  // const processChange = ({ target: { name, value }}) => handleChange(name, value);
 
   const processSubmit = async (e) => {
     e.preventDefault();
@@ -13,8 +12,9 @@ const InputForm = ({ name, value, handleChange, handleSubmit, errorMessage }) =>
   };
 
   return (
-    <form name={ name } onSubmit={ processSubmit }>
-      <StyledInput name={ name } type="text" value={ value } onChange={ handleChange } />
+    <form onSubmit={ processSubmit }>
+      <Label htmlFor={ name } />
+      <StyledInput id={ name } type="text" value={ value } onChange={ handleChange } />
       <ErrorMessage text={ errorMessage } />
     </form>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '@testing-library/jest-dom/extend-expect'
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
