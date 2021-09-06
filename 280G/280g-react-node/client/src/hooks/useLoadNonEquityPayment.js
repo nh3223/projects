@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import {  nonEquityPaymentDescriptionState, nonEquityPaymentAmountState } from '../recoil/nonEquityPayment';
 import { fetchPayment } from '../api/nonEquityPayment/fetchPayment';
 
-const useLoadNonEquityPayment = (paymentId) => {
+export const useLoadNonEquityPayment = (paymentId) => {
   
   const [ description, setDescription ] = useRecoilState(nonEquityPaymentDescriptionState(paymentId));
   const [ amount, setAmount ] = useRecoilState(nonEquityPaymentAmountState(paymentId));
@@ -44,5 +44,3 @@ const useLoadNonEquityPayment = (paymentId) => {
   return { loading, error };
 
 };
-
-export default useLoadNonEquityPayment;

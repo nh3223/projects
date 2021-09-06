@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useLoadNonEquityPayment from '../../../../hooks/useLoadNonEquityPayment'; 
+import { useLoadNonEquityPayment } from '../../../../hooks/useLoadNonEquityPayment'; 
 import { deletePayment } from '../../../../api/nonEquityPayment/deletePayment';
 
 import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';

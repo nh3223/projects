@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 
 import { createPayment } from '../../../api/nonEquityPayments';
 import { nonEquityPaymentIdsState } from '../../../../recoil/nonEquityPayment';
-import useLoadNonEquityPayments from '../../../../hooks/useLoadNonEquityPayments';
+import { useLoadNonEquityPayments } from '../../../../hooks/useLoadNonEquityPayments';
 
 import Headers from '../../../Elements/Layouts/Headers';
 import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
