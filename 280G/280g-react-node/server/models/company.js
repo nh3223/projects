@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 
+const projectName = {
+  type: String
+};
+
 const companyName = {
   type: String
 };
@@ -18,6 +22,7 @@ const transactionPrice = {
 }
 
 const companyProperties = {
+  projectName,
   companyName,
   transactionDate,
   transactionPrice

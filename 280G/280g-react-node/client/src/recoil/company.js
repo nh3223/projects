@@ -1,4 +1,15 @@
-import { atomFamily } from 'recoil';
+import { atom, atomFamily } from 'recoil';
+
+export const projectNamesState = atom({
+  key: 'projectNames',
+  default: []
+});
+
+export const projectNameState = atomFamily({
+  // parameter: companyId
+  key: 'projectName',
+  default: ''
+});
 
 export const companyNameState = atomFamily({
   // parameter: companyId

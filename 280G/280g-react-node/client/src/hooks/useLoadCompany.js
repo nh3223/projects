@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from "recoil";
 
-import { companyNameState, transactionDateState, transactionPriceState } from '../../recoil/company';
+import { projectNameState, companyNameState, transactionDateState, transactionPriceState } from '../../recoil/company';
 import { fetchCompany } from '../../api/company/fetchCompany';
 
 const useLoadCompany = (companyId) => {
   
+  const [ projectName, setProjectName ] = useRecoilState(projectNameState(companyId));
   const [ companyName, setCompanyName ] = useRecoilState(companyNameState(companyId));
   const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState(companyId));
   const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState(companyId));
@@ -26,8 +27,9 @@ const useLoadCompany = (companyId) => {
       setLoaded(false);
 
       try {
-        const { name, date, price } = await fetchCompany(companyId);
-        setCompanyName(name);
+        const { nameProject, nameCompany, date, price } = await fetchCompany(companyId);
+        setProjectName(nameProject);
+        setCompanyName(nameCompany);
         setTransactionDate(date);
         setTransactionPrice(price);
         setLoaded(true);
@@ -39,9 +41,9 @@ const useLoadCompany = (companyId) => {
 
     };
   
-    if (!companyName || !transactionDate || !transactionPrice) setCompany();
+    if (!projectName || !companyName || !transactionDate || !transactionPrice) setCompany();
   
-  }, [companyId, companyName, transactionDate, transactionPrice, setCompanyName, setTransactionDate, setTransactionPrice]);
+  }, [companyId, projectName, companyName, transactionDate, transactionPrice, setProjectName, setCompanyName, setTransactionDate, setTransactionPrice]);
 
   return { loading, error };
 

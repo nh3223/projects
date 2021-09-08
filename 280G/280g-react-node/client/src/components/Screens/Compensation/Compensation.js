@@ -7,6 +7,7 @@ import { useLoadCompensation } from '../../../hooks/useLoadCompensation';
 
 import Loading from '../../Loaders/Loading';
 import Headers from '../../Elements/Layouts/Headers';
+import Header from '../../Navigation/Header';
 import MultiLineLayout from '../../Elements/Layouts/MultiLineLayout';
 import StartDate from './StartDate/StartDate';
 import BasePeriodCompensation from './BasePeriodCompensation/BasePeriodCompensation';
@@ -26,6 +27,7 @@ const Compensation = () => {
     <>
 
       <Headers>
+        <Header companyId={ companyId } />
         <CompanyHeader companyId={ companyId } />
         <ExecutiveHeader executiveId={ executiveId } />
       </Headers>

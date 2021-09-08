@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-const Headers = styled.div`
+const StyledHeader = styled.div`
 
 `;
 
-export default Headers;
+export default StyledHeader;
