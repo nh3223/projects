@@ -1,5 +1,5 @@
 import { getYear } from 'date-fns';
-import { parse } from '../../formatDate';
+import { parse } from '../../date/date';
 
 export const getYears = (startDate) => {
   if (startDate === '') return '';

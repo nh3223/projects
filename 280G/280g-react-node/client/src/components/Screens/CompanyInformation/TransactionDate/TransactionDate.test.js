@@ -7,7 +7,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 import TransactionDate from './TransactionDate';
 import { transactionDateState } from '../../../../recoil/company';
 import * as editCompany from '../../../../api/company/editCompany';
-import { stringify, formatDate } from '../../../../utilities/formatDate';
+import { stringify, formatDate } from '../../../../utilities/date/date';
 
 const InitializeState = ({ companyId, date }) => {
 

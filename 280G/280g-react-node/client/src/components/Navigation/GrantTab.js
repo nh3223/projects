@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { grantDateState } from '../../recoil/equityGrant';
-import { formatDate } from '../../utilities/formatDate';
+import { formatDate } from '../../utilities/date/date';
 
 import Tab from '../Elements/Navigation/Tab';
 

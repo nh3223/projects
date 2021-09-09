@@ -6,7 +6,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import BasePeriodCompensation from './BasePeriodCompensation';
 import { basePeriodCompensationState, startDateState } from '../../../../recoil/compensation';
-import { stringify } from '../../../../utilities/formatDate';
+import { stringify } from '../../../../utilities/date/date';
 import * as editCompensation from '../../../../api/compensation/editCompensation';
 
 const InitializeState = ({ executiveId, startDate, basePeriodCompensation }) => {

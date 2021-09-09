@@ -1,5 +1,5 @@
 import { getYears } from './getYears';
-import { stringify } from '../../formatDate'
+import { stringify } from '../../date/date'
 
 test('should return empty string if no start date provided', () => {
   const startDate = '';

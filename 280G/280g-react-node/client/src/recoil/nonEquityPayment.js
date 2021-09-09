@@ -1,4 +1,4 @@
-import { atomFamily } from 'recoil';
+import { atomFamily, selectorFamily } from 'recoil';
 
 export const nonEquityPaymentIdsState = atomFamily({
   // parameter: executiveId
@@ -16,4 +16,14 @@ export const nonEquityPaymentAmountState = atomFamily({
   // parameter: paymentId
   key: 'nonEquityPaymentAmount',
   default: ''
+});
+
+export const totalNonEquityPaymentsState = selectorFamily({
+  // parameter: executiveId
+  key: 'totalNonEquityPayments',
+  get: (executiveId) => ({ get }) => {
+    const paymentIds = get(nonEquityPaymentIdsState(executiveId));
+    const totalPayments = paymentIds.reduce((total, paymentId) => total + get(nonEquityPaymentAmountState(paymentId)), 0);
+    return totalPayments;
+  }
 });

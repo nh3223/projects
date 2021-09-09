@@ -6,7 +6,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import Compensation from './Compensation';
 import { basePeriodCompensationState, startDateState } from '../../../recoil/compensation';
-import { stringify, formatDate } from '../../../utilities/formatDate';
+import { stringify, formatDate } from '../../../utilities/date/date';
 import { executiveNameState } from '../../../recoil/executive';
 import { firstYearPaymentsState } from '../../../recoil/compensation';
 import * as useLoadCompensation from '../../../hooks/useLoadCompensation';

@@ -5,7 +5,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import BaseAmount from './BaseAmount';
 import { basePeriodCompensationState, firstYearPaymentsState, startDateState } from '../../../../recoil/compensation';
-import { stringify } from '../../../../utilities/formatDate';
+import { stringify } from '../../../../utilities/date/date';
 
 const InitializeState = ({ executiveId, startDate, firstYearPayments, compensation }) => {
   

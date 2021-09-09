@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { formatDate } from '../../../../utilities/formatDate';
+import { formatDate } from '../../../../utilities/date/date';
 
 import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
 import Description from '../../../Elements/TextElements/Description/Description';

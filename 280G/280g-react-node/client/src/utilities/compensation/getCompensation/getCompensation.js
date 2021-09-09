@@ -5,13 +5,3 @@ export const getCompensation = (years, basePeriodCompensation) => {
   }
   return compensation;
 };
-
-// export const getCompensation = (years, basePeriodCompensation) => years.map((year) => {
-//   let compensation = '';
-//   for (const annualCompensationYear of basePeriodCompensation) {
-//     if (annualCompensationYear.year === year) {
-//       compensation = annualCompensationYear.compensation
-//     }
-//   }
-//   return { year, compensation }
-// });

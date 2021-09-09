@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { transactionDateState } from '../../../../recoil/company';
-import { stringify, formatDate } from '../../../../utilities/formatDate';
+import { stringify, formatDate } from '../../../../utilities/date/date';
 import { editCompany } from '../../../../api/company/editCompany';
 
 import Description from '../../../Elements/TextElements/Description/Description';
