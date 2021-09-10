@@ -12,12 +12,13 @@ import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 
 const TransactionDate = ({ companyId }) => {
   
-  const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState(companyId));
-  const [ completed, setCompleted ] = useState((transactionDate) ? true : false);
+  const [ date, setDate ] = useRecoilState(transactionDateState(companyId));
+  const [ completed, setCompleted ] = useState((date) ? true : false);
 
-  const handleChange = async (date) => {
-    await editCompany(companyId, { transactionDate: date });
-    setTransactionDate(stringify(date));
+  const handleChange = async (value) => {
+    const transactionDate = stringify(value);
+    await editCompany(companyId, { transactionDate });
+    setDate(transactionDate);
     setCompleted(true);
   };
 
@@ -27,8 +28,8 @@ const TransactionDate = ({ companyId }) => {
     <SingleLineLayout>
       <Description text={ 'Transaction Date: ' } />
       { (completed)
-      ? <Identifier text={ (transactionDate) ? formatDate(transactionDate) : '' } handleEdit={ handleEdit }/>
-      : <DateForm date={ transactionDate } handleChange={ handleChange } />
+      ? <Identifier text={ (date) ? formatDate(date) : '' } handleEdit={ handleEdit }/>
+      : <DateForm date={ date } handleChange={ handleChange } />
       } 
     </SingleLineLayout>
   );
