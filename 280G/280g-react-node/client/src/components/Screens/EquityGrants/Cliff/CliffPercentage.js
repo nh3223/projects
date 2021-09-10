@@ -1,31 +1,47 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
-import Description from '../../../Elements/Description/Description';
+import { cliffPercentageState } from '../../../../recoil/equityGrant';
+import { editGrant } from '../../../../api/equityGrant/editGrant';
+
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
+import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
-import InputForm from '../../../Elements/InputForm/InputForm';
+import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const CliffPercentage = ({ name, completed, cliffPercentage, handlers: { edit, change, submit }}) => {
+const CliffPercentage = ({ grantId }) => {
   
+  const [ percentage, setPercentage ] = useRecoilState(cliffPercentageState(grantId));
+  const [ completed, setCompleted ] = useState((percentage) ? true : (percentage === 0) ? true : false);
   const [ errorMessage, setErrorMessage ] = useState(null);
 
-  const validate = (e) => {
-    const percentage = Number(cliffPercentage);
-    if (percentage && percentage >= 0 && percentage <= 100) {
-      submit(e);
+  const handleChange = ({ target: { value }}) => setPercentage(value);
+
+  const handleEdit = () => setCompleted(false);
+
+  const validate = async (e) => {
+    const cliffPercentage = Number(percentage);
+    if ((cliffPercentage && cliffPercentage >= 0 && cliffPercentage <= 100) || cliffPercentage === 0) {
+      await editGrant(grantId, { cliffPercentage });
+      setCompleted(true);
       setErrorMessage(null);
     } else {
       setErrorMessage('Percentage must be a number between 0 and 100, inclusive');
     }
-  } 
+  };
   
+  const name = 'Cliff Percentage';
+
   return (
-    <>
+
+    <SingleLineLayout>
       <Description text="Percentage of shares subject to cliff vesting: " />
       { (completed)
-        ? <Identifier name={ name } text={ cliffPercentage } handleEdit={ edit } />
-        : <InputForm name={ name } value={ cliffPercentage } handleChange={ change } handleSubmit={ validate } errorMessage={ errorMessage } />
+        ? <Identifier name={ name } text={ `${percentage}%` } handleEdit={ handleEdit } />
+        : <InputForm name={ name } value={ percentage } handleChange={ handleChange } handleSubmit={ validate } errorMessage={ errorMessage } />
       } 
-    </>
+    </SingleLineLayout>
+
   );
 
 };

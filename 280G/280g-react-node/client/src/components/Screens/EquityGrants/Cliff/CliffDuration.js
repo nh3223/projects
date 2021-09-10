@@ -1,30 +1,45 @@
 import React, { useState } from 'react';
 
-import Description from '../../../Elements/Description/Description';
+import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
-import InputForm from '../../../Elements/InputForm/InputForm';
+import InputForm from '../../../Elements/Forms/InputForm/InputForm';
+import { useRecoilState } from 'recoil';
+import { cliffDurationState } from '../../../../recoil/equityGrant';
+import { editGrant } from '../../../../api/equityGrant/editGrant';
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 
-const CliffDuration = ({ name, completed, cliffDuration, handlers: { edit, change, submit }}) => {
+const CliffDuration = ({ grantId }) => {
   
+  const [ duration, setDuration ] = useRecoilState(cliffDurationState(grantId));
+  const [ completed, setCompleted ] = useState((duration) ? true : false);
   const [ errorMessage, setErrorMessage ] = useState(null);
 
-  const validate = (e) => {
-    if (Number(cliffDuration) && Number(cliffDuration) >= 0) {
-      submit(e);
+  const handleChange = ({ target: { value }}) => setDuration(value);
+
+  const handleEdit = () => setCompleted(false);
+
+  const validate = async (e) => {
+    const cliffDuration = Number(duration);
+    if (cliffDuration && cliffDuration >= 0) {
+      await editGrant(grantId, { cliffDuration });
+      setCompleted(true);
       setErrorMessage(null);
     } else {
       setErrorMessage('Please enter a valid number of months');
     }
-  } 
+  }; 
+
+  const name='Cliff Duration';
   
   return (
-    <>
+
+    <SingleLineLayout>
       <Description text="Number of months until cliff vesting occurs: " />
       { (completed)
-        ? <Identifier name={ name } text={ cliffDuration } handleEdit={ edit } />
-        : <InputForm name={ name } value={ cliffDuration } handleChange={ change } handleSubmit={ validate } errorMessage={ errorMessage } />
+        ? <Identifier name={ name } text={ duration } handleEdit={ handleEdit } />
+        : <InputForm name={ name } value={ duration } handleChange={ handleChange } handleSubmit={ validate } errorMessage={ errorMessage } />
       } 
-    </>
+    </SingleLineLayout>
   );
 
 };
