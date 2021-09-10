@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
+import { cliffDurationState } from '../../../../recoil/equityGrant';
+import { editGrant } from '../../../../api/equityGrant/editGrant';
+
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
-import { useRecoilState } from 'recoil';
-import { cliffDurationState } from '../../../../recoil/equityGrant';
-import { editGrant } from '../../../../api/equityGrant/editGrant';
-import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 
 const CliffDuration = ({ grantId }) => {
   

@@ -1,30 +1,46 @@
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
-import Description from '../../../Elements/Description/Description';
+import { numberSharesState } from '../../../../recoil/equityGrant';
+import { editGrant } from '../../../../api/equityGrant/editGrant';
+
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
+import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
-import InputForm from '../../../Elements/InputForm/InputForm';
+import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const Shares = ({ name, numberShares, completed, handlers: { change, edit, submit }}) => {
-
+const Shares = ({ grantId }) => {
+  
+  const [ shares, setShares ] = useRecoilState(numberSharesState(grantId));
+  const [ completed, setCompleted ] = useState((shares) ? true : false);
   const [ errorMessage, setErrorMessage ] = useState(null);
 
+  const handleChange = ({ target: { value }}) => setShares(value);
+
+  const handleEdit = () => setCompleted(false);
+
   const validate = async (e) => {
-     if (Number(numberShares) && Number(numberShares) > 0) {
-      submit(e);
+    const numberShares = Number(shares);
+    if (numberShares && numberShares >= 0) {
+      await editGrant(grantId, { numberShares });
+      setCompleted(true);
       setErrorMessage(null);
     } else {
-      setErrorMessage('Please enter a valid number of shares')
-    }  
-  };
+      setErrorMessage('Please enter a valid number of shares');
+    }
+  }; 
 
+  const name='Number of Shares';
+  
   return (
-    <>
-      <Description text="Number of Shares: " />
+
+    <SingleLineLayout>
+      <Description text="Number of shares or options granted: " />
       { (completed)
-      ? <Identifier name={ name } text={ numberShares } handleEdit={ edit }/>
-      : <InputForm name={ name } value={ numberShares } handleSubmit={ validate } handleChange={ change } errorMessage={ errorMessage } />
+        ? <Identifier name={ name } text={ shares } handleEdit={ handleEdit } />
+        : <InputForm name={ name } value={ shares } handleChange={ handleChange } handleSubmit={ validate } errorMessage={ errorMessage } />
       } 
-    </>
+    </SingleLineLayout>
   );
 
 };
