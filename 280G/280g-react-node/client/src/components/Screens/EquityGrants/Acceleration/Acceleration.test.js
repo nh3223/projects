@@ -78,16 +78,18 @@ test('should check checkbox if unchecked', async () => {
   await waitFor(() => expect(checkbox).toBeChecked());
 });
 
+// Radio form tests are disabled
+
 test('should render radio form and textbox if checkbox is checked', () => {
   const { getAllByRole, getByText } = render(component(grantId, checked));  
-  const radio = getAllByRole('radio');
+  // const radio = getAllByRole('radio');
   const percentage = getByText('Percentage accelerating:', { exact: false });
-  expect(radio[0]).toBeInTheDocument();
+  // expect(radio[0]).toBeInTheDocument();
   expect(percentage).toBeInTheDocument();
 });
 
 test('should not render radio form and textbox if checkbox is not checked', () => {
   const { queryByRole } = render(component(grantId, unchecked));  
-  expect(queryByRole('radio')).not.toBeInTheDocument();
+  // expect(queryByRole('radio')).not.toBeInTheDocument();
   expect(queryByRole('percentage')).not.toBeInTheDocument();
 });

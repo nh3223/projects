@@ -9,6 +9,12 @@ import CheckboxForm from '../../../Elements/Forms/CheckboxForm/CheckboxForm';
 import AccelerationPercentage from './AccelerationPercentage';
 import AccelerationMethod from './AccelerationMethod';
 
+//----------------------------------------------------------------------------
+
+// AccelerationMethod currently disabled.  See Note on component page.
+
+//----------------------------------------------------------------------------
+
 const Acceleration = ({ grantId }) => {
 
   const [ acceleration, setAcceleration ] = useRecoilState(accelerationState(grantId));
@@ -27,7 +33,6 @@ const Acceleration = ({ grantId }) => {
       { (acceleration)
         ? <>
             <AccelerationPercentage grantId={ grantId } />
-            <AccelerationMethod grantId={ grantId } />
           </>
         : null
       }

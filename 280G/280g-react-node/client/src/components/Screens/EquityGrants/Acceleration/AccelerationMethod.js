@@ -8,7 +8,15 @@ import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
 import Description from '../../../Elements/TextElements/Description/Description';
 import RadioForm from '../../../Elements/Forms/RadioForm/RadioForm';
 
-const MethodForm = ({ grantId }) => {
+//-----------------------------------------------------------------------------------------
+
+// This component is currently disabled.  Default Method for acceleration is Next to Vest.
+// Deviations from the method can still be applied using the equity grant table.
+// This component will be included in a future update.
+
+//-----------------------------------------------------------------------------------------
+
+const AccelerationMethod = ({ grantId }) => {
 
   const [ accelerationMethod, setAccelerationMethod ] = useRecoilState(accelerationMethodState(grantId));
 
@@ -36,4 +44,4 @@ const MethodForm = ({ grantId }) => {
     
 };
 
-export default MethodForm;
+export default AccelerationMethod;

@@ -1,4 +1,9 @@
-import { atomFamily } from 'recoil';
+import { atomFamily, selectorFamily } from 'recoil';
+
+import { calculate280GValue } from '../utilities/equityGrant/calculate280GValue/calculate280GValue';
+import { calculateTotal280GValue } from '../utilities/equityGrant/calculateTotal280GValue/calculateTotal280GValue';
+import { transactionDateState } from './company';
+import { transactionPriceState } from './company';
 
 export const equityGrantIdsState = atomFamily({
   // parameter: executiveId
@@ -99,10 +104,28 @@ export const remainderTypeState = atomFamily({
 
 export const vestingScheduleState = atomFamily({
   // parameter: grantId
-  key: 'vestingSchedule',
+  key: 'vestingScheduleDate',
   default: [{
     oldDate: '',
     newDate: '',
     shares: ''
   }]
+});
+
+export const total280GValueState = selectorFamily({
+  // parameter: grantId
+  key: 'total280gValue',
+  get: (grantId) => ({ get }) => {
+    const vestingSchedule = get(vestingScheduleState(grantId));
+    const transactionDate = get(transactionDateState(grantId));
+    const transactionPrice = get(transactionPriceState(grantId));
+    const grantType = get(grantTypeState(grantId));
+    const grantDate = get(grantDateState(grantId));
+    const exercisePrice = get(exercisePriceState(grantId));
+    const changeOfControl = get(changeOfControlState(grantId));
+    const transactionData = { transactionDate, transactionPrice };
+    const equityGrantData = { grantType, grantDate, exercisePrice, changeOfControl };
+    const analysis = vestingSchedule.map((vestingDate) => calculate280GValue(transactionData, vestingDate, equityGrantData));
+    return calculateTotal280GValue(analysis);
+  }
 });
