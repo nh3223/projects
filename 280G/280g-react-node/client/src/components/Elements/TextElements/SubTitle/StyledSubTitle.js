@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 
-const StyledSubTitle = styled.h2`
+import { size, fontWeight } from '../../../Styles/theme';
 
+const { large, medium } = size;
+const { heavyWeight } = fontWeight;
+
+const StyledSubTitle = styled.h2`
+  font-size: ${large};
+  margin: ${medium};
+  font-weight: ${heavyWeight};
 `;
 
 export default StyledSubTitle;
