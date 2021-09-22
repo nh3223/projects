@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-const StyledFixedTab = styled.li`
+import StyledTab from './StyledTab';
+
+const StyledFixedTab = styled(StyledTab)`
 
 `;
 

@@ -6,7 +6,7 @@ import Description from '../Description/Description';
 const LinkedDescription = ({ path, text }) => (
   <Link to={ path }>
     <Description text={ text } />
-</Link>
+  </Link>
 );
 
 export default LinkedDescription;

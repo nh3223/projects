@@ -12,8 +12,7 @@ import ExecutiveHeader from '../../../Navigation/ExecutiveHeader';
 
 import SubTitle from '../../Elements/SubTitle/SubTitle';
 import AddButton from '../../Elements/AddButton/AddButton';
-import GrantListItem from '../../../Elements/ListItem/GrantListItem/GrantListItem';
-
+import EquityGrantsListItem from './EquityGrantsListItem';
 
 const EquityGrants = () => {
   
@@ -45,7 +44,10 @@ const EquityGrants = () => {
 
       <SubTitle text="Equity Grants" />
       <AddButton name="addEquityGrant" text="Add a new Equity Grant" handleAdd={ handleAdd } />
-      { grantIds.map((grantId) => <GrantListItem key={ grantId } companyId={ companyId } executiveId={ executiveId } grantId={ grantId } handleDelete={ handleDelete } />) }
+      { grantIds.map((grantId) => (
+          <EquityGrantsListItem key={ grantId } companyId={ companyId } executiveId={ executiveId } grantId={ grantId } handleDelete={ handleDelete } />
+        ))
+      }
     </>
   );
 };

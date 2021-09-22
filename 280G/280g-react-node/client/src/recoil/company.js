@@ -1,7 +1,7 @@
 import { atom, atomFamily } from 'recoil';
 
-export const projectNamesState = atom({
-  key: 'projectNames',
+export const companyIdsState = atom({
+  key: 'companyIds',
   default: []
 });
 

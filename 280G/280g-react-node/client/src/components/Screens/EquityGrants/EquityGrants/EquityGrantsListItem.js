@@ -1,22 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useRecoilValue } from "recoil";
 
-import { equityGrantState } from '../../../recoil/restrictedStock';
+import { grantDateState, numberSharesState } from '../../../recoil/equityGrant';
+import { formatDate } from '../../../../utilities/date/date';
 
-import Description from '../../../Elements/TextElements/Description/Description';
+import ListItem from '../../../Elements/ListItem/ListItem';
 
-const EquityGrantListItem = ({ grantId }) => {
+const EquityGrantListItem = ({ companyId, executiveId, grantId, handleDelete }) => {
 
-  const grant = useRecoilValue(equityGrantState(grantId));
+  const grantDate = useRecoilValue(grantDateState(grantId));
+  const shares = useRecoilValue(numberSharesState(grantId));
   
-  const grantDescription = `Grant Date: ${grant.grantDate}, Shares: ${grant.numberShares}`
+  const path = `/company/${companyId}/executive/${executiveId}/equity-grant/${grantId}`;
+  const grantDescription = `Grant Date: ${formatDate(grantDate)}, Shares: ${shares}`
+  const buttonText = 'Delete Grant';
 
-  return (
-    <Link to={ `/equity-grant/${grantId}` } >
-      <Description text={ grantDescription } />
-    </Link>
-  );
+  return <ListItem path={ path } text={ grantDescription } buttonText={ buttonText } handleDelete={ handleDelete } />
 
 };
 
