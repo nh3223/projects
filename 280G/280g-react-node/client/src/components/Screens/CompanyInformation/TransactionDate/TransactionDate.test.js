@@ -1,36 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {fireEvent, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import TransactionDate from './TransactionDate';
-import { transactionDateState } from '../../../../recoil/company';
 import * as editCompany from '../../../../api/company/editCompany';
 import { stringify, formatDate } from '../../../../utilities/date/date';
+import { useSetCompanyTestData } from '../../../../tests/hooks/useSetCompanyTestData';
 
-const InitializeState = ({ companyId, date }) => {
+const InitializeState = ({ companyId, transactionDate }) => {
 
-  const setTransactionDate = useSetRecoilState(transactionDateState(companyId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setTransactionDate(date);
-    setLoaded(true);
-  }, [ date, setTransactionDate, setLoaded])
+  const loading = useSetCompanyTestData({ companyId, transactionDate })
 
   return loading ? null : <TransactionDate companyId={ companyId } />
 
 }
 
-const component = (companyId, date) => (
+const component = (companyId, transactionDate) => (
   <RecoilRoot>
-    <InitializeState companyId={ companyId } date={ date } />
+    <InitializeState companyId={ companyId } transactionDate={ transactionDate } />
   </RecoilRoot>
 );
 

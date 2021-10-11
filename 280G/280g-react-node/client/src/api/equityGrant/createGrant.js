@@ -1,4 +1,4 @@
-import defaultGrant from '../../utilities/equityGrant/default';
+import { defaultGrant } from '../../utilities/equityGrant/default';
 
 export const createGrant = async (executiveId) => {
   const url = 'http://localhost:5000/equitygrant';

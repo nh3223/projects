@@ -1,9 +1,8 @@
 import { addMonth } from '../../date/date';
 import { percentageAcceleratingCliffPeriod } from '../percentageAccelerating/percentageAccelerating';
 
-export const getCliffData = (transactionData, equityGrantData) => {
+export const getCliffData = (transactionDate, equityGrantData) => {
 
-  const { transactionDate } = transactionData;
   const { numberShares, vestingStartDate, cliff, cliffDuration, cliffPercentage } = equityGrantData;
 
   const defaultVestingData = {
@@ -11,17 +10,17 @@ export const getCliffData = (transactionData, equityGrantData) => {
     remainderShares: numberShares
   };
 
-  const originalVestingDate = addMonth(vestingStartDate, cliffDuration);
+  const oldVestingDate = addMonth(vestingStartDate, cliffDuration);
   const acceleratedVestingDate = transactionDate;
 
   const cliffShares = numberShares * cliffPercentage / 100;
   
-  const sharesAccelerating = cliffShares * percentageAcceleratingCliffPeriod(originalVestingDate, transactionDate, equityGrantData) / 100;
+  const sharesAccelerating = cliffShares * percentageAcceleratingCliffPeriod(oldVestingDate, transactionDate, equityGrantData) / 100;
 
   const sharesNotAccelerating = cliffShares - sharesAccelerating;
 
   const cliffVestingData = [{
-    originalVestingDate,
+    oldVestingDate,
     acceleratedVestingDate,
     sharesNotAccelerating,
     sharesAccelerating

@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import { render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import ChangeOfControl from './ChangeOfControl';
-import { changeOfControlState } from '../../../../recoil/equityGrant';
 import * as editGrant from '../../../../api/equityGrant/editGrant';
+import { useSetEquityGrantTestData } from '../../../../tests/hooks/useSetEquityGrantTestData';
 
-const InitializeState = ({ grantId, checked }) => {
+const InitializeState = ({ grantId, changeOfControl }) => {
 
-  const setChangeOfControl = useSetRecoilState(changeOfControlState(grantId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setChangeOfControl(checked);
-    setLoaded(true);
-  }, [checked, setChangeOfControl, setLoaded]);
+  const loading = useSetEquityGrantTestData({ grantId, changeOfControl });
 
   return loading ? null : <ChangeOfControl grantId={ grantId } />
 
 }
-const component = (grantId, checked) => (
+const component = (grantId, changeOfControl) => (
   <RecoilRoot>
-    <InitializeState grantId={ grantId } checked={ checked } />
+    <InitializeState grantId={ grantId } changeOfControl={ changeOfControl } />
   </RecoilRoot>
 );
 

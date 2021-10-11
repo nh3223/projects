@@ -15,12 +15,15 @@ const ProjectSummaryCompanyInformation = ({ companyId }) => {
   const transactionPrice = useRecoilValue(transactionPriceState(companyId));
   const transactionDate = useRecoilValue(transactionDateState(companyId));
   
+  const priceText = `Transaction Price Per Share: $${ transactionPrice }`;
+  const dateText = `Transaction Date: ${ (transactionDate) ? formatDate(transactionDate) : '' }`;
+  
   return (
     <MultiLineLayout>
       <Title text={ companyName } />
       <SubTitle text="280G Summary" />
-      <Description text={ `Transaction Price Per Share: $${ transactionPrice }` } />
-      <Description text={ `Transaction Date: ${ formatDate(transactionDate) }`} />
+      <Description text={ priceText } />
+      <Description text={ dateText } />
     </MultiLineLayout>
   );
 

@@ -3,11 +3,12 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 
 import { transactionDateState } from '../recoil/company';
 
-import { accelerationPercentageState, 
+import {  accelerationPercentageState, 
           accelerationState, 
           cliffDurationState, 
           cliffPercentageState, 
           cliffState, 
+          grantDateState,
           numberSharesState, 
           remainderPeriodsState, 
           remainderTypeState, 
@@ -22,6 +23,7 @@ export const useSetVestingData = (companyId, grantId) => {
 
   const transactionDate = useRecoilValue(transactionDateState(companyId));
 
+  const grantDate = useRecoilValue(grantDateState(grantId));
   const numberShares = useRecoilValue(numberSharesState(grantId));
   const vestingStartDate = useRecoilValue(vestingStartDateState(grantId));
 
@@ -46,6 +48,7 @@ export const useSetVestingData = (companyId, grantId) => {
         cliff,
         cliffDuration, 
         cliffPercentage,  
+        grantDate,
         numberShares, 
         remainderPeriods, 
         remainderType, 
@@ -55,10 +58,11 @@ export const useSetVestingData = (companyId, grantId) => {
       setVestingSchedule(newVestingSchedule);
       await editGrant(grantId, { vestingSchedule: newVestingSchedule });
     }
-
     if (vestingSchedule.length === 0) createVestingSchedule();
   
-  }, [grantId, transactionDate, acceleration, accelerationPercentage, cliff, cliffDuration, cliffPercentage,
+  }, [grantId, transactionDate, acceleration, accelerationPercentage, cliff, cliffDuration, cliffPercentage, grantDate,
       numberShares, remainderPeriods, remainderType, vestingStartDate, vestingSchedule.length, setVestingSchedule])
+
+    console.log('in hook', vestingSchedule);
 
 };

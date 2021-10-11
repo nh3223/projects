@@ -1,13 +1,13 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { editGrant } from '../../../../api/equityGrant/editGrant';
+import { editGrant } from '../../../../../api/equityGrant/editGrant';
 
-import { useSetVestingData } from '../../../../hooks/useSetVestingData';
-import { total280GValueState, vestingScheduleState } from '../../../../recoil/equityGrant';
+import { useSetVestingData } from '../../../../../hooks/useSetVestingData';
+import { total280GValueState, vestingScheduleState } from '../../../../../recoil/equityGrant';
 
-import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
-import SubTitle from '../../../Elements/TextElements/SubTitle/SubTitle';
-import VestingRow from '../VestingRow/VestingRow';
+import MultiLineLayout from '../../../../Elements/Layouts/MultiLineLayout';
+import SubTitle from '../../../../Elements/TextElements/SubTitle/SubTitle';
+import VestingRow from './VestingRow';
 
 const EquityGrantTable = ({ companyId, grantId }) => {
 
@@ -23,7 +23,7 @@ const EquityGrantTable = ({ companyId, grantId }) => {
   };
 
   const equityGrant280GValueText = `Value of equity grant for purposes of Section 280G: $${equityGrant280GValue}`;
- 
+
   return (
     <MultiLineLayout>
       <SubTitle text={ equityGrant280GValueText } />

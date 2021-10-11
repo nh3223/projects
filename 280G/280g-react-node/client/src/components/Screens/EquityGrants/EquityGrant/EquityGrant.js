@@ -3,19 +3,16 @@ import { useParams } from 'react-router-dom';
 
 import { useLoadGrant } from '../../../../hooks/useLoadGrant';
 
-import Loading from '../../../Loaders/Loading';
+import Loading from '../../Loading/Loading';
 
-import Headers from '../../../Elements/Layouts/Headers';
-import Header from '../../../Navigation/Header';
-import CompanyHeader from '../../../Navigation/CompanyHeader';
-import ExecutiveHeader from '../../../Navigation/ExecutiveHeader';
+import Headers from '../../../Navigation/Headers/Headers';
 
 import EquityGrantLayout from '../../../Elements/Layouts/EquityGrantLayout';
-import GrantType from '../GrantType';
+import GrantType from '../GrantType/GrantType';
 import BasicGrantInformation from './BasicGrantInformation';
 import VestingInformation from './VestingInformation';
 import CheckboxInformation from './CheckboxInformation';
-import EquityGrantTable from '../EquityGrantTable/EquityGrantTable';
+import EquityGrantTable from './EquityGrantTable/EquityGrantTable';
 
 const EquityGrant = () => {
 
@@ -27,11 +24,7 @@ const EquityGrant = () => {
 
   return (
     <>
-      <Headers>
-        <Header companyId={ companyId } />
-        <CompanyHeader companyId={ companyId } />
-        <ExecutiveHeader executiveId={ executiveId } />        
-      </Headers>
+      <Headers companyId={ companyId } executiveId={ executiveId } />        
 
       <EquityGrantLayout>
         <GrantType grantId={ grantId } />        

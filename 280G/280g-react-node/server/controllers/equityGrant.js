@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import OptionGrant from '../models/optionGrant.js';
+import EquityGrant from '../models/equityGrant.js';
 import Executive from '../models/executive.js';
 
 export const getGrants = async (req, res) => {

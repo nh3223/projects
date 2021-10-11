@@ -5,15 +5,12 @@ import { useRecoilValue } from 'recoil';
 import { executiveNameState } from '../../../recoil/executive';
 import { useLoadCompensation } from '../../../hooks/useLoadCompensation';
 
-import Loading from '../../Loaders/Loading';
-import Headers from '../../Elements/Layouts/Headers';
-import Header from '../../Navigation/Header';
+import Loading from '../Loading/Loading';
+import Headers from '../../Navigation/Headers/Headers';
 import MultiLineLayout from '../../Elements/Layouts/MultiLineLayout';
 import StartDate from './StartDate/StartDate';
 import BasePeriodCompensation from './BasePeriodCompensation/BasePeriodCompensation';
 import FirstYearPayments from './FirstYearPayments/FirstYearPayments';
-import CompanyHeader from '../../Navigation/CompanyHeader';
-import ExecutiveHeader from '../../Navigation/ExecutiveHeader';
 
 const Compensation = () => {
 
@@ -26,11 +23,7 @@ const Compensation = () => {
   return (
     <>
 
-      <Headers>
-        <Header companyId={ companyId } />
-        <CompanyHeader companyId={ companyId } />
-        <ExecutiveHeader executiveId={ executiveId } />
-      </Headers>
+      <Headers companyId={ companyId } executiveId={ executiveId } />
 
       <MultiLineLayout>
         <h1>Executive: { executiveName }</h1>

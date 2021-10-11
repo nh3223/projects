@@ -1,10 +1,10 @@
 import React from 'react';
 
-import useLoadExecutive from '../../../../hooks/useLoadExecutive';
+import { useLoadExecutive } from '../../../../hooks/useLoadExecutive';
 import { deleteExecutive } from '../../../../api/executive/deleteExecutive';
 import { deleteCompensation } from '../../../../api/compensation/deleteCompensation';
 
-import Loading from '../../../Loaders/Loading';
+import Loading from '../../Loading/Loading';
 import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 import Name from '../ExecutiveName/ExecutiveName';
 import Title from '../ExecutiveTitle/ExecutiveTitle';
@@ -20,13 +20,16 @@ const Executive = ({ executiveId, removeExecutiveId }) => {
     removeExecutiveId(executiveId);
   }
 
+  const buttonText = "Delete Executive";
+  const name = `${buttonText}-${executiveId}`;
+
   return (
     loading
     ? <Loading componentMessage= { `Executive ${executiveId}` } errorMessage={ error } />
     : <SingleLineLayout>
         <Name executiveId={ executiveId } />
         <Title executiveId={ executiveId } />
-        <DeleteButton name={ executiveId } text="Delete Executive" handleDelete={ handleDelete } />
+        <DeleteButton name={ name } id={ executiveId } text={ buttonText } handleDelete={ handleDelete } />
       </SingleLineLayout>
   );
 

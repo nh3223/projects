@@ -7,21 +7,20 @@ const addPeriods = {
   'Annually': addYear
 };
 
-export const getVestingDateData = (period, remainderShares, transactionData, equityGrantData) => {
+export const getVestingDateData = (period, remainderShares, transactionDate, equityGrantData) => {
 
-  const { transactionDate } = transactionData;
   const { cliff, cliffDuration, vestingStartDate, remainderType, remainderPeriods } = equityGrantData;
 
   const cliffMonths = (cliff) ? cliffDuration : 0;
-  const originalVestingDate = addPeriods[remainderType](addMonth(vestingStartDate, cliffMonths), period);
+  const oldVestingDate = addPeriods[remainderType](addMonth(vestingStartDate, cliffMonths), period);
   const acceleratedVestingDate = transactionDate;
   
   const shares = remainderShares / remainderPeriods
-  const sharesAccelerating = shares * percentageAcceleratingRemainderPeriod(originalVestingDate, transactionDate, period, equityGrantData) / 100;
+  const sharesAccelerating = shares * percentageAcceleratingRemainderPeriod(oldVestingDate, transactionDate, period, equityGrantData) / 100;
   const sharesNotAccelerating = shares - sharesAccelerating;
   
   return {
-    originalVestingDate,
+    oldVestingDate,
     acceleratedVestingDate,
     sharesNotAccelerating,
     sharesAccelerating

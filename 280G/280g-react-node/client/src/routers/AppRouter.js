@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import StartProject from '../components/Screens/Home';
+import StartProject from '../components/Screens/Home/Home';
 import ProjectSummary from '../components/Screens/ProjectSummary/ProjectSummary';
 import CompanyInformation from '../components/Screens/CompanyInformation/CompanyInformation';
-import ExecutiveSummary from '../components/Screens/ExecutiveSummary';
+import ExecutiveSummary from '../components/Screens/ExecutiveSummary/ExecutiveSummary';
 import Compensation from '../components/Screens/Compensation/Compensation';
-import NonEquityPayments from '../components/Screens/NonEquityPayments/NonEquityPayments';
-import EquityGrants from '../components/Screens/EquityGrants/EquityGrants';
-import EquityGrant from '../components/Screens/EquityGrants/EquityGrant';
+import NonEquityPayments from '../components/Screens/NonEquityPayments/NonEquityPayments/NonEquityPayments';
+import EquityGrants from '../components/Screens/EquityGrants/EquityGrants/EquityGrants';
+import EquityGrant from '../components/Screens/EquityGrants/EquityGrant/EquityGrant';
 import NotFound from '../components/Screens/NotFound';
 
 const AppRouter = () => (

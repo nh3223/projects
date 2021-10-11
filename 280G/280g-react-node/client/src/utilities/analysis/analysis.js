@@ -2,7 +2,7 @@ import { endOfYear, getDaysInYear, differenceInCalendarDays, getYear } from 'dat
 import { parse } from '../date/date';
 
 export const annualize = (startDate, firstYearPayments, firstCompensationYear) => {
-  
+
   const parsedStartDate = parse(startDate);
   const startYear = getYear(parsedStartDate);
   const firstBasePeriodYear = firstCompensationYear.year;

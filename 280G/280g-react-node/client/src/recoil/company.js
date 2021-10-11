@@ -1,5 +1,10 @@
 import { atom, atomFamily } from 'recoil';
 
+export const companiesState = atom({
+  key: 'companies',
+  default: []
+});
+
 export const companyIdsState = atom({
   key: 'companyIds',
   default: []

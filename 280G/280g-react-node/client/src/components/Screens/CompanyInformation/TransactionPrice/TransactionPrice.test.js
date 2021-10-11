@@ -1,35 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import TransactionPrice from './TransactionPrice';
-import { transactionPriceState } from '../../../../recoil/company';
 import * as editCompany from '../../../../api/company/editCompany';
+import { useSetCompanyTestData } from '../../../../tests/hooks/useSetCompanyTestData';
 
-const InitializeState = ({ companyId, price }) => {
+const InitializeState = ({ companyId, transactionPrice }) => {
 
-  const setTransactionPrice = useSetRecoilState(transactionPriceState(companyId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-    
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setTransactionPrice(price);
-    setLoaded(true);
-  }, [price, setTransactionPrice, setLoaded])
+  const loading = useSetCompanyTestData({ companyId, transactionPrice });
 
   return loading ? null : <TransactionPrice companyId={ companyId } />
 
 }
 
-const component = (companyId, price) => (
+const component = (companyId, transactionPrice) => (
   <RecoilRoot>
-    <InitializeState companyId={ companyId } price={ price } />
+    <InitializeState companyId={ companyId } transactionPrice={ transactionPrice } />
   </RecoilRoot>
 );
 

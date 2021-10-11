@@ -4,21 +4,19 @@ export const convertVestingData = (vestingData) => {
 
   for (const vestingDate of vestingData) {
 
-    const { grantDate, originalVestingDate, acceleratedVestingDate, sharesNotAccelerating, sharesAccelerating } = vestingDate;
+    const { oldVestingDate, acceleratedVestingDate, sharesNotAccelerating, sharesAccelerating } = vestingDate;
   
     if (sharesNotAccelerating !== 0) {      
       convertedVestingData.push({
-        grantDate,
-        originalVestingDate,
-        newVestingDate: originalVestingDate,
+        oldVestingDate,
+        newVestingDate: oldVestingDate,
         shares: sharesNotAccelerating
       });
     }
 
     if (sharesAccelerating !== 0) {
       convertedVestingData.push({
-        grantDate,
-        originalVestingDate,
+        oldVestingDate,
         newVestingDate: acceleratedVestingDate,
         shares: sharesAccelerating
       });

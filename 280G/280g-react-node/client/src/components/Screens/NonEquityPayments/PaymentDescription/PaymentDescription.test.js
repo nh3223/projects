@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import PaymentDescription from './PaymentDescription';
-import { nonEquityPaymentDescriptionState } from '../../../../recoil/nonEquityPayment';
 import * as editPayment from '../../../../api/nonEquityPayment/editPayment';
+import { useSetNonEquityPaymentTestData } from '../../../../tests/hooks/useSetNonEquityPaymentTestData';
 
-const InitializeState = ({ paymentId, description }) => {
+const InitializeState = ({ paymentId, paymentDescription }) => {
 
-  const setDescription = useSetRecoilState(nonEquityPaymentDescriptionState(paymentId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setDescription(description);
-    setLoaded(true);
-  }, [description, setDescription, setLoaded]);
+  const loading = useSetNonEquityPaymentTestData({ paymentId, paymentDescription });
 
   return loading ? null : <PaymentDescription paymentId={ paymentId } />
 
 }
-const component = (paymentId, description) => (
+const component = (paymentId, paymentDescription) => (
   <RecoilRoot>
-    <InitializeState paymentId={ paymentId } description={ description } />
+    <InitializeState paymentId={ paymentId } paymentDescription={ paymentDescription } />
   </RecoilRoot>
 );
 

@@ -5,10 +5,8 @@ import { useRecoilValue } from 'recoil';
 import { executiveIdsState } from '../../../recoil/executive';
 import { useLoadProject } from '../../../hooks/useLoadProject';
 
-import Loading from '../../Loaders/Loading';
-import Headers from '../../Elements/Layouts/Headers';
-import Header from '../../Navigation/Header';
-import CompanyHeader from '../../Navigation/CompanyHeader';
+import Loading from '../Loading/Loading';
+import Headers from '../../Navigation/Headers/Headers';
 import ProjectSummaryCompanyInformation from './ProjectSummaryCompanyInformation';
 import Cards from '../../Elements/Layouts/Cards';
 import ProjectSummaryExecutive from './ProjectSummaryExecutive';
@@ -25,17 +23,11 @@ const ProjectSummary = () => {
 
   return (
     
-    <>
-      
-      <Headers>
-        <Header companyId={ companyId } />
-        <CompanyHeader companyId={ companyId } />
-      </Headers>
-      
+    <>      
+      <Headers companyId={ companyId } />
       <ProjectSummaryCompanyInformation companyId = { companyId } />
-      
       <Cards>
-        { executiveIds.map((executiveId) => <ProjectSummaryExecutive executiveId={ executiveId } />) }
+        { executiveIds.map((executiveId) => <ProjectSummaryExecutive key={ executiveId } companyId={ companyId } executiveId={ executiveId } />) }
       </Cards>
 
     </>

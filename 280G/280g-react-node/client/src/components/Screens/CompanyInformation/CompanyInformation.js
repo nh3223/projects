@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import { createCompany } from '../../../api/company/createCompany';
-import useLoadCompany from '../../../hooks/useLoadCompany';
+import { useLoadCompany } from '../../../hooks/useLoadCompany';
 
-import Loading from '../../Loaders/Loading';
-import Headers from '../../Elements/Layouts/Headers';
+import Loading from '../Loading/Loading';
+import Headers from '../../Navigation/Headers/Headers';
 import MultiLineLayout from '../../Elements/Layouts/MultiLineLayout';
-import CompanyHeader from '../../Navigation/CompanyHeader';
 import CompanyName from './CompanyName/CompanyName';
 import TransactionDate from './TransactionDate/TransactionDate';
 import TransactionPrice from './TransactionPrice/TransactionPrice';
 import Executives from '../Executives/Executives/Executives';
-import SubTitle from '../../Elements/SubTitle/SubTitle';
+import SubTitle from '../../Elements/TextElements/SubTitle/SubTitle';
+import ProjectName from './ProjectName/ProjectName';
 
 const CompanyInformation = () => {
 
@@ -36,12 +36,11 @@ const CompanyInformation = () => {
   return (
     <>
 
-      <Headers>
-        <CompanyHeader companyId={ companyId } />
-      </Headers>
+      <Headers companyId={ companyId } />
       
       <MultiLineLayout>
         <SubTitle text="Company Information" />
+        <ProjectName companyId={ companyId } />
         <CompanyName companyId={ companyId }/>
         <TransactionDate companyId={ companyId }/>
         <TransactionPrice companyId={ companyId }/>

@@ -1,54 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import '@testing-library/jest-dom/extend-expect'
-import {act, render, waitFor} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
-
-import Compensation from './Compensation';
-import { basePeriodCompensationState, startDateState } from '../../../recoil/compensation';
-import { stringify, formatDate } from '../../../utilities/date/date';
-import { executiveNameState } from '../../../recoil/executive';
-import { firstYearPaymentsState } from '../../../recoil/compensation';
-import * as useLoadCompensation from '../../../hooks/useLoadCompensation';
-import { Router, Route } from 'react-router-dom';
+import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
+import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
-const InitializeState = ({ route, path, executiveId, executiveName, startDate, firstYearPayments, basePeriodCompensation }) => {
+import Compensation from './Compensation';
 
-  const setExecutiveName = useSetRecoilState(executiveNameState(executiveId));
-  const setStartDate = useSetRecoilState(startDateState(executiveId));
-  const setFirstYearPayments = useSetRecoilState(firstYearPaymentsState(executiveId));
-  const setBasePeriodCompensation = useSetRecoilState(basePeriodCompensationState(executiveId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  const history = createMemoryHistory({ initialEntries: [route] });
+import { stringify, formatDate } from '../../../utilities/date/date';
+import { useSetExecutiveTestData } from '../../../tests/hooks/useSetExecutiveTestData';
+import { useSetCompensationTestData } from '../../../tests/hooks/useSetCompensationTestData';
 
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
+const InitializeState = ({ executiveId, executiveName, startDate, firstYearPayments, basePeriodCompensation }) => {
 
-  useEffect(() => {
-    setExecutiveName(executiveName);
-    setStartDate(startDate);
-    setFirstYearPayments(firstYearPayments);
-    setBasePeriodCompensation(basePeriodCompensation);
-    setLoaded(true);
-  }, [executiveName, startDate, firstYearPayments, basePeriodCompensation, setExecutiveName, setStartDate, setFirstYearPayments, setBasePeriodCompensation, setLoaded])
+  const loadingExecutive = useSetExecutiveTestData({ executiveId, executiveName });
 
-  return loading ? null : (
-    <Router history={ history }>
-      <Route path={ path } component={ Compensation } />
-    </Router>
-  )
+  const loadingCompensation = useSetCompensationTestData({ executiveId, startDate, firstYearPayments, basePeriodCompensation });
+
+  return (loadingExecutive || loadingCompensation) ? null : <Compensation />
 
 }
 
-const component = (route, path, executiveId, executiveName, startDate, firstYearPayments, basePeriodCompensation ) => (
-  <RecoilRoot>
-    <InitializeState route={ route } path={ path } executiveId={ executiveId } executiveName={ executiveName } startDate={ startDate } firstYearPayments={ firstYearPayments } basePeriodCompensation={ basePeriodCompensation } />
-  </RecoilRoot>
-);
+const component = (executiveId, executiveName, startDate, firstYearPayments, basePeriodCompensation ) => {
+
+  const history = createMemoryHistory();
+
+  return (
+    <RecoilRoot>
+      <Router history={ history } >
+        <InitializeState executiveId={ executiveId } executiveName={ executiveName } startDate={ startDate } firstYearPayments={ firstYearPayments } basePeriodCompensation={ basePeriodCompensation } />
+      </Router>
+    </RecoilRoot>
+  );
+
+};
 
 const companyId = 12;
 const executiveId = 3;
@@ -61,28 +46,27 @@ const basePeriodCompensation = {
   2020: 300
 };
 
-const path =  '/company/:companyId/executive/:executiveId/compensation';
-const route = `/company/${companyId}/executive/${executiveId}/compensation`;
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({ companyId, executiveId })
+}));
 
-
-const formattedExecutiveName = `Executive: ${executiveName}`;
-const formattedStartDate = formatDate(startDate)
-const formattedFirstYearPayments = `$${firstYearPayments}`;
-const formattedMiddleYear = '$2019';
-const formattedMiddleCompensation = '$200';
+jest.mock('../../../hooks/useLoadCompensation', () => ({
+  useLoadCompensation: () => ({ loading: false, error: null })
+}));
 
 test('should render executive name, start date, first year payments, and base period compensation', () => {
-  
-  // const spy = jest.spyOn(useLoadCompensation, 'useLoadCompensation').mockImplementationOnce(() => Promise.resolve({
-  //   json: () => Promise.resolve({ }),
-  // }));
 
-  // const { getByText } = render(component(route, path, executiveId, startDate, firstYearPayments, basePeriodCompensation));
+  const { getByText } = render(component(executiveId, executiveName, startDate, firstYearPayments, basePeriodCompensation));
+  const name = getByText(`Executive: ${executiveName}`);
+  const date = getByText(formatDate(startDate), { exact: false });
+  const payments = getByText(firstYearPayments, { exact: false });
+  const middleYear = getByText('2019', { exact: false });
+  const middleCompensation = getByText('200', { exact: false });
   
-  // expect(spy).toHaveBeenCalledWith(executiveId);
-  // expect(getByText(formattedExecutiveName)).toBeInTheDocument();
-  // expect(getByText(formattedStartDate)).toBeInTheDocument();
-  // expect(getByText(formattedFirstYearPayments)).toBeInTheDocument();
-  // expect(getByText(formattedMiddleYear)).toBeInTheDocument();
-  // expect(getByText(formattedMiddleCompensation)).toBeInTheDocument();
+  expect(name).toBeInTheDocument();
+  expect(date).toBeInTheDocument();
+  expect(payments).toBeInTheDocument();
+  expect(middleYear).toBeInTheDocument();
+  expect(middleCompensation).toBeInTheDocument();
 });

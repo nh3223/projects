@@ -11,6 +11,7 @@ export const createPayment = async (executiveId) => {
     headers: { "Content-Type": "application/json" },
     body: newPayment
   };
+
   const response = await fetch(url, options);
   return await response.json();
 };

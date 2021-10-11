@@ -4,11 +4,13 @@ import { getPresentValue } from '../getPresentValue/getPresentValue';
 
 export const getParachutePayment = (newVestingDate, transactionDate, totalPayment) => {
 
-  if (newVestingDate <= transactionDate) return totalPayment;
+  if (newVestingDate <= transactionDate) return Number(totalPayment.toFixed(2));
 
   const remainingVestingPeriod = getPeriod(newVestingDate, transactionDate);
   const afr = getAFR(remainingVestingPeriod);
 
-  return getPresentValue(totalPayment, afr, remainingVestingPeriod);
+  const presentValue = getPresentValue(totalPayment, afr, remainingVestingPeriod)
+  
+  return Number(presentValue.toFixed(2));
 
 };

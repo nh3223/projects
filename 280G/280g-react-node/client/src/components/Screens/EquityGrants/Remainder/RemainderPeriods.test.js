@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import RemainderPeriods from './RemainderPeriods';
-import { remainderPeriodsState } from '../../../../recoil/equityGrant';
 import * as editGrant from '../../../../api/equityGrant/editGrant';
+import { useSetEquityGrantTestData } from '../../../../tests/hooks/useSetEquityGrantTestData';
 
-const InitializeState = ({ grantId, periods }) => {
+const InitializeState = ({ grantId, remainderPeriods }) => {
   
-  const setRemainderPeriods = useSetRecoilState(remainderPeriodsState(grantId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setRemainderPeriods(periods);
-    setLoaded(true);
-  }, [ periods, setRemainderPeriods, setLoaded]);
+  const loading = useSetEquityGrantTestData({ grantId, remainderPeriods });
   
   return loading ? null : <RemainderPeriods grantId={ grantId } />;
 
 };
 
-const component = (grantId, periods) => (
+const component = (grantId, remainderPeriods) => (
   <RecoilRoot>
-    <InitializeState grantId={ grantId } periods={ periods } />
+    <InitializeState grantId={ grantId } remainderPeriods={ remainderPeriods } />
   </RecoilRoot>
 );
 

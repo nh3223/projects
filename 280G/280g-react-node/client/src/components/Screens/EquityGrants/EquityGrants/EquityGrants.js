@@ -1,17 +1,15 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { createGrant, deleteGrant } from '../../../api/restrictedStock';
+import { createGrant } from '../../../../api/equityGrant/createGrant';
+import { deleteGrant } from '../../../../api/equityGrant/deleteGrant'
 
-import { equityGrantIdsState } from '../../../recoil/restrictedStock';
+import { equityGrantIdsState } from '../../../../recoil/equityGrant';
 
-import Headers from '../../../Elements/Layouts/Headers';
-import Header from '../../../Navigation/Header';
-import CompanyHeader from '../../../Navigation/CompanyHeader';
-import ExecutiveHeader from '../../../Navigation/ExecutiveHeader';
+import Headers from '../../../Navigation/Headers/Headers';
 
-import SubTitle from '../../Elements/SubTitle/SubTitle';
-import AddButton from '../../Elements/AddButton/AddButton';
+import SubTitle from '../../../Elements/TextElements/SubTitle/SubTitle';
+import AddButton from '../../../Elements/Buttons/AddButton/AddButton';
 import EquityGrantsListItem from './EquityGrantsListItem';
 
 const EquityGrants = () => {
@@ -36,12 +34,8 @@ const EquityGrants = () => {
   return (
 
     <>
-      <Headers>
-        <Header companyId={ companyId } />
-        <CompanyHeader companyId={ companyId } />
-        <ExecutiveHeader executiveId={ executiveId } />
-      </Headers>
-
+      <Headers companyId={ companyId } executiveId={ executiveId } />
+      
       <SubTitle text="Equity Grants" />
       <AddButton name="addEquityGrant" text="Add a new Equity Grant" handleAdd={ handleAdd } />
       { grantIds.map((grantId) => (

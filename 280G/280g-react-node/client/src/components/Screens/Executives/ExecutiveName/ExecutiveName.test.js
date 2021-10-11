@@ -1,32 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import ExecutiveName from './ExecutiveName';
-import { executiveNameState } from '../../../../recoil/executive';
 import * as editExecutive from '../../../../api/executive/editExecutive';
+import { useSetExecutiveTestData } from '../../../../tests/hooks/useSetExecutiveTestData';
 
 const defaultExecutiveName = '';
 const givenExecutiveName = 'John Doe';
 const descriptionText = 'Name:';
 const executiveId = 1;
 
-const InitializeState = ({ executiveId, name }) => {
+const InitializeState = ({ executiveId, executiveName }) => {
   
-  const setExecutiveName = useSetRecoilState(executiveNameState(executiveId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setExecutiveName(name);
-    setLoaded(true);
-  }, [name, setExecutiveName, setLoaded]);
+  const loading = useSetExecutiveTestData({ executiveId, executiveName });
 
   return loading ? null : <ExecutiveName executiveId={ executiveId } />
 
@@ -34,7 +23,7 @@ const InitializeState = ({ executiveId, name }) => {
 
 const component = (executiveId, executiveName) => (
   <RecoilRoot>
-    <InitializeState executiveId={ executiveId } name={ executiveName } />
+    <InitializeState executiveId={ executiveId } executiveName={ executiveName } />
   </RecoilRoot>
 );
 

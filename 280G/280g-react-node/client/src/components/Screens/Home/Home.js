@@ -1,34 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 
-import { fetchCompanies } from '../../api/company';
-import { deleteCompany } from '../../api/company';
+import { deleteCompany } from '../../../api/company/deleteCompany';
+import { useLoadCompanies } from '../../../hooks/useLoadCompanies';
+import { companiesState } from '../../../recoil/company';
 
-import Title from '../Elements/Title/Title';
+import Loading from '../Loading/Loading';
+import Title from '../../Elements/TextElements/Title/Title';
 import CompanyListItem from './CompanyListItem';
-import AddButton from '../Elements/AddButton/AddButton';
+import AddButton from '../../Elements/Buttons/AddButton/AddButton';
 
 const Home = () => {
 
-  const [ companies, setCompanies ] = useState();
+  const [ companies, setCompanies ] = useRecoilState(companiesState);
+  const { loading, error } = useLoadCompanies();
 
   const history = useHistory();
 
   const handleAdd = () => history.push(`/company/info`);
 
-  const handleDelete = async ({ target: { name }}) => {
-    const id = name;
+  const handleDelete = async ({ target: { id }}) => {
     await deleteCompany(id);
-    setCompanies(companies.filter((company) => (company._id !== id)));
+    setCompanies(companies.filter((company) => company._id !== Number(id)));
   };
 
-  useEffect(() => {
-    const getCompanies = async () => {
-      const companyData = await fetchCompanies();
-      setCompanies(companyData);
-    };
-    getCompanies();
-  }, [setCompanies]);
+  if (loading) return <Loading component="Home" error={ error } />
 
   return (
   

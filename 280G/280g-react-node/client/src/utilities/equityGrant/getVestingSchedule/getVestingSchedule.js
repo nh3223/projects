@@ -1,10 +1,10 @@
 import { getCliffData } from '../getCliffData/getCliffData';
 import { getRemainderData } from '../getRemainderData/getRemainderData';
 
-export const getVestingSchedule = (transactionData, equityGrantData) => {
+export const getVestingSchedule = (transactionDate, equityGrantData) => {
 
-  const { vestingSchedule, remainderShares } = getCliffData(transactionData, equityGrantData);
+  const { vestingSchedule, remainderShares } = getCliffData(transactionDate, equityGrantData);
 
-  return getRemainderData(remainderShares, vestingSchedule, transactionData, equityGrantData);
+  return getRemainderData(remainderShares, vestingSchedule, transactionDate, equityGrantData);
 
 };

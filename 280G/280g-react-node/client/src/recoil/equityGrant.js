@@ -48,12 +48,6 @@ export const changeOfControlState = atomFamily({
   default: false
 });
 
-export const rolloverState = atomFamily({
-  // parameter: grantId
-  key: 'rollover',
-  default: false
-});
-
 export const accelerationState = atomFamily({
   // parameter: grantId
   key: 'acceleration',
@@ -66,11 +60,11 @@ export const accelerationPercentageState = atomFamily({
   default: 100
 });
 
-export const accelerationMethodState = atomFamily({
-  // parameter: grantId
-  key: 'accelerationMethod',
-  default: 'NextToVest'
-});
+// export const accelerationMethodState = atomFamily({
+//   // parameter: grantId
+//   key: 'accelerationMethod',
+//   default: 'NextToVest'
+// });
 
 export const cliffState = atomFamily({
   // parameter: grantId
@@ -105,20 +99,16 @@ export const remainderTypeState = atomFamily({
 export const vestingScheduleState = atomFamily({
   // parameter: grantId
   key: 'vestingScheduleDate',
-  default: [{
-    oldDate: '',
-    newDate: '',
-    shares: ''
-  }]
+  default: []
 });
 
 export const total280GValueState = selectorFamily({
   // parameter: grantId
   key: 'total280gValue',
-  get: (grantId) => ({ get }) => {
+  get: ({ companyId, grantId }) => ({ get }) => {
     const vestingSchedule = get(vestingScheduleState(grantId));
-    const transactionDate = get(transactionDateState(grantId));
-    const transactionPrice = get(transactionPriceState(grantId));
+    const transactionDate = get(transactionDateState(companyId));
+    const transactionPrice = get(transactionPriceState(companyId));
     const grantType = get(grantTypeState(grantId));
     const grantDate = get(grantDateState(grantId));
     const exercisePrice = get(exercisePriceState(grantId));

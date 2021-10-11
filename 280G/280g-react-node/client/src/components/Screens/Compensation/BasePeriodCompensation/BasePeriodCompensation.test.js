@@ -1,30 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import BasePeriodCompensation from './BasePeriodCompensation';
-import { basePeriodCompensationState, startDateState } from '../../../../recoil/compensation';
 import { stringify } from '../../../../utilities/date/date';
 import * as editCompensation from '../../../../api/compensation/editCompensation';
+import { useSetCompensationTestData } from '../../../../tests/hooks/useSetCompensationTestData';
 
 const InitializeState = ({ executiveId, startDate, basePeriodCompensation }) => {
 
-  const setStartDate = useSetRecoilState(startDateState(executiveId));
-  const setBasePeriodCompensation = useSetRecoilState(basePeriodCompensationState(executiveId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-    
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setStartDate(startDate);
-    setBasePeriodCompensation(basePeriodCompensation);
-    setLoaded(true);
-  }, [startDate, basePeriodCompensation, setStartDate, setBasePeriodCompensation, setLoaded])
+  const loading = useSetCompensationTestData({ executiveId, startDate, basePeriodCompensation })
 
   return loading ? null : <BasePeriodCompensation executiveId={ executiveId } />
 

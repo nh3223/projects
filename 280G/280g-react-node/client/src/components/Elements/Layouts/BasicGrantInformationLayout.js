@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const BasicGrantInformationLayout = styled`
+const BasicGrantInformationLayout = styled.div`
 
 `;
 

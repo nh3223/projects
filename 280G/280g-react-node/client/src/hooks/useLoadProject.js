@@ -8,7 +8,7 @@ import { useLoadExecutives } from './useLoadExecutives';
 export const useLoadProject = (companyId) => {
 
   const [ loading, setLoading ] = useState(true);
-  const [ error, setError ] = useState({ });
+  const [ error, setError ] = useState('');
 
   const { companyLoading, companyError } = useLoadCompany(companyId);
   const { executivesLoading, executivesError } = useLoadExecutives(companyId);
@@ -18,9 +18,15 @@ export const useLoadProject = (companyId) => {
   }, [ companyLoading, executivesLoading, setLoading ]);
 
   useEffect(() => {
-    setError({ companyError });
-    setError({ executivesError });
+    (companyError)
+      ? (executivesError)
+        ? setError(companyError.concat(', ', executivesError))
+        : setError(companyError)
+      : (executivesError) ? setError(executivesError) : setError('');
+
   }, [ companyError, executivesError, setError ]);
+
+
 
   return { loading, error }
 

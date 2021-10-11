@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from "recoil";
 
-import { grantDateState, numberSharesState } from '../../../recoil/equityGrant';
+import { grantDateState, numberSharesState } from '../../../../recoil/equityGrant';
 import { formatDate } from '../../../../utilities/date/date';
 
 import ListItem from '../../../Elements/ListItem/ListItem';

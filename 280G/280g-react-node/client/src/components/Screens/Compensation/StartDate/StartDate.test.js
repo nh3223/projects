@@ -1,30 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {fireEvent, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import StartDate from './StartDate';
-import { startDateState } from '../../../../recoil/compensation';
 import * as editCompensation from '../../../../api/compensation/editCompensation';
 import { stringify, formatDate } from '../../../../utilities/date/date';
+import { useSetCompensationTestData } from '../../../../tests/hooks/useSetCompensationTestData';
 
 const InitializeState = ({ executiveId, startDate }) => {
-  
-  const setStartDate = useSetRecoilState(startDateState(executiveId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading])
 
-  useEffect(() => {
-    setStartDate(startDate);
-    setLoaded(true);
-  }, [ startDate, setStartDate, setLoaded]);
+  const loading = useSetCompensationTestData({ executiveId, startDate });
   
-  return loading? null : <StartDate executiveId={ executiveId } />;
+  return loading ? null : <StartDate executiveId={ executiveId } />;
 
 };
 
@@ -38,7 +27,7 @@ const defaultStartDate = '';
 const givenStartDate = new Date('October 1, 2018');
 const isoFormatGivenStartDate = stringify(givenStartDate)
 const descriptionText = 'Employment Start Date:';
-const executiveId = 
+const executiveId = 12;
 
 
 test('should render description and form if no start date is provided', () => {

@@ -1,15 +1,15 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { transactionDateState, transactionPriceState } from '../../../../recoil/company';
-import { changeOfControlState, exercisePriceState, grantDateState, grantTypeState } from '../../../../recoil/equityGrant';
-import { calculate280GValue } from '../../../../utilities/equityGrant/calculate280GValue/calculate280GValue';
-import { stringify } from '../../../../utilities/date/date';
+import { transactionDateState, transactionPriceState } from '../../../../../recoil/company';
+import { changeOfControlState, exercisePriceState, grantDateState, grantTypeState } from '../../../../../recoil/equityGrant';
+import { calculate280GValue } from '../../../../../utilities/equityGrant/calculate280GValue/calculate280GValue';
+import { stringify, formatDate } from '../../../../../utilities/date/date';
 
-import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
-import TableCell from '../../../Elements/TextElements/TableCell/TableCell';
-import DateForm from '../../../Elements/Forms/DateForm/DateForm';
-import InputForm from '../../../Elements/Forms/InputForm/InputForm';
+import SingleLineLayout from '../../../../Elements/Layouts/SingleLineLayout';
+import TableCell from '../../../../Elements/TextElements/TableCell/TableCell';
+import DateForm from '../../../../Elements/Forms/DateForm/DateForm';
+import InputForm from '../../../../Elements/Forms/InputForm/InputForm';
 
 const VestingRow = ({ companyId, grantId, index, vestingDate, handleChange }) => {
 
@@ -26,7 +26,9 @@ const VestingRow = ({ companyId, grantId, index, vestingDate, handleChange }) =>
   const equityGrantData = { grantType, grantDate, exercisePrice, changeOfControl };
   
   const {oldVestingDate, newVestingDate, shares } = vestingDate;
-  
+
+  const formattedOldVestingDate = formatDate(oldVestingDate);
+
   const { equityValue,
     accelerationBenefit,
     serviceLapseValue,
@@ -56,13 +58,14 @@ const VestingRow = ({ companyId, grantId, index, vestingDate, handleChange }) =>
     }
   };
 
+  console.log(equityValue, accelerationBenefit, serviceLapseValue, totalPayment, parachutePayment);
+
   return (
 
     <SingleLineLayout>
-      <TableCell text={ grantDate } />
-      <TableCell text={ oldVestingDate } />
-      <DateForm  date={ newVestingDate } handleChange={ handleDateChange } />
-      <InputForm value={ shares } handleChange={ handleShareChange } />
+      <TableCell text={ formattedOldVestingDate } />
+      <DateForm  name={ `${formattedOldVestingDate} New Vesting Date` } date={ newVestingDate } handleChange={ handleDateChange } />
+      <InputForm name={ `Shares Vesting ${formattedOldVestingDate}` } value={ shares } handleChange={ handleShareChange } />
       <TableCell text={ equityValue } />
       <TableCell text={ accelerationBenefit } />
       <TableCell text={ serviceLapseValue } />

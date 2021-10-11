@@ -1,13 +1,13 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { equityGrantIdsState } from '../../recoil/equityGrant';
+import { equityGrantIdsState } from '../../../../recoil/equityGrant';
 
-import NavigationBar from '../Elements/Navigation/NavigationBar';
-import TabList from '../Elements/Navigation/TabList';
-import Tab from '../Elements/Navigation/Tab';
-import FixedTab from '../Elements/Navigation/FixedTab'
-import GrantTab from './GrantTab';
+import NavigationBar from '../../../Elements/Navigation/NavigationBar';
+import TabList from '../../../Elements/Navigation/TabList';
+import Tab from '../../../Elements/Navigation/Tab';
+import FixedTab from '../../../Elements/Navigation/FixedTab'
+import GrantTab from '../../GrantTab';
 
 const ExecutiveHeader = ({ companyId, executiveId }) => {
 

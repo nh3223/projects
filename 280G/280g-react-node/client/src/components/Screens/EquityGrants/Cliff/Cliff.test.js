@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import Cliff from './Cliff';
-import { cliffState } from '../../../../recoil/equityGrant';
 import * as editGrant from '../../../../api/equityGrant/editGrant';
+import { useSetEquityGrantTestData } from '../../../../tests/hooks/useSetEquityGrantTestData';
 
-const InitializeState = ({ grantId, checked }) => {
+const InitializeState = ({ grantId, cliff }) => {
 
-  const setCliff = useSetRecoilState(cliffState(grantId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setCliff(checked);
-    setLoaded(true);
-  }, [checked, setCliff, setLoaded]);
+  const loading = useSetEquityGrantTestData({ grantId, cliff });
 
   return loading ? null : <Cliff grantId={ grantId } />
 
 }
-const component = (grantId, checked) => (
+const component = (grantId, cliff) => (
   <RecoilRoot>
-    <InitializeState grantId={ grantId } checked={ checked } />
+    <InitializeState grantId={ grantId } cliff={ cliff } />
   </RecoilRoot>
 );
 

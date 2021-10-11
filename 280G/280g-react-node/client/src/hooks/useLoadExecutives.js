@@ -4,13 +4,13 @@ import { useRecoilState } from "recoil";
 import { executiveIdsState } from '../recoil/executive';
 import { fetchExecutives } from '../api/executive/fetchExecutives';
 
-const useLoadExecutives = (companyId) => {
+export const useLoadExecutives = (companyId) => {
   
   const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState(companyId));
   
   const [ loaded, setLoaded ] = useState(null);
   const [ loading, setLoading ] = useState(null);
-  const [ error, setError ] = useState(null);
+  const [ error, setError ] = useState('');
 
   useEffect(() => {
     if (loaded) setLoading(false);
@@ -43,4 +43,3 @@ const useLoadExecutives = (companyId) => {
 
 };
 
-export default useLoadExecutives;

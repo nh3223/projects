@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import FirstYearPayments from './FirstYearPayments';
-import { firstYearPaymentsState } from '../../../../recoil/compensation';
 import * as editCompensation from '../../../../api/compensation/editCompensation';
+import { useSetCompensationTestData } from '../../../../tests/hooks/useSetCompensationTestData';
 
-const InitializeState = ({ executiveId, payments }) => {
+const InitializeState = ({ executiveId, firstYearPayments }) => {
   
-  const setFirstYearPayments = useSetRecoilState(firstYearPaymentsState(executiveId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setFirstYearPayments(payments);
-    setLoaded(true);
-  }, [ payments, setFirstYearPayments, setLoaded]);
+  const loading = useSetCompensationTestData({ executiveId, firstYearPayments });
   
   return loading? null : <FirstYearPayments executiveId={ executiveId } />;
 
 };
 
-const component = (executiveId, payments) => (
+const component = (executiveId, firstYearPayments) => (
   <RecoilRoot>
-    <InitializeState executiveId={ executiveId } payments={ payments } />
+    <InitializeState executiveId={ executiveId } firstYearPayments={ firstYearPayments } />
   </RecoilRoot>
 );
 

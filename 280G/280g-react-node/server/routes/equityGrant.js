@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { getGrants, getGrant, createGrant, editGrant, deleteGrant } from '../controllers/equityGrantGrant.js';
+import { getGrants, getGrant, createGrant, editGrant, deleteGrant } from '../controllers/equityGrant.js';
 
 const equityGrantRoutes = Router();
 

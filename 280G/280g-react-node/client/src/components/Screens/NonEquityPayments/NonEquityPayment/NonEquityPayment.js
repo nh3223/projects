@@ -6,7 +6,7 @@ import { deletePayment } from '../../../../api/nonEquityPayment/deletePayment';
 import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 import PaymentDescription from '../PaymentDescription/PaymentDescription';
 import PaymentAmount from '../PaymentAmount/PaymentAmount';
-import Loading from '../../../Loaders/Loading';
+import Loading from '../../Loading/Loading';
 
 const NonEquityPayment = ({ paymentId, removePaymentId }) => {
 

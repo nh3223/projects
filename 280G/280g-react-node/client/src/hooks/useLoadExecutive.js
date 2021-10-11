@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { executiveNameState, executiveTitleState } from '../recoil/executive';
 import { fetchExecutive } from '../api/executive/fetchExecutive';
 
-const useLoadExecutive = (executiveId) => {
+export const useLoadExecutive = (executiveId) => {
   
   const [ executiveName, setExecutiveName ] = useRecoilState(executiveNameState(executiveId));
   const [ executiveTitle, setExecutiveTitle ] = useRecoilState(executiveTitleState(executiveId));
@@ -45,4 +45,3 @@ const useLoadExecutive = (executiveId) => {
 
 };
 
-export default useLoadExecutive;

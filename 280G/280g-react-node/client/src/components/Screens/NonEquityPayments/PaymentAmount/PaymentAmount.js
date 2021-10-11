@@ -10,7 +10,7 @@ import Identifier from '../../../Elements/Identifier/Identifier';
 import DeleteButton from '../../../Elements/Buttons/DeleteButton/DeleteButton';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const PaymentAmount = ({ paymentId, deletePayment }) => {
+const PaymentAmount = ({ paymentId, handleDelete }) => {
   
   const [ paymentAmount, setPaymentAmount ] = useRecoilState(nonEquityPaymentAmountState(paymentId));
   const [ completed, setCompleted ] = useState((paymentAmount) ? true : false)
@@ -37,7 +37,7 @@ const PaymentAmount = ({ paymentId, deletePayment }) => {
       { completed
         ? <>
             <Identifier text={ paymentAmount } handleEdit={ handleEdit } />
-            <DeleteButton name="deletePayment" text="Delete Payment" handleDelete={ deletePayment } />
+            <DeleteButton name={ `Delete Payment ${paymentId}` } text="Delete Payment" handleDelete={ handleDelete } />
           </>
         : <InputForm value={ paymentAmount } handleChange={ handleChange } handleSubmit={ validate } errorMessage={ errorMessage }/>
       }

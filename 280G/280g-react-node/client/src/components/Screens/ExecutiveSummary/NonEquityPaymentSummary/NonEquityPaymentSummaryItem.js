@@ -6,7 +6,7 @@ import { nonEquityPaymentAmountState, nonEquityPaymentDescriptionState } from '.
 
 import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 import Description from '../../../Elements/TextElements/Description/Description';
-import Loading from '../../../Loaders/Loading';
+import Loading from '../../Loading/Loading';
 
 const NonEquityPaymentSummaryItem = ({ paymentId }) => {
 

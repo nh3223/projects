@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import AccelerationPercentage from './AccelerationPercentage';
-import { accelerationPercentageState } from '../../../../recoil/equityGrant';
 import * as editGrant from '../../../../api/equityGrant/editGrant';
+import { useSetEquityGrantTestData } from '../../../../tests/hooks/useSetEquityGrantTestData';
 
-const InitializeState = ({ grantId, percentage }) => {
+const InitializeState = ({ grantId, accelerationPercentage }) => {
   
-  const setAccelerationPercentage = useSetRecoilState(accelerationPercentageState(grantId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setAccelerationPercentage(percentage);
-    setLoaded(true);
-  }, [ percentage, setAccelerationPercentage, setLoaded]);
+  const loading = useSetEquityGrantTestData({ grantId, accelerationPercentage });
   
   return loading ? null : <AccelerationPercentage grantId={ grantId } />;
 
 };
 
-const component = (grantId, percentage) => (
+const component = (grantId, accelerationPercentage) => (
   <RecoilRoot>
-    <InitializeState grantId={ grantId } percentage={ percentage } />
+    <InitializeState grantId={ grantId } accelerationPercentage={ accelerationPercentage } />
   </RecoilRoot>
 );
 

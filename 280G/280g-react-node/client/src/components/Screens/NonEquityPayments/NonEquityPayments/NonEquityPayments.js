@@ -2,18 +2,16 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
-import { createPayment } from '../../../api/nonEquityPayments';
+import { createPayment } from '../../../../api/nonEquityPayment/createPayment'
 import { nonEquityPaymentIdsState } from '../../../../recoil/nonEquityPayment';
 import { useLoadNonEquityPayments } from '../../../../hooks/useLoadNonEquityPayments';
 
-import Headers from '../../../Elements/Layouts/Headers';
+import Headers from '../../../Navigation/Headers/Headers';
 import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
-import CompanyHeader from '../../../Navigation/CompanyHeader';
-import ExecutiveHeader from '../../../Navigation/ExecutiveHeader';
-import SubTitle from '../../Elements/SubTitle/SubTitle';
-import AddButton from '../../Elements/AddButton/AddButton';
-import NonEquityPayment from './NonEquityPayment';
-import Loading from '../../../Loaders/Loading';
+import SubTitle from '../../../Elements/TextElements/SubTitle/SubTitle';
+import AddButton from '../../../Elements/Buttons/AddButton/AddButton';
+import NonEquityPayment from '../NonEquityPayment/NonEquityPayment';
+import Loading from '../../Loading/Loading';
 
 const NonEquityPayments = () => {
 
@@ -34,10 +32,7 @@ const NonEquityPayments = () => {
   return (
     <>
       
-      <Headers>
-        <CompanyHeader companyId={ companyId } />
-        <ExecutiveHeader executiveId={ executiveId }/>        
-      </Headers>
+      <Headers companyId={ companyId } executiveId={ executiveId } />        
       
       <MultiLineLayout>
         <SubTitle text="Non-Equity Payments" />

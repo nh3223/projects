@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import RemainderType from './RemainderType';
-import { remainderTypeState } from '../../../../recoil/equityGrant';
 import * as editGrant from '../../../../api/equityGrant/editGrant';
+import { useSetEquityGrantTestData } from '../../../../tests/hooks/useSetEquityGrantTestData';
 
-const InitializeState = ({ grantId, checked }) => {
+const InitializeState = ({ grantId, remainderType }) => {
 
-  const setRemainderType = useSetRecoilState(remainderTypeState(grantId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setRemainderType(checked);
-    setLoaded(true);
-  }, [checked, setRemainderType, setLoaded]);
+  const loading = useSetEquityGrantTestData({ grantId, remainderType });
 
   return loading ? null : <RemainderType grantId={ grantId } />
 
 }
-const component = (grantId, checked) => (
+const component = (grantId, remainderType) => (
   <RecoilRoot>
-    <InitializeState grantId={ grantId } checked={ checked } />
+    <InitializeState grantId={ grantId } remainderType={ remainderType } />
   </RecoilRoot>
 );
 

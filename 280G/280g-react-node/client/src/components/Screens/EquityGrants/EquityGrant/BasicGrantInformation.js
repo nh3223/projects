@@ -7,7 +7,7 @@ import ExercisePrice from '../ExercisePrice/ExercisePrice';
 import { useRecoilValue } from 'recoil';
 import { grantTypeState } from '../../../../recoil/equityGrant';
 
-const BasicGrantInformation = (grantId) => {
+const BasicGrantInformation = ({ grantId }) => {
 
   const grantType = useRecoilValue(grantTypeState(grantId));
 

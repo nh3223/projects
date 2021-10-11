@@ -1,35 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import ExercisePrice from './ExercisePrice';
-import { exercisePriceState } from '../../../../recoil/equityGrant';
 import * as editGrant from '../../../../api/equityGrant/editGrant';
+import { useSetEquityGrantTestData } from '../../../../tests/hooks/useSetEquityGrantTestData';
 
-const InitializeState = ({ grantId, price }) => {
+const InitializeState = ({ grantId, exercisePrice }) => {
 
-  const setExercisePrice = useSetRecoilState(exercisePriceState(grantId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-    
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setExercisePrice(price);
-    setLoaded(true);
-  }, [price, setExercisePrice, setLoaded])
+  const loading = useSetEquityGrantTestData({ grantId, exercisePrice });
 
   return loading ? null : <ExercisePrice grantId={ grantId } />
 
 }
 
-const component = (grantId, price) => (
+const component = (grantId, exercisePrice) => (
   <RecoilRoot>
-    <InitializeState grantId={ grantId } price={ price } />
+    <InitializeState grantId={ grantId } exercisePrice={ exercisePrice } />
   </RecoilRoot>
 );
 

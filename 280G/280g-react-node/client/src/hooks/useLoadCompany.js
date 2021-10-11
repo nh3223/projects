@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from "recoil";
 
-import { projectNameState, companyNameState, transactionDateState, transactionPriceState } from '../../recoil/company';
-import { fetchCompany } from '../../api/company/fetchCompany';
+import { projectNameState, companyNameState, transactionDateState, transactionPriceState } from '../recoil/company';
+import { fetchCompany } from '../api/company/fetchCompany';
 
-const useLoadCompany = (companyId) => {
+export const useLoadCompany = (companyId) => {
   
   const [ projectName, setProjectName ] = useRecoilState(projectNameState(companyId));
   const [ companyName, setCompanyName ] = useRecoilState(companyNameState(companyId));
@@ -13,7 +13,7 @@ const useLoadCompany = (companyId) => {
   
   const [ loaded, setLoaded ] = useState(null);
   const [ loading, setLoading ] = useState(null);
-  const [ error, setError ] = useState(null);
+  const [ error, setError ] = useState('');
 
   useEffect(() => {
     if (loaded) setLoading(false);
@@ -45,8 +45,10 @@ const useLoadCompany = (companyId) => {
   
   }, [companyId, projectName, companyName, transactionDate, transactionPrice, setProjectName, setCompanyName, setTransactionDate, setTransactionPrice]);
 
+  console.log('company error', error)
+
   return { loading, error };
 
 };
 
-export default useLoadCompany;
+

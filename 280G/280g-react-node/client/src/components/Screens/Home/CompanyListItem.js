@@ -4,11 +4,11 @@ import ListItem from '../../Elements/ListItem/ListItem';
 
 const CompanyListItem = ({ company, handleDelete }) => {
 
-  const { companyId, companyName } = company;
+  const { _id: companyId, projectName } = company;
   const path = `/company/${companyId}`;
   const buttonText = 'Delete Company';
 
-  return <ListItem path={ path } text={ companyName } buttonText={ buttonText } handleDelete={ handleDelete } />
+  return <ListItem path={ path } text={ projectName } id={ companyId } buttonText={ buttonText } handleDelete={ handleDelete } />
 
 };
 

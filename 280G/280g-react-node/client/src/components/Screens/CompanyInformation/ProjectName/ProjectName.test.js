@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {act, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import ProjectName from './ProjectName';
-import { projectNameState } from '../../../../recoil/company';
 import * as editCompany from '../../../../api/company/editCompany';
+import { useSetCompanyTestData } from '../../../../tests/hooks/useSetCompanyTestData';
 
-const InitializeState = ({ companyId, name }) => {
+const InitializeState = ({ companyId, projectName }) => {
 
-  const setProjectName = useSetRecoilState(projectNameState(companyId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setProjectName(name);
-    setLoaded(true);
-  }, [name, setProjectName, setLoaded]);
+  const loading = useSetCompanyTestData({ companyId, projectName });
 
   return loading ? null : <ProjectName companyId={ companyId } />
 
 }
-const component = (companyId, name) => (
+const component = (companyId, projectName) => (
   <RecoilRoot>
-    <InitializeState companyId={ companyId } name={ name } />
+    <InitializeState companyId={ companyId } projectName={ projectName } />
   </RecoilRoot>
 );
 

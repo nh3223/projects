@@ -7,7 +7,7 @@ import { editGrant } from '../../../../api/equityGrant/editGrant';
 import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
 import CheckboxForm from '../../../Elements/Forms/CheckboxForm/CheckboxForm';
 import AccelerationPercentage from './AccelerationPercentage';
-import AccelerationMethod from './AccelerationMethod';
+// import AccelerationMethod from './AccelerationMethod';
 
 //----------------------------------------------------------------------------
 

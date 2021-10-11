@@ -1,36 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {fireEvent, render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import GrantDate from './GrantDate';
-import { grantDateState } from '../../../../recoil/equityGrant';
 import * as editGrant from '../../../../api/equityGrant/editGrant';
 import { stringify, formatDate } from '../../../../utilities/date/date';
+import { useSetEquityGrantTestData } from '../../../../tests/hooks/useSetEquityGrantTestData';
 
-const InitializeState = ({ grantId, date }) => {
+const InitializeState = ({ grantId, grantDate }) => {
 
-  const setGrantDate = useSetRecoilState(grantDateState(grantId));
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
-  
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
-
-  useEffect(() => {
-    setGrantDate(date);
-    setLoaded(true);
-  }, [ date, setGrantDate, setLoaded])
+  const loading = useSetEquityGrantTestData({ grantId, grantDate });
 
   return loading ? null : <GrantDate grantId={ grantId } />
 
 }
 
-const component = (grantId, date) => (
+const component = (grantId, grantDate) => (
   <RecoilRoot>
-    <InitializeState grantId={ grantId } date={ date } />
+    <InitializeState grantId={ grantId } grantDate={ grantDate } />
   </RecoilRoot>
 );
 

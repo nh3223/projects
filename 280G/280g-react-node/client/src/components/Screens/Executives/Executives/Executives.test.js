@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import {render, waitFor} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { RecoilRoot, useSetRecoilState } from 'recoil';
+import { RecoilRoot } from 'recoil';
 
 import Executives from './Executives';
-import { executiveIdsState, executiveNameState, executiveTitleState } from '../../../../recoil/executive';
 import { defaultExecutive } from '../../../../utilities/executive/default';
 import * as createExecutive from '../../../../api/executive/createExecutive';
 import * as deleteExecutive from '../../../../api/executive/deleteExecutive';
 import * as createCompensation from '../../../../api/compensation/createCompensation';
 import * as deleteCompensation from '../../../../api/compensation/deleteCompensation';
 import * as fetchExecutive from '../../../../api/executive/fetchExecutive';
+import { useSetExecutiveTestData } from '../../../../tests/hooks/useSetExecutiveTestData';
+import { useSetExecutiveIds } from '../../../../tests/hooks/useSetExecutiveIds';
 
 const companyId = 12;
 
@@ -29,29 +30,21 @@ const executiveIds = [executive1Id, executive2Id];
 
 const InitializeState = ({ companyId, executiveIds, names, titles }) => {
   
-  const setExecutiveIds = useSetRecoilState(executiveIdsState(companyId));
-  const setExecutive1Name = useSetRecoilState(executiveNameState(executiveIds[0]));
-  const setExecutive1Title = useSetRecoilState(executiveTitleState(executiveIds[0]));
-  const setExecutive2Name = useSetRecoilState(executiveNameState(executiveIds[1]));
-  const setExecutive2Title = useSetRecoilState(executiveTitleState(executiveIds[1]));
+  const loadingIds = useSetExecutiveIds({ companyId, executiveIds });
 
-  const [ loaded, setLoaded ] = useState(false);
-  const [ loading, setLoading ] = useState(true);
+  const loading0 = useSetExecutiveTestData({ 
+    executiveId: executiveIds[0],
+    executiveName: names[0],
+    executiveTitle: titles[0]
+  });
   
-  useEffect(() => {
-    if (loaded) setLoading(false)
-  }, [loaded, setLoading])
+  const loading1 = useSetExecutiveTestData({
+    executiveId: executiveIds[1],
+    executiveName: names[1],
+    executiveTitle: titles[1]
+  });
 
-  useEffect(() => {    
-    setExecutiveIds(executiveIds);
-    setExecutive1Name(names[0]);
-    setExecutive1Title(titles[0]);
-    setExecutive2Name(names[1]);
-    setExecutive2Title(titles[1]);
-    setLoaded(true);
-  }, [executiveIds, names, titles, setExecutiveIds, setExecutive1Name, setExecutive2Name, setExecutive1Title, setExecutive2Title, setLoaded]);
-
-  return loading ? null : <Executives companyId={ companyId } />
+  return (loadingIds || loading0 || loading1) ? null : <Executives companyId={ companyId } />
 
 };
 
@@ -83,7 +76,7 @@ test('should render and handle addExecutive button', async () => {
   await waitFor(() => {
     expect(executiveSpy).toHaveBeenCalledWith(companyId);
     expect(compensationSpy).toHaveBeenCalledWith(newExecutiveId);
-    const newDeleteButton = getByRole('button', { name: `Delete Executive ${newExecutiveId}` });
+    const newDeleteButton = getByRole('button', { name: `Delete Executive-${newExecutiveId}` });
     expect(newDeleteButton).toBeInTheDocument();
   });
 });
@@ -92,13 +85,13 @@ test('should render name, title and delete button for each executive', () => {
   const { getByText, getByRole } = render(component(companyId, executiveIds, executiveNames, executiveTitles));
   const name1 = getByText(executive1Name);
   const title1 = getByText(executive1Title);
-  const deleteButton1 = getByRole('button', { name: `Delete Executive ${executive1Id}` });  
+  const deleteButton1 = getByRole('button', { name: `Delete Executive-${executive1Id}` });  
   expect(name1).toBeInTheDocument();
   expect(title1).toBeInTheDocument();
   expect(deleteButton1).toBeInTheDocument();
   const name2 = getByText(executive2Name);
   const title2 = getByText(executive2Title);
-  const deleteButton2 = getByRole('button', { name: `Delete Executive ${executive2Id}` });  
+  const deleteButton2 = getByRole('button', { name: `Delete Executive-${executive2Id}` });  
   expect(name2).toBeInTheDocument();
   expect(title2).toBeInTheDocument();
   expect(deleteButton2).toBeInTheDocument();
@@ -113,10 +106,10 @@ test('should not render name, title or delete button when delete button for one 
   const { getByText, getByRole } = render(component(companyId, executiveIds, executiveNames, executiveTitles));
   const name1 = getByText(executive1Name);
   const title1 = getByText(executive1Title);  
-  const deleteButton1 = getByRole('button', {name: `Delete Executive ${executive1Id}` });
+  const deleteButton1 = getByRole('button', { name: `Delete Executive-${executive1Id}` });
   const name2 = getByText(executive2Name);
   const title2 = getByText(executive2Title);
-  const deleteButton2 = getByRole('button', { name: `Delete Executive ${executive2Id}` });
+  const deleteButton2 = getByRole('button', { name: `Delete Executive-${executive2Id}` });
   userEvent.click(deleteButton1);
   await waitFor(() => {
     expect(executiveSpy).toHaveBeenCalledWith(executive1Id);

@@ -4,8 +4,8 @@ import { useRecoilValue } from 'recoil';
 import { nonEquityPaymentIdsState } from '../../../../recoil/nonEquityPayment';
 import { useLoadNonEquityPayments } from '../../../../hooks/useLoadNonEquityPayments';
 
-import Loading from '../../../Loaders/Loading';
-import MultiLineLayout from '../../../Elements/Layouts/MultiLineLayout';
+import Loading from '../../Loading/Loading';
+import ExecutiveSummaryBlock from '../../../Elements/Layouts/ExecutiveSummaryBlock';
 import Description from '../../../Elements/TextElements/Description/Description';
 import NonEquityPaymentSummaryItem from './NonEquityPaymentSummaryItem';
 
@@ -18,10 +18,10 @@ const NonEquityPaymentSummary = ({ executiveId }) => {
 
   return (
 
-    <MultiLineLayout>
+    <ExecutiveSummaryBlock>
       <Description text="Non Equity Payments" />
-      { paymentIds.map((paymentId) => <NonEquityPaymentSummaryItem paymentId={ paymentId } />) }
-    </MultiLineLayout>
+      { paymentIds.map((paymentId) => <NonEquityPaymentSummaryItem key={ paymentId } paymentId={ paymentId } />) }
+    </ExecutiveSummaryBlock>
   )
 
 };

@@ -47,4 +47,3 @@ export const useLoadCompensation = (executiveId) => {
 
 };
 
-// export default useLoadCompensation;

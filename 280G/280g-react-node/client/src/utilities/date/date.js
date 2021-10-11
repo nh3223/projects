@@ -5,7 +5,7 @@ export const parse = (dateString) => parseISO(dateString);
 
 export const stringify = (date) => formatISO(date);
 
-export const formatDate = (dateString) => format(parse(dateString), 'd MMM yyyy');
+export const formatDate = (dateString) => (dateString) ? format(parse(dateString), 'd MMM yyyy') : '';
 
 export const addMonth = (date, number) => stringify(addMonths(parse(date), number));
 
