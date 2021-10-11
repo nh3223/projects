@@ -30,10 +30,6 @@ const changeOfControl = {
   type: Boolean
 };
 
-const rollover = {
-  type: Boolean
-};
-
 const acceleration = {
   type: Boolean
 };
@@ -42,9 +38,9 @@ const accelerationPercentage = {
   type: Number
 };
 
-const accelerationMethod = {
-  type: String
-};
+// const accelerationMethod = {
+//   type: String
+// };
 
 const cliff = {
   type: Boolean
@@ -68,8 +64,8 @@ const remainderType = {
 
 const vestingSchedule = {
   type: [{
-    oldDate: String,
-    newDate: String,
+    oldVestingDate: String,
+    newVestingDate: String,
     shares: Number
   }],
   required: true

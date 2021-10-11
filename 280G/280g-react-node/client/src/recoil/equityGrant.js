@@ -14,7 +14,7 @@ export const equityGrantIdsState = atomFamily({
 export const grantTypeState = atomFamily({
   // parameter: grantId
   key: 'grantType',
-  default: 'restrictedStock' // 'option' is alternative
+  default: 'Restricted Stock' // 'Option' is alternative
 });
 
 export const grantDateState = atomFamily({
