@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import StyledTab from './StyledTab';
 
 const Tab = ({ path, text }) => (
-  
+
   <NavLink to={ path }>
     <StyledTab>
       { text }

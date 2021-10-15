@@ -13,7 +13,7 @@ const ExecutiveHeader = ({ companyId, executiveId }) => {
 
   const grantIds = useRecoilValue(equityGrantIdsState(executiveId));
   
-  const path = `company/${companyId}/executive/${executiveId}`;
+  const path = `/company/${companyId}/executive/${executiveId}`;
 
   return (
   

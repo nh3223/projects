@@ -3,13 +3,12 @@ import { useParams } from 'react-router';
 import { useRecoilValue } from 'recoil';
 
 import { executiveIdsState } from '../../../recoil/executive';
-import { useLoadProject } from '../../../hooks/useLoadProject';
 
-import Loading from '../Loading/Loading';
 import Headers from '../../Navigation/Headers/Headers';
 import ProjectSummaryCompanyInformation from './ProjectSummaryCompanyInformation';
 import Cards from '../../Elements/Layouts/Cards';
 import ProjectSummaryExecutive from './ProjectSummaryExecutive';
+import LoadProject from '../Loading/LoadProject';
 
 const ProjectSummary = () => {
 
@@ -17,13 +16,10 @@ const ProjectSummary = () => {
 
   const executiveIds = useRecoilValue(executiveIdsState(companyId));
 
-  const { loading, error } = useLoadProject(companyId);
-  
-  if (loading) return <Loading component="Project Summary" error={ error } />
-
   return (
     
-    <>      
+    <>
+      <LoadProject companyId={ companyId } />      
       <Headers companyId={ companyId } />
       <ProjectSummaryCompanyInformation companyId = { companyId } />
       <Cards>

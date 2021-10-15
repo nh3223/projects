@@ -65,7 +65,7 @@ test('should show Add Button, project names, and delete buttons', () => {
 });
 
 test('should redirect to company information page when Add button is clicked', () => {
-  const { getByRole, getByText } = render(component(history, companies));  
+  const { getByRole } = render(component(history, companies));  
   const addButton = getByRole('button', { name: 'Add Company' });
   expect(addButton).toBeInTheDocument();
   userEvent.click(addButton);

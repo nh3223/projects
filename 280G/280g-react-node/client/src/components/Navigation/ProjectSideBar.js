@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { useLoadProjectNames } from '../../hooks/useLoadProjectNames';
-import { projectNamesState } from '../../recoil/company';
+import { useLoadCompanies } from '../../hooks/useLoadCompanies';
+import { companiesState } from '../../recoil/company';
 
 import Loading from '../Loaders/Loading';
 import SideBar from '../Elements/Navigation/SideBar';
@@ -9,15 +9,15 @@ import Description from '../Elements/TextElements/Description/Description';
 
 const ProjectSidebar = () => {
 
-  const projectNames = useRecoilValue(projectNamesState);
+  const companies = useRecoilValue(companiesState);
   
-  const { loading, error } = useLoadProjectNames();
+  const { status, error } = useLoadCompanies();
 
-  if (loading) return <Loading component="Project Sidebar" error={ error } />
+  if (status === 'loading') return <Loading component="Project Sidebar" error={ error } />
 
   return (
     <SideBar>
-      { projectNames.map((name) => <Description text={ name } />) }
+      { companies.map((company) => <Description text={ company.projectName } />) }
     </SideBar>
   );
 

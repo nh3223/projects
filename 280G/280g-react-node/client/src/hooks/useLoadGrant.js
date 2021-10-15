@@ -42,20 +42,13 @@ export const useLoadGrant = (grantId) => {
 
   const setVestingSchedule = useSetRecoilState(vestingScheduleState(grantId));
 
-  const [ loaded, setLoaded ] = useState(null);
-  const [ loading, setLoading ] = useState(null);
+  const loaded = grantDate || numberShares;
+  const [ status, setStatus ] = useState((loaded) ? 'loaded' : 'loading');
   const [ error, setError ] = useState(null);
-
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading]);
 
   useEffect(() => {
     
     const setPayment = async () => {
-
-      setLoading(true);
-      setLoaded(false);
 
       try {
         const grant = await fetchGrant(grantId);
@@ -73,7 +66,7 @@ export const useLoadGrant = (grantId) => {
         setRemainderPeriods(grant.remainderPeriods);
         setChangeOfControl(grant.changeOfControl);
         setVestingSchedule(grant.vestingSchedule);
-        setLoaded(true);
+        setStatus('loaded');
       } 
       
       catch (e) {
@@ -81,13 +74,13 @@ export const useLoadGrant = (grantId) => {
       }
 
     };
-  
-    if (!grantDate || !numberShares) setPayment();
-  
-  }, [grantId, grantDate, numberShares, setGrantType, setGrantDate, setNumberShares, setExercisePrice, setVestingStartDate,
-      setCliff, setCliffDuration, setCliffPercentage, setAcceleration, setAccelerationPercentage, setRemainderType,
-      setRemainderPeriods, setChangeOfControl, setVestingSchedule, setLoaded, setError]);
 
-  return { loading, error };
+    if (!loaded && status === 'loading') setPayment();
+  
+  }, [grantId, loaded, status, setGrantType, setGrantDate, setNumberShares, setExercisePrice, setVestingStartDate,
+      setCliff, setCliffDuration, setCliffPercentage, setAcceleration, setAccelerationPercentage, setRemainderType,
+      setRemainderPeriods, setChangeOfControl, setVestingSchedule, setStatus, setError]);
+
+  return { status, error };
 
 };

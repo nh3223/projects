@@ -1,36 +1,30 @@
 import { useState, useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { firstYearPaymentsState, startDateState, basePeriodCompensationState } from '../recoil/compensation';
-import { fetchExecutive } from '../api/executive/fetchExecutive';
+import { fetchCompensation } from '../api/compensation/fetchCompensation';
 
 export const useLoadCompensation = (executiveId) => {
   
   const [ startDate, setStartDate ] = useRecoilState(startDateState(executiveId));
-  const setFirstYearPayments = useSetRecoilState(firstYearPaymentsState(executiveId));
+  const [ firstYearPayments, setFirstYearPayments ] = useRecoilState(firstYearPaymentsState(executiveId));
   const [ basePeriodCompensation, setBasePeriodCompensation ] = useRecoilState(basePeriodCompensationState(executiveId));
-  
-  const [ loaded, setLoaded ] = useState(null);
-  const [ loading, setLoading ] = useState(null);
-  const [ error, setError ] = useState(null);
 
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading]);
+  const loaded = startDate || firstYearPayments || basePeriodCompensation.length !== 0; 
+  
+  const [ status, setStatus ] = useState((loaded) ? 'loaded' : 'loading');
+  const [ error, setError ] = useState(null);
 
   useEffect(() => {
     
     const setCompensation = async () => {
 
-      setLoading(true);
-      setLoaded(false);
-
       try {
-        const executive = await fetchExecutive(executiveId);
-        setStartDate(executive.startDate);
-        setFirstYearPayments(executive.firstYearPayments);
-        setBasePeriodCompensation(executive.compensation);
-        setLoaded(true);
+        const compensation = await fetchCompensation(executiveId);
+        setStartDate(compensation.startDate);
+        setFirstYearPayments(compensation.firstYearPayments);
+        setBasePeriodCompensation(compensation.basePeriodCompensation);
+        setStatus('loaded');
       } 
       
       catch (e) {
@@ -38,12 +32,12 @@ export const useLoadCompensation = (executiveId) => {
       }
 
     };
-  
-    if (!startDate || !basePeriodCompensation) setCompensation();
-  
-  }, [startDate, basePeriodCompensation, executiveId, setStartDate, setFirstYearPayments, setBasePeriodCompensation, setLoaded]);
 
-  return { loading, error };
+    if (!loaded && status === 'loading') setCompensation();
+  
+  }, [loaded, status, executiveId, setStartDate, setFirstYearPayments, setBasePeriodCompensation, setStatus]);
+
+  return { status, error };
 
 };
 

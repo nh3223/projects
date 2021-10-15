@@ -8,25 +8,17 @@ export const useLoadGrants = (executiveId) => {
   
   const [ equityGrantIds, setEquityGrantIds ] = useRecoilState(equityGrantIdsState(executiveId));
   
-  const [ loaded, setLoaded ] = useState(null);
-  const [ loading, setLoading ] = useState(null);
+  const [ status, setStatus ] = useState((equityGrantIds.length === 0) ? 'loading' : 'loaded');
   const [ error, setError ] = useState(null);
-
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading]);
 
   useEffect(() => {
     
     const setEquityGrants = async () => {
 
-      setLoading(true);
-      setLoaded(false);
-
       try {
         const equityGrants = await fetchGrants(executiveId);
         setEquityGrantIds(equityGrants.map((equityGrant) => equityGrant._id));
-        setLoaded(true);
+        setStatus('loaded');
       } 
       
       catch (e) {
@@ -35,10 +27,10 @@ export const useLoadGrants = (executiveId) => {
 
     };
   
-    if (equityGrantIds.length === 0) setEquityGrants();
+    if (equityGrantIds.length === 0 && status === 'loading') setEquityGrants();
   
-  }, [equityGrantIds, executiveId, setEquityGrantIds, setLoaded]);
+  }, [equityGrantIds, status, executiveId, setEquityGrantIds, setStatus]);
 
-  return { loading, error };
+  return { status, error };
 
 };

@@ -5,34 +5,28 @@ import { projectNameState, companyNameState, transactionDateState, transactionPr
 import { fetchCompany } from '../api/company/fetchCompany';
 
 export const useLoadCompany = (companyId) => {
-  
-  const [ projectName, setProjectName ] = useRecoilState(projectNameState(companyId));
-  const [ companyName, setCompanyName ] = useRecoilState(companyNameState(companyId));
-  const [ transactionDate, setTransactionDate ] = useRecoilState(transactionDateState(companyId));
-  const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState(companyId));
-  
-  const [ loaded, setLoaded ] = useState(null);
-  const [ loading, setLoading ] = useState(null);
+
+  const [ project, setProject ] = useRecoilState(projectNameState(companyId));
+  const [ company, setCompany ] = useRecoilState(companyNameState(companyId));
+  const [ date, setDate ] = useRecoilState(transactionDateState(companyId));
+  const [ price, setPrice ] = useRecoilState(transactionPriceState(companyId));
+
+  const loaded = project || company || date || price;
+
+  const [ status, setStatus ] = useState(loaded ? 'loaded' : 'loading');
   const [ error, setError ] = useState('');
 
   useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading]);
 
-  useEffect(() => {
-    
-    const setCompany = async () => {
-
-      setLoading(true);
-      setLoaded(false);
+    const setCompanyData = async () => {
 
       try {
-        const { nameProject, nameCompany, date, price } = await fetchCompany(companyId);
-        setProjectName(nameProject);
-        setCompanyName(nameCompany);
-        setTransactionDate(date);
-        setTransactionPrice(price);
-        setLoaded(true);
+        const { projectName, companyName, transactionDate, transactionPrice } = await fetchCompany(companyId);
+        setProject(projectName);
+        setCompany(companyName);
+        setDate(transactionDate);
+        setPrice(transactionPrice);
+        setStatus('loaded');
       } 
       
       catch (e) {
@@ -40,14 +34,12 @@ export const useLoadCompany = (companyId) => {
       }
 
     };
-  
-    if (!projectName || !companyName || !transactionDate || !transactionPrice) setCompany();
-  
-  }, [companyId, projectName, companyName, transactionDate, transactionPrice, setProjectName, setCompanyName, setTransactionDate, setTransactionPrice]);
 
-  console.log('company error', error)
+    if (!loaded && status === 'loading') setCompanyData();
+  
+  }, [companyId, loaded, status, setProject, setCompany, setDate, setPrice, setStatus]);
 
-  return { loading, error };
+  return { status, error };
 
 };
 

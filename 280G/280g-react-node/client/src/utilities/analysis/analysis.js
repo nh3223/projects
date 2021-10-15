@@ -3,6 +3,8 @@ import { parse } from '../date/date';
 
 export const annualize = (startDate, firstYearPayments, firstCompensationYear) => {
 
+  if (!startDate || !firstCompensationYear) return 0;
+  
   const parsedStartDate = parse(startDate);
   const startYear = getYear(parsedStartDate);
   const firstBasePeriodYear = firstCompensationYear.year;
@@ -15,6 +17,7 @@ export const annualize = (startDate, firstYearPayments, firstCompensationYear) =
 };
 
 export const getBaseAmount = (basePeriodCompensation, annualizedFirstYearCompensation) => {
+  if (basePeriodCompensation.length === 0) return 0;
   const totalCompensation = basePeriodCompensation.reduce((total, year) => total + year.compensation, annualizedFirstYearCompensation) - basePeriodCompensation[0].compensation
   return totalCompensation / basePeriodCompensation.length;
 }
@@ -28,4 +31,4 @@ export const getExciseTax = (excessParachutePayment) => {
   return excessParachutePayment * exciseTaxRate;
 };
 
-export const getWaiverAmount = (totalPayments, parachuteThreshold) => (totalPayments < parachuteThreshold) ? 0 : totalPayments - parachuteThreshold + 1;
+export const getWaiverAmount = (totalPayments, parachuteThreshold) => (totalPayments < parachuteThreshold || totalPayments === 0) ? 0 : totalPayments - parachuteThreshold + 1;

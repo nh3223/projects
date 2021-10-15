@@ -18,9 +18,9 @@ const EquityGrant = () => {
 
   const { companyId, executiveId, grantId } = useParams();
 
-  const { loading, error } = useLoadGrant(grantId);
+  const { status, error } = useLoadGrant(grantId);
 
-  if (loading) return <Loading component="Equity Grant" error={ error } />;
+  if (status === 'loading') return <Loading component="Equity Grant" error={ error } />;
 
   return (
     <>

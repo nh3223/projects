@@ -10,7 +10,7 @@ const Headers = ({ companyId, executiveId }) => (
   <HeaderLayout>
     <Header companyId={ companyId } />
     { companyId ? <CompanyHeader companyId={ companyId } /> : null }
-
+    { executiveId ? <ExecutiveHeader companyId={ companyId } executiveId={ executiveId } /> : null }
   </HeaderLayout>
 
 );

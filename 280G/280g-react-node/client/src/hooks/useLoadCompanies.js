@@ -8,25 +8,17 @@ export const useLoadCompanies = () => {
   
   const [ companies, setCompanies ] = useRecoilState(companiesState);
   
-  const [ loaded, setLoaded ] = useState(null);
-  const [ loading, setLoading ] = useState(null);
+  const [ status, setStatus ] = useState((companies.length === 0) ? 'loading' : 'loaded');
   const [ error, setError ] = useState(null);
-
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading]);
 
   useEffect(() => {
     
     const getCompanies = async () => {
 
-      setLoading(true);
-      setLoaded(false);
-
       try {            
         const companyData = await fetchCompanies();
         setCompanies(companyData)
-        setLoaded(true);
+        setStatus('loaded');
       } 
       
       catch (e) {
@@ -35,11 +27,11 @@ export const useLoadCompanies = () => {
 
     };
   
-    if (companies.length === 0) getCompanies();
+    if (companies.length === 0 && status === 'loading') getCompanies();
   
-  }, [companies, setCompanies]);
+  }, [companies, status, setCompanies]);
 
-  return { loading, error };
+  return { status, error };
 
 };
 

@@ -12,7 +12,7 @@ import DeleteButton from '../../../Elements/Buttons/DeleteButton/DeleteButton';
 
 const Executive = ({ executiveId, removeExecutiveId }) => {
 
-  const { loading, error } = useLoadExecutive(executiveId);
+  const { status, error } = useLoadExecutive(executiveId);
 
   const handleDelete = async () => {
     await deleteExecutive(executiveId);
@@ -23,14 +23,14 @@ const Executive = ({ executiveId, removeExecutiveId }) => {
   const buttonText = "Delete Executive";
   const name = `${buttonText}-${executiveId}`;
 
+  if (status === 'loading') return <Loading componentMessage= { `Executive ${executiveId}` } errorMessage={ error } />
+
   return (
-    loading
-    ? <Loading componentMessage= { `Executive ${executiveId}` } errorMessage={ error } />
-    : <SingleLineLayout>
-        <Name executiveId={ executiveId } />
-        <Title executiveId={ executiveId } />
-        <DeleteButton name={ name } id={ executiveId } text={ buttonText } handleDelete={ handleDelete } />
-      </SingleLineLayout>
+    <SingleLineLayout>
+      <Name executiveId={ executiveId } />
+      <Title executiveId={ executiveId } />
+      <DeleteButton name={ name } id={ executiveId } text={ buttonText } handleDelete={ handleDelete } />
+    </SingleLineLayout>
   );
 
 };

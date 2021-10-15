@@ -16,9 +16,9 @@ const Compensation = () => {
 
   const { companyId, executiveId } = useParams();
   const executiveName = useRecoilValue(executiveNameState(executiveId));
-  const { loading, error } = useLoadCompensation(executiveId);
+  const { status, error } = useLoadCompensation(executiveId);
 
-  if (loading) return <Loading component="Compensation" error={ error } />
+  if (status === 'loading') return <Loading component="Compensation" error={ error } />
   
   return (
     <>

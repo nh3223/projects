@@ -12,15 +12,11 @@ export const calculate280GValue = (transactionData, vestingData, equityGrantData
   const { transactionDate } = transactionData;
   const { grantDate, changeOfControl } = equityGrantData;
 
-  console.log(oldVestingDate, newVestingDate);
-
   const accelerationPeriod = getPeriod(oldVestingDate, newVestingDate);
   
   const afr = getAFR(accelerationPeriod);
 
   const equityValue = getEquityValue(transactionData, vestingData, equityGrantData); 
-
-  console.log('accelerationBenefit', equityValue, afr, accelerationPeriod);
 
   const accelerationBenefit = getAccelerationBenefit(equityValue, afr, accelerationPeriod)
 
@@ -29,8 +25,6 @@ export const calculate280GValue = (transactionData, vestingData, equityGrantData
   const totalPayment = getTotalPayment(changeOfControl, equityValue, accelerationBenefit, serviceLapseValue);
 
   const parachutePayment = getParachutePayment(newVestingDate, transactionDate, totalPayment);
-
-  console.log(equityValue, accelerationBenefit, serviceLapseValue);
 
   return {
     grantDate,

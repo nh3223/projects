@@ -10,22 +10,26 @@ import Loading from '../Loading/Loading';
 import Title from '../../Elements/TextElements/Title/Title';
 import CompanyListItem from './CompanyListItem';
 import AddButton from '../../Elements/Buttons/AddButton/AddButton';
+import { createCompany } from '../../../api/company/createCompany';
 
 const Home = () => {
 
   const [ companies, setCompanies ] = useRecoilState(companiesState);
-  const { loading, error } = useLoadCompanies();
+  const { status, error } = useLoadCompanies();
 
   const history = useHistory();
 
-  const handleAdd = () => history.push(`/company/info`);
+  const handleAdd = async () => {
+    const newCompany = await createCompany();
+    history.push(`/company/${newCompany._id}/info`);
+  };
 
   const handleDelete = async ({ target: { id }}) => {
     await deleteCompany(id);
     setCompanies(companies.filter((company) => company._id !== Number(id)));
   };
 
-  if (loading) return <Loading component="Home" error={ error } />
+  if (status === 'loading') return <Loading component="Home" error={ error } />
 
   return (
   

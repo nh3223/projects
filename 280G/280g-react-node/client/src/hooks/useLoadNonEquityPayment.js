@@ -9,26 +9,19 @@ export const useLoadNonEquityPayment = (paymentId) => {
   const [ description, setDescription ] = useRecoilState(nonEquityPaymentDescriptionState(paymentId));
   const [ amount, setAmount ] = useRecoilState(nonEquityPaymentAmountState(paymentId));
   
-  const [ loaded, setLoaded ] = useState(null);
-  const [ loading, setLoading ] = useState(null);
+  const loaded = description || amount;
+  const [ status, setStatus ] = useState((loaded) ? 'loaded' : 'loading');
   const [ error, setError ] = useState(null);
-
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading]);
 
   useEffect(() => {
     
     const setPayment = async () => {
 
-      setLoading(true);
-      setLoaded(false);
-
       try {
         const payment = await fetchPayment(paymentId);
         setDescription(payment.description);
         setAmount(payment.amount)
-        setLoaded(true);
+        setStatus('loaded');
       } 
       
       catch (e) {
@@ -37,10 +30,10 @@ export const useLoadNonEquityPayment = (paymentId) => {
 
     };
   
-    if (!description || !amount) setPayment();
+    if (!loaded && status === 'loading') setPayment();
   
-  }, [paymentId, description, amount, setDescription, setAmount, setLoaded, setError]);
+  }, [paymentId, loaded, status, setDescription, setAmount, setStatus, setError]);
 
-  return { loading, error };
+  return { status, error };
 
 };

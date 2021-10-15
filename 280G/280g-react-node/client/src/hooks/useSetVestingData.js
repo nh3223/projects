@@ -63,6 +63,4 @@ export const useSetVestingData = (companyId, grantId) => {
   }, [grantId, transactionDate, acceleration, accelerationPercentage, cliff, cliffDuration, cliffPercentage, grantDate,
       numberShares, remainderPeriods, remainderType, vestingStartDate, vestingSchedule.length, setVestingSchedule])
 
-    console.log('in hook', vestingSchedule);
-
 };

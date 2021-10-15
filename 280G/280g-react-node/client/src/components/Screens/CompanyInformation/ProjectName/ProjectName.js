@@ -12,14 +12,16 @@ import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 const ProjectName = ({ companyId }) => {
   
     const [ projectName, setProjectName ] = useRecoilState(projectNameState(companyId))  
+    const [ project, setProject ] = useState(projectName);
     const [ completed, setCompleted ] = useState((projectName) ? true : false);
 
-    const handleChange = ({ target: { value }}) => setProjectName(value);
+    const handleChange = ({ target: { value }}) => setProject(value);
 
     const handleEdit = () => setCompleted(false);
 
     const handleSubmit = async () => {
-      await editCompany(companyId, { projectName });
+      await editCompany(companyId, { projectName: project });
+      setProjectName(project);
       setCompleted(true);
     }
   
@@ -27,8 +29,8 @@ const ProjectName = ({ companyId }) => {
       <SingleLineLayout>
         <Description text="Project Name: " />
         { (completed)
-        ? <Identifier text={ projectName } handleEdit={ handleEdit }/>
-        : <InputForm value={ projectName } handleChange={ handleChange } handleSubmit={ handleSubmit } />
+        ? <Identifier text={ project } handleEdit={ handleEdit }/>
+        : <InputForm value={ project } handleChange={ handleChange } handleSubmit={ handleSubmit } />
         } 
       </SingleLineLayout>
     );

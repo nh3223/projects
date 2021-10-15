@@ -10,10 +10,10 @@ export const color = {
 export const size = {
   tiny: '0.5rem',
   extraSmall: '1rem',
-  small: '2rem',
-  medium: '4rem',
-  large: '6rem',
-  extraLarge: '8rem',
+  small: '1.5rem',
+  medium: '2rem',
+  large: '3rem',
+  extraLarge: '4rem',
   long: '25rem'
 };
 

@@ -18,7 +18,7 @@ const NonEquityPayments = () => {
   const { companyId, executiveId } = useParams();
 
   const [ paymentIds, setPaymentIds ] = useRecoilState(nonEquityPaymentIdsState(executiveId));
-  const { loading, error } = useLoadNonEquityPayments(executiveId);
+  const { status, error } = useLoadNonEquityPayments(executiveId);
 
   const handleAdd = async () => { 
     const newPayment = await createPayment(executiveId);
@@ -27,7 +27,7 @@ const NonEquityPayments = () => {
  
   const removePaymentId = (paymentId) => setPaymentIds(paymentIds.filter((id) => id !== paymentId));
   
-  if (loading) return <Loading component="Non Equity Payments" error={ error } />
+  if (status === 'loading') return <Loading component="Non Equity Payments" error={ error } />
 
   return (
     <>

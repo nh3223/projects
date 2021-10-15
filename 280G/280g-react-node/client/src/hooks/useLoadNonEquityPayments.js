@@ -8,25 +8,17 @@ export const useLoadNonEquityPayments = (executiveId) => {
   
   const [ nonEquityPaymentIds, setNonEquityPaymentIds ] = useRecoilState(nonEquityPaymentIdsState(executiveId));
   
-  const [ loaded, setLoaded ] = useState(null);
-  const [ loading, setLoading ] = useState(null);
+  const [ status, setStatus ] = useState((nonEquityPaymentIds.length === 0) ? 'loading' : 'loaded');
   const [ error, setError ] = useState(null);
-
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading]);
 
   useEffect(() => {
     
     const setNonEquityPayments = async () => {
 
-      setLoading(true);
-      setLoaded(false);
-
       try {
         const nonEquityPayments = await fetchPayments(executiveId);
         setNonEquityPaymentIds(nonEquityPayments.map((nonEquityPayment) => nonEquityPayment._id));
-        setLoaded(true);
+        setStatus('loaded');
       } 
       
       catch (e) {
@@ -35,10 +27,10 @@ export const useLoadNonEquityPayments = (executiveId) => {
 
     };
   
-    if (nonEquityPaymentIds.length === 0) setNonEquityPayments();
+    if (nonEquityPaymentIds.length === 0 && status === 'loading') setNonEquityPayments();
   
-  }, [nonEquityPaymentIds, executiveId, setNonEquityPaymentIds, setLoaded]);
+  }, [nonEquityPaymentIds, status, executiveId, setNonEquityPaymentIds, setStatus]);
 
-  return { loading, error };
+  return { status, error };
 
 };

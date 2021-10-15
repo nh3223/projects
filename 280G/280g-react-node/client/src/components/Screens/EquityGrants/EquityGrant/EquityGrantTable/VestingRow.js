@@ -58,8 +58,6 @@ const VestingRow = ({ companyId, grantId, index, vestingDate, handleChange }) =>
     }
   };
 
-  console.log(equityValue, accelerationBenefit, serviceLapseValue, totalPayment, parachutePayment);
-
   return (
 
     <SingleLineLayout>

@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
-import { createCompany } from '../../../api/company/createCompany';
 import { useLoadCompany } from '../../../hooks/useLoadCompany';
 
 import Loading from '../Loading/Loading';
@@ -18,18 +17,6 @@ const CompanyInformation = () => {
 
   const { companyId } = useParams();
   const { loading, error } = useLoadCompany(companyId);
-  const history = useHistory();
-
-  useEffect(() => {
-    
-    const create = async () => {
-      const newCompany = await createCompany();
-      history.push(`/company/${newCompany._id}/info`);
-    };
-    
-    if (!companyId) create();
-
-  }, [companyId, history]);
 
   if (loading) return <Loading component="Company Information" error={ error } />
 

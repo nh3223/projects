@@ -14,7 +14,7 @@ import AddButton from '../../../Elements/Buttons/AddButton/AddButton';
 const Executives = ({ companyId }) => {
 
   const [ executiveIds, setExecutiveIds ] = useRecoilState(executiveIdsState(companyId));
-  const { loading, error } = useLoadExecutives(companyId);
+  const { status, error } = useLoadExecutives(companyId);
 
   const handleAdd = async () => {
     const newExecutive = await createExecutive(companyId);
@@ -24,7 +24,7 @@ const Executives = ({ companyId }) => {
 
   const removeExecutiveId = (executiveId) => setExecutiveIds(executiveIds.filter((id) => id !== executiveId));
 
-  if (loading) return <Loading component="Executives" error={ error } />
+  if (status === 'loading') return <Loading component="Executives" error={ error } />
 
   return (
     <>

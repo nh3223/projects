@@ -1,5 +1,6 @@
 export const defaultCompany = {
-  name: '',
+  projectName: '',
+  companyName: '',
   transactionDate: '',
   transactionPrice: ''
 };

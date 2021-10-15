@@ -11,22 +11,34 @@ const headers = { "Content-Type": "application/json" }
 const companyId = 12;
 const edits = { companyName: 'company' }
 
-const fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-  json: () => Promise.resolve({ })
-}));
 
 test('fetchCompanies should call fetch with correct url', () => {
+  
+  const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({
+    json: () => Promise.resolve({ })
+  }));
+    
   fetchCompanies();
   expect(fetchSpy).toHaveBeenCalledWith(baseUrl);
 });
 
 test('fetchCompany should call fetch with correct url', () => {
+  
+  const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({
+    json: () => Promise.resolve({ })
+  }));
+  
   const url = `${baseUrl}/${companyId}`;
   fetchCompany(companyId);
   expect(fetchSpy).toHaveBeenCalledWith(url);
 });
 
 test('createCompany should call fetch with correct url and options', () => {
+  
+  const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({
+    json: () => Promise.resolve({ })
+  }));
+  
   const options = {
     method: 'POST',
     headers,
@@ -37,6 +49,11 @@ test('createCompany should call fetch with correct url and options', () => {
 });
 
 test('editCompany should call fetch with correct url and options', () => {
+  
+  const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({
+    json: () => Promise.resolve({ })
+  }));
+
   const url = `${baseUrl}/${companyId}`;
   const options = {
     method: 'PATCH',
@@ -48,6 +65,11 @@ test('editCompany should call fetch with correct url and options', () => {
 });
 
 test('deleteCompany should call fetch with correct url and options', () => {
+  
+  const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({
+    json: () => Promise.resolve({ })
+  }));
+  
   const url = `${baseUrl}/${companyId}`;
   const options = { method: 'DELETE' }
   deleteCompany(companyId)

@@ -9,26 +9,19 @@ export const useLoadExecutive = (executiveId) => {
   const [ executiveName, setExecutiveName ] = useRecoilState(executiveNameState(executiveId));
   const [ executiveTitle, setExecutiveTitle ] = useRecoilState(executiveTitleState(executiveId));
   
-  const [ loaded, setLoaded ] = useState(null);
-  const [ loading, setLoading ] = useState(null);
+  const loaded = executiveName || executiveTitle;
+  const [ status, setStatus ] = useState((loaded) ? 'loaded' : 'loading');
   const [ error, setError ] = useState(null);
-
-  useEffect(() => {
-    if (loaded) setLoading(false);
-  }, [loaded, setLoading]);
 
   useEffect(() => {
     
     const setExecutive = async () => {
 
-      setLoading(true);
-      setLoaded(false);
-
       try {
         const executive = await fetchExecutive(executiveId);
         setExecutiveName(executive.executiveName);
         setExecutiveTitle(executive.executiveTitle)
-        setLoaded(true);
+        setStatus('loaded');
       } 
       
       catch (e) {
@@ -37,11 +30,11 @@ export const useLoadExecutive = (executiveId) => {
 
     };
   
-    if (!executiveName || !executiveTitle) setExecutive();
+    if (!loaded && status === 'loading') setExecutive();
   
-  }, [executiveName, executiveTitle, executiveId, setExecutiveName, setExecutiveTitle, setLoaded]);
+  }, [executiveId, loaded, status, setExecutiveName, setExecutiveTitle, setStatus]);
 
-  return { loading, error };
+  return { status, error };
 
 };
 
