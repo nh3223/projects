@@ -3,8 +3,10 @@ import Executive from '../models/executive.js';
 
 export const getExecutive = async (req, res) => {
   const { id: _id } = req.params;
+  console.log(_id);
   try {
     const executive = await Executive.findById(_id);
+    console.log(executive);
     res.status(200).json(executive);
   } catch (error) {
     res.status(404).json({ message: error.message });

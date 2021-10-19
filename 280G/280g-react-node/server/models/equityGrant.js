@@ -11,11 +11,11 @@ const grantType = {
 }
 
 const grantDate = {
-  type: String
+  type: Date
 };
 
 const vestingStartDate = {
-  type: String
+  type: Date
 };
 
 const numberShares = {
@@ -64,8 +64,8 @@ const remainderType = {
 
 const vestingSchedule = {
   type: [{
-    oldVestingDate: String,
-    newVestingDate: String,
+    oldVestingDate: Date,
+    newVestingDate: Date,
     shares: Number
   }],
   required: true

@@ -3,7 +3,7 @@ import NonEquityPayment from '../models/nonEquityPayments.js';
 import Executive from '../models/executive.js';
 
 export const getPayments = async (req, res) => {
-  const { id: _id } = req.params;
+  const { executiveId: _id } = req.params;
   try {
     const executive = await Executive.findById(_id).populate('nonEquityPayments');
     const payments = executive.nonEquityPayments;

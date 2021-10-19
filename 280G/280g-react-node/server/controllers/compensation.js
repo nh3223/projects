@@ -25,10 +25,8 @@ export const createCompensation = async (req, res) => {
 export const editCompensation = async (req, res) => {
   const { executiveId: executive } = req.params;
   const compensationUpdates = req.body;
-  console.log('params', req.params);
-  console.log('body', req.body)
-  console.log('controller', executive, compensationUpdates);
-  // if (!mongoose.Types.ObjectId.isValid(executive)) return res.status(404).send('Request Failed');
+  
+  if (!mongoose.Types.ObjectId.isValid(executive)) return res.status(404).send('Request Failed');
 
   const updatedCompensation = await Compensation.findOneAndUpdate({ executive }, compensationUpdates, { new: true });
   res.json(updatedCompensation);
@@ -37,7 +35,7 @@ export const editCompensation = async (req, res) => {
 export const deleteCompensation = async (req, res) => {
   const {executiveId: executive } = req.params;
 
-  // if (!mongoose.Types.ObjectId.isValid(executive)) return res.status(404).send('Request Failed');
+  if (!mongoose.Types.ObjectId.isValid(executive)) return res.status(404).send('Request Failed');
 
   await Compensation.findOneAndDelete({ executive });
   res.json({ message: "Compensation Removed Successfully "});

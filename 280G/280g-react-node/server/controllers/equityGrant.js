@@ -35,7 +35,7 @@ export const createGrant = async (req, res) => {
 };
 
 export const editGrant = async (req, res) => {
-  const { id: _id } = req.params;
+  const { grantId: _id } = req.params;
   const grantUpdates = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
@@ -45,7 +45,7 @@ export const editGrant = async (req, res) => {
 };
 
 export const deleteGrant = async (req, res) => {
-  const {id: _id } = req.params;
+  const { grantId: _id } = req.params;
   
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
 

@@ -15,7 +15,7 @@ const transactionDate = {
 const transactionPrice = {
   type: Number,
   validate(value) {
-    if (value < 0) {
+    if (value <= 0) {
       throw new Error('Transaction Price must be a positive number');
     }
   }

@@ -4,7 +4,7 @@ import { getPayments, getPayment, createPayment, editPayment, deletePayment } fr
 
 const nonEquityPaymentRoutes = Router();
 
-nonEquityPaymentRoutes.get('/executive/:id', getPayments);
+nonEquityPaymentRoutes.get('/executive/:executiveId', getPayments);
 nonEquityPaymentRoutes.get('/:id', getPayment);
 nonEquityPaymentRoutes.post('/', createPayment);
 nonEquityPaymentRoutes.patch('/:id', editPayment);

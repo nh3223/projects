@@ -7,11 +7,11 @@ const executive = {
 };
 
 const startDate = {
-  type: String
+  type: Date
 };
 
 const firstYearPayments = {
-  type: String
+  type: Number
 };
 
 const basePeriodCompensation = [{
