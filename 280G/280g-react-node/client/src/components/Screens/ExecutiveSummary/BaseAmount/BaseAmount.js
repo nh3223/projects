@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { startDateState, firstYearPaymentsState, basePeriodCompensationState, baseAmountState } from '../../../../recoil/compensation';
-import { annualize, getParachuteThreshold } from '../../../../utilities/analysis/analysis';
+import { startDateState, firstYearPaymentsState, basePeriodCompensationState } from '../../../../recoil/compensation';
+import { baseAmountState } from '../../../../recoil/analysis';
 
 import ExecutiveSummaryBlock from '../../../Elements/Layouts/ExecutiveSummaryBlock';
 import CompensationSummary from './CompensationSummary';
@@ -14,11 +14,7 @@ const BaseAmount = ({ executiveId }) => {
   const startDate = useRecoilValue(startDateState(executiveId));
   const firstYearPayments = useRecoilValue(firstYearPaymentsState(executiveId));
   const compensation = useRecoilValue(basePeriodCompensationState(executiveId));
-  const baseAmount = useRecoilValue(baseAmountState(executiveId));
-
-  const firstBasePeriodCompensationYear = compensation[0];
-  const annualizedCompensation = annualize(startDate, firstYearPayments, firstBasePeriodCompensationYear);
-  const parachuteThreshold = getParachuteThreshold(baseAmount);
+  const { annualizedCompensation, baseAmount, parachuteThreshold } = useRecoilValue(baseAmountState(executiveId));
   
   return (
 

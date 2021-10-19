@@ -105,9 +105,9 @@ jest.mock('react-router', () => ({
   useParams: () => ({ companyId })
 }));
 
-jest.mock('../../../hooks/useLoadProject', () => ({ 
-  useLoadProject: () => ({ loading: false, error: null })
-}));
+// jest.mock('../../../hooks/useLoadProject', () => ({ 
+//   useLoadProject: () => ({ loading: false, error: null })
+// }));
 
 // Tests
 

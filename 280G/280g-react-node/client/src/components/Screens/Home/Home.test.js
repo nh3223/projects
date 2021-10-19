@@ -46,6 +46,10 @@ jest.mock('../../../hooks/useLoadCompanies', () => ({
   useLoadCompanies: () => ({ loading: false, error: null })
 }));
 
+jest.mock('../../../api/company/createCompany', () => ({
+  createCompany: () => ({ _id: 3 })
+}))
+
 jest.mock('../../../api/company/deleteCompany', () => ({
   deleteCompany: () => ({  })
 }));
@@ -64,14 +68,12 @@ test('should show Add Button, project names, and delete buttons', () => {
   expect(deleteB).toBeInTheDocument();
 });
 
-test('should redirect to company information page when Add button is clicked', () => {
+test('should redirect to company information page when Add button is clicked', async () => {
   const { getByRole } = render(component(history, companies));  
   const addButton = getByRole('button', { name: 'Add Company' });
   expect(addButton).toBeInTheDocument();
   userEvent.click(addButton);
-  expect(history.location.pathname).toBe('/company/info');
-  // const companyInformation = getByText('Company Information');
-  // expect(companyInformation).toBeInTheDocument();
+  await waitFor(() => expect(history.location.pathname).toBe(`/company/3/info`));
 });
 
 test('should delete project when delete button is clicked', async () => {

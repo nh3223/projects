@@ -40,11 +40,11 @@ const executiveId = 3;
 const executiveName = 'John Doe';
 const startDate = stringify(new Date('July 1, 2018'));
 const firstYearPayments = 1000;
-const basePeriodCompensation = { 
-  2018: 100,
-  2019: 200,
-  2020: 300
-};
+const basePeriodCompensation = [
+  { year: 2018, compensation: 100 },
+  { year: 2019, compensation: 200 },
+  { year: 2020, compensation: 300 }
+];
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

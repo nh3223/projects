@@ -11,7 +11,7 @@ const startDate = {
 };
 
 const firstYearPayments = {
-  type: Number
+  type: String
 };
 
 const basePeriodCompensation = [{

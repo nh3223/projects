@@ -6,7 +6,6 @@ import { equityGrantIdsState } from '../../../../recoil/equityGrant';
 import NavigationBar from '../../../Elements/Navigation/NavigationBar';
 import TabList from '../../../Elements/Navigation/TabList';
 import Tab from '../../../Elements/Navigation/Tab';
-import FixedTab from '../../../Elements/Navigation/FixedTab'
 import GrantTab from '../../GrantTab';
 
 const ExecutiveHeader = ({ companyId, executiveId }) => {
@@ -22,7 +21,7 @@ const ExecutiveHeader = ({ companyId, executiveId }) => {
         <Tab path={ path } text="Executive Summary" />
         <Tab path={ `${path}/compensation` } text="Compensation" />
         <Tab path={ `${path}/non-equity-payments` } text="Non-Equity Payments" />
-        <FixedTab text="Equity Grants -->" />
+        <Tab path={ `${path}/equity-grants` } text="Equity Grants -->" />
         { grantIds.map((grantId) => <GrantTab key={ grantId } path={ path } grantId={ grantId } />) }
       </TabList>
     </NavigationBar>

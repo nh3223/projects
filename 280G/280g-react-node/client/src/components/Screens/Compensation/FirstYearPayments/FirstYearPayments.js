@@ -21,7 +21,7 @@ const FirstYearPayments = ({ executiveId }) => {
 
   const validate = async (e) => {
     const payments = Number(firstYearPayments);
-    if (payments && payments > 0) {
+    if (payments && payments >= 0) {
       await editCompensation(executiveId, { firstYearPayments: payments });
       setCompleted(true);
       setErrorMessage(null);

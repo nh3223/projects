@@ -1,11 +1,11 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 
 import { editCompensation } from '../../../../api/compensation/editCompensation';
 import { basePeriodCompensationState, startDateState } from '../../../../recoil/compensation';
 import { getYears } from '../../../../utilities/compensation/getYears/getYears';
 import { getCompensation } from '../../../../utilities/compensation/getCompensation/getCompensation';
-import { reconvertCompensation } from '../../../../utilities/compensation/convertCompensation/convertCompensation';
+import { convertCompensation, reconvertCompensation } from '../../../../utilities/compensation/convertCompensation/convertCompensation';
 
 import SubTitle from '../../../Elements/TextElements/SubTitle/SubTitle';
 import BasePeriodCompensationYear from './BasePeriodCompensationYear';
@@ -14,19 +14,23 @@ const BasePeriodCompensation = ({ executiveId }) => {
   
   const startDate = useRecoilValue(startDateState(executiveId));
   const [ basePeriodCompensation, setBasePeriodCompensation ] = useRecoilState(basePeriodCompensationState(executiveId));
+  const [ compensation, setCompensation ] = useState(convertCompensation(basePeriodCompensation))
   const referenceDate = useRef(null);
 
   const handleSubmit = async (year, annualCompensation) => {
-    const compensation = { ...basePeriodCompensation, [year]: annualCompensation };
-    setBasePeriodCompensation(compensation);
-    await editCompensation(reconvertCompensation(compensation));
+    const updatedCompensation = { ...compensation, [year]: annualCompensation};
+    const reconvertedCompensation = reconvertCompensation(updatedCompensation);
+    console.log('basePeriodCompensation', updatedCompensation, reconvertedCompensation);
+    setCompensation(updatedCompensation);
+    setBasePeriodCompensation(reconvertedCompensation);
+    await editCompensation(executiveId, reconvertedCompensation);
   };
 
   useEffect(() => {
 
     if (referenceDate.current !== startDate) {
       const years = (getYears(startDate));
-      setBasePeriodCompensation(getCompensation(years, basePeriodCompensation));
+      setBasePeriodCompensation(reconvertCompensation(getCompensation(years, basePeriodCompensation)));
       referenceDate.current = startDate;
     }
 
@@ -35,8 +39,8 @@ const BasePeriodCompensation = ({ executiveId }) => {
   return (
     <>
       <SubTitle text="Annual Compensation" />
-      { Object.entries(basePeriodCompensation).map(([year, compensation]) => (
-          <BasePeriodCompensationYear key={ year } year={ year } compensation={ compensation } handleSubmit={ handleSubmit } />
+      { basePeriodCompensation.map((year) => (
+          <BasePeriodCompensationYear key={ year.year } year={ year.year } compensation={ year.compensation } handleSubmit={ handleSubmit } />
         ))
       }
     </>

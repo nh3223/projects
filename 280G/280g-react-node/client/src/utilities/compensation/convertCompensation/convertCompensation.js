@@ -1,5 +1,4 @@
 export const convertCompensation = (basePeriodCompensation) => {
-
   if (basePeriodCompensation.length === 0) return {};
   const compensation = {}
   for (const year of basePeriodCompensation) {

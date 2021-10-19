@@ -28,11 +28,11 @@ const startDate = stringify(new Date('July 1, 2018'));
 const error = 'Please enter a valid compensation amount';
 
 test('should render subtitle and base Period Compensation', () => {
-  const basePeriodCompensation = { 
-    2018: 100,
-    2019: 200,
-    2020: 300
-  };
+  const basePeriodCompensation = [
+    { year: 2018, compensation: 100 },
+    { year: 2019, compensation: 200 },
+    { year: 2020, compensation: 300 }
+  ];
   const { getByText } = render(component(executiveId, startDate, basePeriodCompensation));
   const subTitle = getByText('Annual Compensation');
   const middleYear = getByText('2019:');
@@ -43,7 +43,7 @@ test('should render subtitle and base Period Compensation', () => {
 });
 
 test('should render compensation input boxes', () => {
-  const basePeriodCompensation = { };
+  const basePeriodCompensation = [ ];
   const { getAllByRole } = render(component(executiveId, startDate, basePeriodCompensation));
   const compensationInputs = getAllByRole('textbox');
   compensationInputs.every((input) => expect(input).toBeInTheDocument());
@@ -51,10 +51,10 @@ test('should render compensation input boxes', () => {
 });
 
 test('should render compensation descriptions and input box', () => {
-  const basePeriodCompensation = { 
-    2019: 200,
-    2020: 300
-  };
+  const basePeriodCompensation = [
+    { year: 2019, compensation: 200 },
+    { year: 2020, compensation: 300 }
+  ];
   const { getByRole, getByText } = render(component(executiveId, startDate, basePeriodCompensation));
   const compensationInput = getByRole('textbox');
   const middleYear = getByText('2019:');
@@ -70,10 +70,10 @@ test('should render description after valid submit', async () => {
     json: () => Promise.resolve({ }),
   }));
 
-  const basePeriodCompensation = { 
-    2019: 200,
-    2020: 300
-  };
+  const basePeriodCompensation = [
+    { year: 2019, compensation: 200 },
+    { year: 2020, compensation: 300 }
+  ];
   const compensation = [
     { year: 2018, compensation: 100 },
     { year: 2019, compensation: 200 },

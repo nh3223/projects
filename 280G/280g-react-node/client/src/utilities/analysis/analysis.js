@@ -10,7 +10,6 @@ export const annualize = (startDate, firstYearPayments, firstCompensationYear) =
   const firstBasePeriodYear = firstCompensationYear.year;
 
   if (startYear < firstBasePeriodYear) return firstCompensationYear.compensation; 
-
   const workingDays = differenceInCalendarDays( endOfYear(parsedStartDate), parsedStartDate) + 1;
   const annualizedCompensation = Math.round(firstYearPayments + (firstCompensationYear.compensation - firstYearPayments) * getDaysInYear(parsedStartDate) / workingDays);
   return annualizedCompensation;

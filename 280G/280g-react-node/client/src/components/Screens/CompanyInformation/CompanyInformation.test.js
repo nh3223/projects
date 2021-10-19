@@ -70,12 +70,12 @@ jest.mock('../../../hooks/useLoadExecutives', () => ({
 
 test('should show Company Information and Executives', () => {
   const { getByText, getAllByText } = render(component(companyId, projectName, companyName, transactionDate, transactionPrice, executiveId, executiveName, executiveTitle));
-  const project = getByText(projectName);
+  const project = getAllByText(projectName);
   const company = getByText(companyName);
   const date = getByText(formatDate(transactionDate));
   const price = getByText(transactionPrice);
   const executive = getAllByText(executiveName);
-  expect(project).toBeInTheDocument();
+  expect(project.length).toBe(2);
   expect(company).toBeInTheDocument();
   expect(date).toBeInTheDocument();
   expect(price).toBeInTheDocument();
