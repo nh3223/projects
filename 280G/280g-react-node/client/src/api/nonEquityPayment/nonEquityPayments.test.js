@@ -4,8 +4,6 @@ import { createPayment } from './createPayment';
 import { editPayment } from './editPayment';
 import { deletePayment } from './deletePayment';
 
-import { defaultNonEquityPayment, defaultPayment } from '../../utilities/nonEquityPayment/default';
-
 const baseUrl = 'http://localhost:5000/nonequitypayment';
 const headers = { "Content-Type": "application/json" }
 const executiveId = 3;
@@ -27,7 +25,7 @@ test('fetchPayments should call fetch with correct url', () => {
 test('fetchPayment should call fetch with correct url', () => {
   
   const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-    json: () => Promise.resolve({ _id: paymentId, ...defaultPayment })
+    json: () => Promise.resolve({ _id: paymentId })
   }));
   
   const url = `${baseUrl}/${paymentId}`;
@@ -38,17 +36,13 @@ test('fetchPayment should call fetch with correct url', () => {
 test('createPayment should call fetch with correct url and options', () => {
   
   const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-    json: () => Promise.resolve({ _id: paymentId, ...defaultPayment })
+    json: () => Promise.resolve({ _id: paymentId })
   }));
   
-  const newPayment = JSON.stringify({
-    executive: executiveId,
-    ...defaultNonEquityPayment
-  });
   const options = {
     method: 'POST',
     headers,
-    body: newPayment
+    body: JSON.stringify({ executive: executiveId })
   }
   createPayment(executiveId);
   expect(fetchSpy).toHaveBeenCalledWith(baseUrl, options);

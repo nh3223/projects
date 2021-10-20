@@ -4,8 +4,6 @@ import { createGrant } from './createGrant';
 import { editGrant } from './editGrant';
 import { deleteGrant } from './deleteGrant';
 
-import { defaultGrant } from '../../utilities/equityGrant/default';
-
 const baseUrl = 'http://localhost:5000/equitygrant';
 const headers = { "Content-Type": "application/json" };
 const executiveId = 3;
@@ -27,7 +25,7 @@ test('fetchGrants should call fetch with correct url', async () => {
 test('fetchGrant should call fetch with correct url', () => {
   
   const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-    json: () => Promise.resolve({ _id: grantId, ...defaultGrant })
+    json: () => Promise.resolve({ _id: grantId })
   }));
   
   const url = `${baseUrl}/${grantId}`;
@@ -38,17 +36,13 @@ test('fetchGrant should call fetch with correct url', () => {
 test('createGrant should call fetch with correct url and options', () => {
   
   const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-    json: () => Promise.resolve({ _id: executiveId, ...defaultGrant })
+    json: () => Promise.resolve({ _id: executiveId })
   }));
   
-  const newGrant = JSON.stringify({
-    executive: executiveId,
-    ...defaultGrant
-  });
   const options = {
     method: 'POST',
     headers,
-    body: newGrant
+    body: JSON.stringify({ executive: executiveId })
   }
   createGrant(executiveId);
   expect(fetchSpy).toHaveBeenCalledWith(baseUrl, options);

@@ -4,8 +4,6 @@ import { createExecutive } from './createExecutive';
 import { editExecutive } from './editExecutive';
 import { deleteExecutive } from './deleteExecutive';
 
-import { defaultExecutive } from '../../utilities/executive/default';
-
 const baseUrl = 'http://localhost:5000/executive';
 const headers = { "Content-Type": "application/json" }
 const companyId = 12;
@@ -27,7 +25,7 @@ test('fetchExecutives should call fetch with correct url', async () => {
 test('fetchExecutive should call fetch with correct url', () => {
   
   const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-    json: () => Promise.resolve({ _id: executiveId, ...defaultExecutive })
+    json: () => Promise.resolve({ _id: executiveId })
   }));
   
   const url = `${baseUrl}/${executiveId}`;
@@ -38,18 +36,14 @@ test('fetchExecutive should call fetch with correct url', () => {
 test('createExecutive should call fetch with correct url and options', () => {
   
   const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-    json: () => Promise.resolve({ _id: executiveId, ...defaultExecutive })
+    json: () => Promise.resolve({ _id: executiveId })
   }));
   
   const companyId = 12;
-  const newExecutive = JSON.stringify({
-    company: companyId,
-    ...defaultExecutive
-  });
   const options = {
     method: 'POST',
     headers,
-    body: newExecutive
+    body: JSON.stringify({ company: companyId })
   };
   createExecutive(companyId);
   expect(fetchSpy).toHaveBeenCalledWith(baseUrl, options);

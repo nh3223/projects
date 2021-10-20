@@ -85,7 +85,7 @@ test('should render description after valid submit', async () => {
   const compensationInput = getByRole('textbox');
   userEvent.type(compensationInput, annualCompensation.toString());
   await act(() => userEvent.type(compensationInput, '{enter}'));
-  expect(spy).toHaveBeenCalledWith(compensation);
+  expect(spy).toHaveBeenCalledWith(executiveId, compensation);
   const compensationAmount = await waitFor(() => getByText(`$${annualCompensation.toString()}`));
   expect(compensationAmount).toBeInTheDocument();
   const errorMessage = queryByText(error);

@@ -5,7 +5,6 @@ export const editCompensation = async (executiveId, edits) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(edits)
   };
-  console.log('api', edits, options)
   const response = await fetch(url, options);
   return await response.json();
 };

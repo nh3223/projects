@@ -4,13 +4,10 @@ import { createCompany } from './createCompany';
 import { editCompany } from './editCompany';
 import { deleteCompany } from './deleteCompany';
 
-import { defaultCompany } from '../../utilities/company/default';
-
 const baseUrl = 'http://localhost:5000/company';
 const headers = { "Content-Type": "application/json" }
 const companyId = 12;
 const edits = { companyName: 'company' }
-
 
 test('fetchCompanies should call fetch with correct url', () => {
   
@@ -42,7 +39,7 @@ test('createCompany should call fetch with correct url and options', () => {
   const options = {
     method: 'POST',
     headers,
-    body: JSON.stringify(defaultCompany)
+    body: { }
   }
   createCompany();
   expect(fetchSpy).toHaveBeenCalledWith(baseUrl, options);

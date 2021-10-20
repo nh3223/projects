@@ -20,7 +20,6 @@ const BasePeriodCompensation = ({ executiveId }) => {
   const handleSubmit = async (year, annualCompensation) => {
     const updatedCompensation = { ...compensation, [year]: annualCompensation};
     const reconvertedCompensation = reconvertCompensation(updatedCompensation);
-    console.log('basePeriodCompensation', updatedCompensation, reconvertedCompensation);
     setCompensation(updatedCompensation);
     setBasePeriodCompensation(reconvertedCompensation);
     await editCompensation(executiveId, reconvertedCompensation);

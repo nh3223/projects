@@ -3,8 +3,6 @@ import { createCompensation } from './createCompensation';
 import { editCompensation } from './editCompensation';
 import { deleteCompensation } from './deleteCompensation';
 
-import { defaultCompensation } from '../../utilities/compensation/default';
-
 const baseUrl = 'http://localhost:5000/compensation';
 const headers = { "Content-Type": "application/json" }
 const executiveId = 1;
@@ -13,7 +11,7 @@ const edits = { firstYearPayments: 1000 }
 test('fetchCompensation should call fetch with correct url', () => {
   
   const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-    json: () => Promise.resolve({ executive: executiveId, ...defaultCompensation })
+    json: () => Promise.resolve({ executive: executiveId })
   }));
   
   const url = `${baseUrl}/${executiveId}`;
@@ -24,17 +22,13 @@ test('fetchCompensation should call fetch with correct url', () => {
 test('createCompensation should call fetch with correct url and options', () => {
   
   const fetchSpy = jest.spyOn(global, 'fetch').mockImplementationOnce(() => Promise.resolve({ 
-    json: () => Promise.resolve({ executive: executiveId, ...defaultCompensation })
+    json: () => Promise.resolve({ executive: executiveId })
   }));
   
-  const newCompensation = JSON.stringify({
-    executive: executiveId,
-    ...defaultCompensation
-  });
   const options = {
     method: 'POST',
     headers,
-    body: newCompensation
+    body: JSON.stringify({ executive: executiveId })
   };
   createCompensation(executiveId);
   expect(fetchSpy).toHaveBeenCalledWith(baseUrl, options);

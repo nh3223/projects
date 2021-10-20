@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event'
 import { RecoilRoot } from 'recoil';
 
 import Executives from './Executives';
-import { defaultExecutive } from '../../../../utilities/executive/default';
 import * as createExecutive from '../../../../api/executive/createExecutive';
 import * as deleteExecutive from '../../../../api/executive/deleteExecutive';
 import * as createCompensation from '../../../../api/compensation/createCompensation';
@@ -63,7 +62,7 @@ test('should render subtitle', () => {
 test('should render and handle addExecutive button', async () => {
   
   const newExecutiveId = 3;
-  const newExecutive = { company: companyId, ...defaultExecutive };
+  const newExecutive = { company: companyId };
 
   const executiveSpy = jest.spyOn(createExecutive, 'createExecutive').mockResolvedValue({ ...newExecutive, _id: newExecutiveId });
   const compensationSpy = jest.spyOn(createCompensation, 'createCompensation').mockResolvedValue({ executive: newExecutiveId });
