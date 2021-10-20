@@ -7,10 +7,12 @@ import { useLoadCompanies } from '../../../hooks/useLoadCompanies';
 import { companiesState } from '../../../recoil/company';
 
 import Loading from '../Loading/Loading';
+import Headers from '../../Navigation/Headers/Headers';
 import Title from '../../Elements/TextElements/Title/Title';
 import CompanyListItem from './CompanyListItem';
 import AddButton from '../../Elements/Buttons/AddButton/AddButton';
 import { createCompany } from '../../../api/company/createCompany';
+import { fetchCompanies } from '../../../api/company/fetchCompanies';
 
 const Home = () => {
 
@@ -26,14 +28,21 @@ const Home = () => {
 
   const handleDelete = async ({ target: { id }}) => {
     await deleteCompany(id);
-    setCompanies(companies.filter((company) => company._id !== Number(id)));
+    const remainingCompanies = await fetchCompanies();
+    setCompanies(remainingCompanies);
+    // setCompanies(companies.filter((company) => company._id !== Number(id)));
   };
 
   if (status === 'loading') return <Loading component="Home" error={ error } />
 
+  console.log('companies', companies);
+
+
+
   return (
   
     <>
+      <Headers />
       <Title text="Companies" />
       { companies.map((company) => <CompanyListItem key={ company._id } company={ company } handleDelete={ handleDelete } />) }
       <AddButton name="Add Company" text="Add Company" handleAdd={ handleAdd } />

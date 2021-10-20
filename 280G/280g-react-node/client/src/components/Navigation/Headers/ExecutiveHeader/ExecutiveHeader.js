@@ -2,6 +2,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { equityGrantIdsState } from '../../../../recoil/equityGrant';
+import { useLoadGrants } from '../../../../hooks/useLoadGrants';
 
 import NavigationBar from '../../../Elements/Navigation/NavigationBar';
 import TabList from '../../../Elements/Navigation/TabList';
@@ -10,6 +11,7 @@ import GrantTab from '../../GrantTab';
 
 const ExecutiveHeader = ({ companyId, executiveId }) => {
 
+  useLoadGrants(executiveId);
   const grantIds = useRecoilValue(equityGrantIdsState(executiveId));
   
   const path = `/company/${companyId}/executive/${executiveId}`;

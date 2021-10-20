@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { transactionDateState } from '../../../../recoil/company';
@@ -23,6 +23,10 @@ const TransactionDate = ({ companyId }) => {
   };
 
   const handleEdit = () => setCompleted(false);
+
+  useEffect(() => {
+    setCompleted((date) ? true : false);
+  }, [date, setCompleted])
 
   return (
     <SingleLineLayout>

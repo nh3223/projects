@@ -55,6 +55,14 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({ companyId, executiveId })
 }));
 
+jest.mock('../../../../hooks/useLoadCompany', () => ({
+  useLoadCompany: () => ({ loading: false, error: null })
+}));
+
+jest.mock('../../../../hooks/useLoadExecutives', () => ({
+  useLoadExecutives: () => ({ loading: false, error: null })
+}));
+
 jest.mock('../../../../hooks/useLoadNonEquityPayments', () => ({
   useLoadNonEquityPayments: () => ({ loading: false, error: null })
 }));

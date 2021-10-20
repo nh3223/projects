@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { transactionPriceState } from '../../../../recoil/company';
@@ -29,6 +29,10 @@ const TransactionPrice = ({ companyId }) => {
       setErrorMessage('Please enter a valid per share price')
     }
   };
+
+  useEffect(() => { 
+    setCompleted((transactionPrice) ? true : false);
+  }, [transactionPrice, setCompleted]);
 
   return (
     <SingleLineLayout>

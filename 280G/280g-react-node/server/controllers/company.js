@@ -32,13 +32,11 @@ export const getCompany = async (req, res) => {
 };
 
 export const createCompany = async (req, res) => {
-  const company = req.body;
-  const newCompany = Company(company);
+  const newCompany = Company()
   try {
     await newCompany.save();
     res.status(201).json(newCompany);
   } catch (error) {
-    console.log('error',error.message);
     res.status(409).json({ message: error.message });
   }
 };

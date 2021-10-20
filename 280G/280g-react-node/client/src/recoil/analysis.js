@@ -10,7 +10,7 @@ export const totalNonEquityPaymentsState = selectorFamily({
   key: 'totalNonEquityPayments',
   get: (executiveId) => ({ get }) => {
     const paymentIds = get(nonEquityPaymentIdsState(executiveId));
-    const totalNonEquityPayments = paymentIds.reduce((total, paymentId) => total + parseInt(get(nonEquityPaymentAmountState(paymentId))), 0);
+    const totalNonEquityPayments = paymentIds.reduce((total, paymentId) => total + get(nonEquityPaymentAmountState(paymentId)), 0);
     return totalNonEquityPayments;
   }
 });
@@ -20,7 +20,7 @@ export const totalEquityGrantPaymentsState = selectorFamily({
   key: 'totalEquityGrantPayments',
   get: ({ companyId, executiveId }) => ({ get }) => {
     const grantIds = get(equityGrantIdsState(executiveId));
-    const totalEquityGrantPayments = grantIds.reduce((total, grantId) => total + parseInt(get(total280GValueState({ companyId, grantId }))), 0);
+    const totalEquityGrantPayments = grantIds.reduce((total, grantId) => total + get(total280GValueState({ companyId, grantId })), 0);
     return totalEquityGrantPayments;
   }
 });

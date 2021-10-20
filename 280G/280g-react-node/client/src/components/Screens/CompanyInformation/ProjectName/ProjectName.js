@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { projectNameState } from '../../../../recoil/company';
@@ -25,6 +25,11 @@ const ProjectName = ({ companyId }) => {
       setCompleted(true);
     }
   
+    useEffect(() => {
+      setProject(projectName)
+      setCompleted((projectName) ? true : false);
+    }, [projectName, setProject])
+
     return (
       <SingleLineLayout>
         <Description text="Project Name: " />

@@ -1,16 +1,21 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
+import { projectNameState } from '../../../../recoil/company';
 import { executiveIdsState } from '../../../../recoil/executive';
+import { useLoadCompany } from '../../../../hooks/useLoadCompany';
+import { useLoadExecutives } from '../../../../hooks/useLoadExecutives';
 
 import NavigationBar from '../../../Elements/Navigation/NavigationBar';
 import TabList from '../../../Elements/Navigation/TabList';
 import Tab from '../../../Elements/Navigation/Tab';
 import FixedTab from '../../../Elements/Navigation/FixedTab';
 import ExecutiveTab from '../../ExecutiveTab';
-import { projectNameState } from '../../../../recoil/company';
 
 const CompanyHeader = ({ companyId }) => {
+
+  useLoadCompany(companyId);
+  useLoadExecutives(companyId);
 
   const projectName = useRecoilValue(projectNameState(companyId));
   const executiveIds = useRecoilValue(executiveIdsState(companyId));

@@ -22,10 +22,10 @@ export const useLoadCompany = (companyId) => {
 
       try {
         const { projectName, companyName, transactionDate, transactionPrice } = await fetchCompany(companyId);
-        setProject(projectName);
-        setCompany(companyName);
-        setDate(transactionDate);
-        setPrice(transactionPrice);
+        setProject(projectName || project);
+        setCompany(companyName || company);
+        setDate(transactionDate || date);
+        setPrice(transactionPrice || price);
         setStatus('loaded');
       } 
       
@@ -37,7 +37,7 @@ export const useLoadCompany = (companyId) => {
 
     if (!loaded && status === 'loading') setCompanyData();
   
-  }, [companyId, loaded, status, setProject, setCompany, setDate, setPrice, setStatus]);
+  }, [companyId, project, company, date, price, loaded, status, setProject, setCompany, setDate, setPrice, setStatus]);
 
   return { status, error };
 
