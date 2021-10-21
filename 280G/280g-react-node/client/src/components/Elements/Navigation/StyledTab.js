@@ -2,16 +2,17 @@ import styled from "styled-components";
 
 import { color, size, fontWeight } from '../../Styles/theme';
 
-const { darkGold, lightGold, lightGreen } = color;
+const { darkGreen, lightGold, lightGreen, mediumGold } = color;
 const { tiny } = size;
 const { mediumWeight } = fontWeight;
 
 const StyledTab = styled.li`
   cursor: pointer;
+  font-color: ${lightGreen};
   padding: ${tiny};
   &:active {
-    background: ${darkGold};
-    color: ${lightGreen};
+    background: ${mediumGold};
+    color: ${darkGreen};
     font-weight: ${mediumWeight};
   }
   &:hover {

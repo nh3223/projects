@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
+import StyledLink from './StyledLink';
 import Description from '../TextElements/Description/Description';
 
 const LinkedDescription = ({ path, text }) => (
-  <Link to={ path }>
+  <StyledLink to={ path }>
     <Description text={ text } />
-  </Link>
+  </StyledLink>
 );
 
 export default LinkedDescription;
