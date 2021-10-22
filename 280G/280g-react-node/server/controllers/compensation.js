@@ -25,10 +25,12 @@ export const createCompensation = async (req, res) => {
 export const editCompensation = async (req, res) => {
   const { executiveId: executive } = req.params;
   const compensationUpdates = req.body;
-  
+  console.log(executive);
+  console.log(compensationUpdates);
   if (!mongoose.Types.ObjectId.isValid(executive)) return res.status(404).send('Request Failed');
 
   const updatedCompensation = await Compensation.findOneAndUpdate({ executive }, compensationUpdates, { new: true });
+  console.log(updatedCompensation);
   res.json(updatedCompensation);
 };
 

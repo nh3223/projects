@@ -35,10 +35,6 @@ const Home = () => {
 
   if (status === 'loading') return <Loading component="Home" error={ error } />
 
-  console.log('companies', companies);
-
-
-
   return (
   
     <>

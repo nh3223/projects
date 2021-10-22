@@ -12,19 +12,21 @@ import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 const TransactionPrice = ({ companyId }) => {
 
   const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState(companyId));
+  const [ dealPrice, setDealPrice ] = useState(transactionPrice);
   const [ completed, setCompleted ] = useState((transactionPrice) ? true : false);
   const [ errorMessage, setErrorMessage ] = useState(null);
 
-  const handleChange = ({ target: { value }}) => setTransactionPrice(value);
+  const handleChange = ({ target: { value }}) => setDealPrice(value);
 
   const handleEdit = () => setCompleted(false);
 
   const validate = async (e) => {
-    const price = Number(transactionPrice);
+    const price = Number(dealPrice);
     if (price && price > 0) {
       await editCompany(companyId, { transactionPrice: price });
+      setTransactionPrice(price);
       setCompleted(true);
-      setErrorMessage(null)
+      setErrorMessage(null);
     } else {
       setErrorMessage('Please enter a valid per share price')
     }
@@ -39,7 +41,7 @@ const TransactionPrice = ({ companyId }) => {
       <Description text="Transaction Price per Share: " />
       { (completed)
       ? <Identifier text={ transactionPrice } handleEdit={ handleEdit }/>
-      : <InputForm value={ transactionPrice } handleSubmit={ validate } handleChange={ handleChange } errorMessage={ errorMessage }/>
+      : <InputForm value={ dealPrice } handleSubmit={ validate } handleChange={ handleChange } errorMessage={ errorMessage }/>
       } 
     </SingleLineLayout>
   );

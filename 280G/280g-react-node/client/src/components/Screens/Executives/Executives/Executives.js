@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil';
 import { executiveIdsState } from '../../../../recoil/executive';
 import { useLoadExecutives } from '../../../../hooks/useLoadExecutives';
 import { createExecutive } from '../../../../api/executive/createExecutive';
-import { createCompensation } from '../../../../api/compensation/createCompensation';
 
 import Loading from '../../Loading/Loading';
 import Executive from '../Executive/Executive';
@@ -18,7 +17,6 @@ const Executives = ({ companyId }) => {
 
   const handleAdd = async () => {
     const newExecutive = await createExecutive(companyId);
-    await createCompensation(newExecutive._id);
     setExecutiveIds([ newExecutive._id, ...executiveIds ]);
   };
 

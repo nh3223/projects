@@ -37,9 +37,7 @@ test('createCompany should call fetch with correct url and options', () => {
   }));
   
   const options = {
-    method: 'POST',
-    headers,
-    body: { }
+    method: 'POST'
   }
   createCompany();
   expect(fetchSpy).toHaveBeenCalledWith(baseUrl, options);

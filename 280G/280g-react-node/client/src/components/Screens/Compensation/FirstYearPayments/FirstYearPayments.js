@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { firstYearPaymentsState } from '../../../../recoil/compensation';
-import { editCompensation } from '../../../../api/compensation/editCompensation';
+import { firstYearPaymentsState } from '../../../../recoil/executive';
+import { editExecutive } from '../../../../api/executive/editExecutive';
 
 import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 import Description from '../../../Elements/TextElements/Description/Description';
@@ -22,7 +22,7 @@ const FirstYearPayments = ({ executiveId }) => {
   const validate = async (e) => {
     const payments = Number(firstYearPayments);
     if (payments && payments >= 0) {
-      await editCompensation(executiveId, { firstYearPayments: payments });
+      await editExecutive(executiveId, { firstYearPayments: payments });
       setCompleted(true);
       setErrorMessage(null);
     } else {

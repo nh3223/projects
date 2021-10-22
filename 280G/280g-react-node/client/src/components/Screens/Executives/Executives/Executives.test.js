@@ -7,8 +7,6 @@ import { RecoilRoot } from 'recoil';
 import Executives from './Executives';
 import * as createExecutive from '../../../../api/executive/createExecutive';
 import * as deleteExecutive from '../../../../api/executive/deleteExecutive';
-import * as createCompensation from '../../../../api/compensation/createCompensation';
-import * as deleteCompensation from '../../../../api/compensation/deleteCompensation';
 import * as fetchExecutive from '../../../../api/executive/fetchExecutive';
 import { useSetExecutiveTestData } from '../../../../tests/hooks/useSetExecutiveTestData';
 import { useSetExecutiveIds } from '../../../../tests/hooks/useSetExecutiveIds';
@@ -65,7 +63,6 @@ test('should render and handle addExecutive button', async () => {
   const newExecutive = { company: companyId };
 
   const executiveSpy = jest.spyOn(createExecutive, 'createExecutive').mockResolvedValue({ ...newExecutive, _id: newExecutiveId });
-  const compensationSpy = jest.spyOn(createCompensation, 'createCompensation').mockResolvedValue({ executive: newExecutiveId });
   jest.spyOn(fetchExecutive, 'fetchExecutive').mockResolvedValue({ executiveName: '', executiveTitle: ''});
 
   const { getByRole } = render(component(companyId, executiveIds, executiveNames, executiveTitles));
@@ -74,7 +71,6 @@ test('should render and handle addExecutive button', async () => {
   userEvent.click(addButton);
   await waitFor(() => {
     expect(executiveSpy).toHaveBeenCalledWith(companyId);
-    expect(compensationSpy).toHaveBeenCalledWith(newExecutiveId);
     const newDeleteButton = getByRole('button', { name: `Delete Executive-${newExecutiveId}` });
     expect(newDeleteButton).toBeInTheDocument();
   });
@@ -100,7 +96,6 @@ test('should render name, title and delete button for each executive', () => {
 test('should not render name, title or delete button when delete button for one executive is pressed', async () => {
   
   const executiveSpy = jest.spyOn(deleteExecutive, 'deleteExecutive').mockImplementationOnce(() => Promise.resolve({ }));
-  const compensationSpy = jest.spyOn(deleteCompensation, 'deleteCompensation').mockImplementationOnce(() => Promise.resolve({ }));
   
   const { getByText, getByRole } = render(component(companyId, executiveIds, executiveNames, executiveTitles));
   const name1 = getByText(executive1Name);
@@ -112,7 +107,6 @@ test('should not render name, title or delete button when delete button for one 
   userEvent.click(deleteButton1);
   await waitFor(() => {
     expect(executiveSpy).toHaveBeenCalledWith(executive1Id);
-    expect(compensationSpy).toHaveBeenCalledWith(executive1Id);
     expect(name1).not.toBeInTheDocument();
     expect(title1).not.toBeInTheDocument();
     expect(deleteButton1).not.toBeInTheDocument();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { startDateState, firstYearPaymentsState, basePeriodCompensationState } from '../../../../recoil/compensation';
+import { startDateState, firstYearPaymentsState, basePeriodCompensationState } from '../../../../recoil/executive';
 import { baseAmountState } from '../../../../recoil/analysis';
 
 import ExecutiveSummaryBlock from '../../../Elements/Layouts/ExecutiveSummaryBlock';

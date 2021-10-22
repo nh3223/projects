@@ -5,7 +5,6 @@ export const createCompany = async () => {
     // headers: { "Content-Type": "application/json" },
     // body: { }
   };
-  console.log(options);
   const response = await fetch(url, options);
   return await response.json();
 };

@@ -14,10 +14,26 @@ const executiveTitle = {
   type: String
 };
 
+const startDate = {
+  type: Date
+};
+
+const firstYearPayments = {
+  type: Number
+};
+
+const basePeriodCompensation = [{
+  year: Number,
+  compensation: Number
+}];
+
 const executiveProperties = {
   company,
   executiveName,
-  executiveTitle
+  executiveTitle,
+  startDate,
+  firstYearPayments,
+  basePeriodCompensation
 };
 
 const executiveSchema = mongoose.Schema(executiveProperties);

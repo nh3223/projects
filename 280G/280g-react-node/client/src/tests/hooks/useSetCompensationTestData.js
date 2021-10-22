@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { basePeriodCompensationState, firstYearPaymentsState, startDateState } from '../../recoil/compensation';
+import { basePeriodCompensationState, firstYearPaymentsState, startDateState } from '../../recoil/executive';
 
 export const useSetCompensationTestData = ({ executiveId=1, startDate='', firstYearPayments='', basePeriodCompensation=[] }) => {
 

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { executiveNameState } from '../../../recoil/executive';
-import { useLoadCompensation } from '../../../hooks/useLoadCompensation';
+import { useLoadExecutive } from '../../../hooks/useLoadExecutive';
 
 import Loading from '../Loading/Loading';
 import Headers from '../../Navigation/Headers/Headers';
@@ -16,7 +16,7 @@ const Compensation = () => {
 
   const { companyId, executiveId } = useParams();
   const executiveName = useRecoilValue(executiveNameState(executiveId));
-  const { status, error } = useLoadCompensation(executiveId);
+  const { status, error } = useLoadExecutive(executiveId);
 
   if (status === 'loading') return <Loading component="Compensation" error={ error } />
   

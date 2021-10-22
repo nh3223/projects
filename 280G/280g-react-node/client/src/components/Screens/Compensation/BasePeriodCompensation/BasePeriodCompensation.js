@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 
-import { editCompensation } from '../../../../api/compensation/editCompensation';
-import { basePeriodCompensationState, startDateState } from '../../../../recoil/compensation';
+import { editExecutive } from '../../../../api/executive/editExecutive';
+import { basePeriodCompensationState, startDateState } from '../../../../recoil/executive';
 import { getYears } from '../../../../utilities/compensation/getYears/getYears';
 import { getCompensation } from '../../../../utilities/compensation/getCompensation/getCompensation';
 import { convertCompensation, reconvertCompensation } from '../../../../utilities/compensation/convertCompensation/convertCompensation';
@@ -20,20 +20,23 @@ const BasePeriodCompensation = ({ executiveId }) => {
   const handleSubmit = async (year, annualCompensation) => {
     const updatedCompensation = { ...compensation, [year]: annualCompensation};
     const reconvertedCompensation = reconvertCompensation(updatedCompensation);
+    await editExecutive(executiveId, reconvertedCompensation);
     setCompensation(updatedCompensation);
     setBasePeriodCompensation(reconvertedCompensation);
-    await editCompensation(executiveId, reconvertedCompensation);
   };
 
   useEffect(() => {
 
     if (referenceDate.current !== startDate) {
       const years = (getYears(startDate));
-      setBasePeriodCompensation(reconvertCompensation(getCompensation(years, basePeriodCompensation)));
+      const compensationYears = getCompensation(years, basePeriodCompensation);
+      setCompensation(convertCompensation(compensationYears));
+      setBasePeriodCompensation(compensationYears);
+      
       referenceDate.current = startDate;
     }
 
-  }, [startDate, basePeriodCompensation, setBasePeriodCompensation]);
+  }, [startDate, basePeriodCompensation, setCompensation, setBasePeriodCompensation]);
 
   return (
     <>

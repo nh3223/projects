@@ -42,6 +42,13 @@ const companies = [ companyA, companyB ];
 
 const history = createMemoryHistory();
 
+jest.mock('../../Navigation/Headers/Headers', () => ({ 
+  __esModule: true,
+  default: () => { 
+    return <></>
+  }
+}));
+
 jest.mock('../../../hooks/useLoadCompanies', () => ({
   useLoadCompanies: () => ({ loading: false, error: null })
 }));
@@ -52,6 +59,16 @@ jest.mock('../../../api/company/createCompany', () => ({
 
 jest.mock('../../../api/company/deleteCompany', () => ({
   deleteCompany: () => ({  })
+}));
+
+jest.mock('../../../api/company/fetchCompanies', () => ({
+  fetchCompanies: () => ([
+    { 
+      _id: 2,
+      projectName: 'Project B',
+      companyName: 'Company B',
+    }
+  ])
 }));
 
 test('should show Add Button, project names, and delete buttons', () => {

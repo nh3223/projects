@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { RecoilRoot } from 'recoil';
 
 import FirstYearPayments from './FirstYearPayments';
-import * as editCompensation from '../../../../api/compensation/editCompensation';
+import * as editExecutive from '../../../../api/executive/editExecutive';
 import { useSetCompensationTestData } from '../../../../tests/hooks/useSetCompensationTestData';
 
 const InitializeState = ({ executiveId, firstYearPayments }) => {
@@ -90,7 +90,7 @@ test('should show error message if non-positive transaction price is submitted',
 
 test('should render description after valid submit', async () => {
   
-  jest.spyOn(editCompensation, 'editCompensation').mockImplementationOnce(() => Promise.resolve({
+  jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({
     json: () => Promise.resolve({ firstYearPayments: validFirstYearPayments }),
   }));
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { startDateState } from '../../../../recoil/compensation';
-import { editCompensation } from '../../../../api/compensation/editCompensation';
+import { startDateState } from '../../../../recoil/executive';
+import { editExecutive } from '../../../../api/executive/editExecutive';
 import { stringify, formatDate } from '../../../../utilities/date/date';
 
 import SingleLineLayout from '../../.../../../Elements/Layouts/SingleLineLayout';
@@ -16,7 +16,7 @@ const StartDate = ({ executiveId }) => {
   const [ completed, setCompleted ] = useState((startDate) ? true : false);
 
   const handleChange = async (date) => {
-    await editCompensation(executiveId, { startDate: date });
+    await editExecutive(executiveId, { startDate: date });
     setStartDate(stringify(date));
     setCompleted(true);
   };

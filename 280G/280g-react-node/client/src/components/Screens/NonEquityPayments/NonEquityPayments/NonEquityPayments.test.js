@@ -55,6 +55,13 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({ companyId, executiveId })
 }));
 
+jest.mock('../../../Navigation/Headers/Headers', () => ({ 
+  __esModule: true,
+  default: () => { 
+    return <></>
+  }
+}));
+
 jest.mock('../../../../hooks/useLoadCompany', () => ({
   useLoadCompany: () => ({ loading: false, error: null })
 }));

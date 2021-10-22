@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { RecoilRoot } from 'recoil';
 
 import StartDate from './StartDate';
-import * as editCompensation from '../../../../api/compensation/editCompensation';
+import * as editExecutive from '../../../../api/executive/editExecutive';
 import { stringify, formatDate } from '../../../../utilities/date/date';
 import { useSetCompensationTestData } from '../../../../tests/hooks/useSetCompensationTestData';
 
@@ -59,7 +59,7 @@ test('should render form if Edit button is pressed', () => {
 
 test('should render description after change', async () => {
   
-  jest.spyOn(editCompensation, 'editCompensation').mockImplementationOnce(() => Promise.resolve({
+  jest.spyOn(editExecutive, 'editExecutive').mockImplementationOnce(() => Promise.resolve({
     json: () => Promise.resolve({ startDate: isoFormatGivenStartDate }),
   }));
 

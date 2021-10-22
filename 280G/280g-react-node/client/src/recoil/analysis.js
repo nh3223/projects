@@ -1,6 +1,6 @@
 import { selectorFamily } from "recoil";
 
-import { startDateState, firstYearPaymentsState, basePeriodCompensationState } from './compensation';
+import { startDateState, firstYearPaymentsState, basePeriodCompensationState } from './executive';
 import { nonEquityPaymentIdsState, nonEquityPaymentAmountState } from './nonEquityPayment';
 import { equityGrantIdsState, total280GValueState } from "./equityGrant";
 import { annualize, getBaseAmount, getExcessParachutePayment, getExciseTax, getParachuteThreshold, getWaiverAmount } from "../utilities/analysis/analysis";

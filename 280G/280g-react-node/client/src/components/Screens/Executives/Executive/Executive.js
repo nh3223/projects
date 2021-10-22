@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useLoadExecutive } from '../../../../hooks/useLoadExecutive';
 import { deleteExecutive } from '../../../../api/executive/deleteExecutive';
-import { deleteCompensation } from '../../../../api/compensation/deleteCompensation';
 
 import Loading from '../../Loading/Loading';
 import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
@@ -16,7 +15,6 @@ const Executive = ({ executiveId, removeExecutiveId }) => {
 
   const handleDelete = async () => {
     await deleteExecutive(executiveId);
-    await deleteCompensation(executiveId);
     removeExecutiveId(executiveId);
   }
 
