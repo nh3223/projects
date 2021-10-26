@@ -12,6 +12,7 @@ import SubTitle from '../../../Elements/TextElements/SubTitle/SubTitle';
 import AddButton from '../../../Elements/Buttons/AddButton/AddButton';
 import NonEquityPayment from '../NonEquityPayment/NonEquityPayment';
 import Loading from '../../Loading/Loading';
+import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 
 const NonEquityPayments = () => {
 
@@ -35,8 +36,10 @@ const NonEquityPayments = () => {
       <Headers companyId={ companyId } executiveId={ executiveId } />        
       
       <MultiLineLayout>
-        <SubTitle text="Non-Equity Payments" />
-        <AddButton name="addPayment" text="Add a Payment" handleAdd={ handleAdd } />
+        <SingleLineLayout>
+          <SubTitle text="Non-Equity Payments" />
+          <AddButton name="addPayment" text="Add a Payment" handleAdd={ handleAdd } />
+        </SingleLineLayout>
         { paymentIds.map((paymentId) => <NonEquityPayment key={ paymentId } paymentId= { paymentId } removePaymentId={ removePaymentId } />) }
       </MultiLineLayout>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { firstYearPaymentsState } from '../../../../recoil/executive';
@@ -12,17 +12,20 @@ import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 const FirstYearPayments = ({ executiveId }) => {
 
   const [ firstYearPayments, setFirstYearPayments ] = useRecoilState(firstYearPaymentsState(executiveId));
-  const [ completed, setCompleted ] = useState((firstYearPayments) ? true : false);
+  const [ payments, setPayments ] = useState(firstYearPayments);
+  const [ completed, setCompleted ] = useState((firstYearPayments > 0) ? true : false);
   const [ errorMessage, setErrorMessage ] = useState(null);
 
-  const handleChange = ({ target: { value }}) => setFirstYearPayments(value);
+  const handleChange = ({ target: { value }}) => setPayments(value);
 
   const handleEdit = () => setCompleted(false);
 
-  const validate = async (e) => {
-    const payments = Number(firstYearPayments);
-    if (payments && payments >= 0) {
+  const validate = async () => {
+    const firstPayments = Number(payments);
+    console.log(firstPayments);
+    if (firstPayments && firstPayments > 0) {
       await editExecutive(executiveId, { firstYearPayments: payments });
+      setFirstYearPayments(payments);
       setCompleted(true);
       setErrorMessage(null);
     } else {
@@ -30,12 +33,16 @@ const FirstYearPayments = ({ executiveId }) => {
     }
   };
 
+  useEffect(() => { 
+    setCompleted((firstYearPayments) ? true : false);
+  }, [firstYearPayments, setCompleted]);
+
   return (
     <SingleLineLayout>
       <Description text="Non-recurring payments in first year of employment: " />
       { completed
       ? <Identifier text={ `$${firstYearPayments}` } handleEdit={ handleEdit }/>
-      : <InputForm value={ firstYearPayments } handleSubmit={ validate } handleChange={ handleChange } errorMessage={ errorMessage } />
+      : <InputForm value={ payments } handleSubmit={ validate } handleChange={ handleChange } errorMessage={ errorMessage } />
       } 
     </SingleLineLayout>
   );

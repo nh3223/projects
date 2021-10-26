@@ -22,10 +22,10 @@ export const useLoadExecutive = (executiveId) => {
 
       try {
         const executive = await fetchExecutive(executiveId);
-        setExecutiveName(executive.executiveName);
-        setExecutiveTitle(executive.executiveTitle);
-        setStartDate(executive.startDate);
-        setFirstYearPayments(executive.firstYearPayments);
+        setExecutiveName(executive.executiveName || '');
+        setExecutiveTitle(executive.executiveTitle || '');
+        setStartDate(executive.startDate || '');
+        setFirstYearPayments(executive.firstYearPayments || 0);
         setBasePeriodCompensation(executive.basePeriodCompensation);
         setStatus('loaded');
       } 

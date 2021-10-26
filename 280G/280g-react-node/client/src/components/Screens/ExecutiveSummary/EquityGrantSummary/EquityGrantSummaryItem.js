@@ -9,12 +9,12 @@ import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 import Description from '../../../Elements/TextElements/Description/Description';
 import Loading from '../../Loading/Loading';
 
-const EquityGrantSummaryItem = ({ grantId }) => {
+const EquityGrantSummaryItem = ({ companyId, grantId }) => {
 
   const grantType = useRecoilValue(grantTypeState(grantId));
   const grantDate = useRecoilValue(grantDateState(grantId));
   const numberShares = useRecoilValue(numberSharesState(grantId));
-  const total280GValue = useRecoilValue(total280GValueState(grantId));
+  const total280GValue = useRecoilValue(total280GValueState({ companyId, grantId }));
   
   const { loading, error } = useLoadGrant(grantId);
 

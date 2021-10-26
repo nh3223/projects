@@ -46,7 +46,7 @@ test('should render description if payment amount is provided', () => {
   const { getByText } = render(component(paymentId, validPaymentAmount));  
   const description = getByText(descriptionText);
   expect(description).toBeInTheDocument();
-  const paymentAmount = getByText(validPaymentAmount);
+  const paymentAmount = getByText(`$${validPaymentAmount}`);
   expect(paymentAmount).toBeInTheDocument();
 });
 
@@ -99,7 +99,7 @@ test('should render description after valid submit', async () => {
   const input = getByRole('textbox');
   userEvent.type(input, validPaymentAmount.toString());
   await act(() => userEvent.type(input, '{enter}'));
-  const paymentAmount = await waitFor(() => getByText(validPaymentAmount.toString()));
+  const paymentAmount = await waitFor(() => getByText(`$${validPaymentAmount}`));
   expect(paymentAmount).toBeInTheDocument();
   const errorMessage = queryByText(error);
   expect(errorMessage).not.toBeInTheDocument();

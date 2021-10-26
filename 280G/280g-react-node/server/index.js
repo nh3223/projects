@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 
 import companyRoutes from './routes/company.js';
 import executiveRoutes from './routes/executive.js';
-import compensationRoutes from './routes/compensation.js';
 import nonEquityPaymentRoutes from './routes/nonEquityPayments.js';
 import equityGrantRoutes from './routes/equitygrant.js'
 
@@ -17,7 +16,6 @@ app.use(express.json());
 
 app.use('/company', companyRoutes);
 app.use('/executive', executiveRoutes);
-app.use('/compensation', compensationRoutes);
 app.use('/nonequitypayment', nonEquityPaymentRoutes);
 app.use('/equitygrant', equityGrantRoutes);
 

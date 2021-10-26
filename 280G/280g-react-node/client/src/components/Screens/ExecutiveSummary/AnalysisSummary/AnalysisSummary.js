@@ -11,7 +11,7 @@ const AnalysisSummary = ({ companyId, executiveId }) => {
 
   const { totalNonEquityPayments, totalEquityGrantPayments, totalPayments } = useRecoilValue(totalPaymentsState({ companyId, executiveId }));
   const { parachuteThreshold } = useRecoilValue(baseAmountState(executiveId));
-  const { waiverAmount, excessParachutePayment, exciseTax } = useRecoilValue(analysisState(executiveId));
+  const { waiverAmount, excessParachutePayment, exciseTax } = useRecoilValue(analysisState({ companyId, executiveId }));
 
   const subTitle = '280G Analysis Summary';
   const nonEquityPaymentsText = 'Total Non-Equity Payments:';

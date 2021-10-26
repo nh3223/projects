@@ -44,9 +44,7 @@ export const createCompany = async (req, res) => {
 export const editCompany = async (req, res) => {
   const { id: _id } = req.params;
   const companyUpdates = req.body;
-
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
-
   const updatedCompany = await Company.findByIdAndUpdate(_id, companyUpdates, { new: true });
   res.json(updatedCompany);
 };

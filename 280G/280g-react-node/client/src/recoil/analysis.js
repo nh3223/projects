@@ -57,12 +57,12 @@ export const baseAmountState = selectorFamily({
 export const analysisState = selectorFamily({
   // parameter: executiveId
   key: 'analysis',
-  get: (executiveId) => ({ get }) => {
+  get: ({ companyId, executiveId }) => ({ get }) => {
     
     const { baseAmount, parachuteThreshold } = get(baseAmountState(executiveId));
     
     const totalNonEquityPayments = get(totalNonEquityPaymentsState(executiveId));
-    const totalEquityGrantPayments = get(totalEquityGrantPaymentsState(executiveId));
+    const totalEquityGrantPayments = get(totalEquityGrantPaymentsState({ companyId, executiveId }));
     const totalPayments = totalNonEquityPayments + totalEquityGrantPayments;
     
     const waiverAmount = getWaiverAmount(totalPayments, parachuteThreshold);

@@ -20,7 +20,7 @@ const BasePeriodCompensation = ({ executiveId }) => {
   const handleSubmit = async (year, annualCompensation) => {
     const updatedCompensation = { ...compensation, [year]: annualCompensation};
     const reconvertedCompensation = reconvertCompensation(updatedCompensation);
-    await editExecutive(executiveId, reconvertedCompensation);
+    await editExecutive(executiveId, { basePeriodCompensation: reconvertedCompensation });
     setCompensation(updatedCompensation);
     setBasePeriodCompensation(reconvertedCompensation);
   };

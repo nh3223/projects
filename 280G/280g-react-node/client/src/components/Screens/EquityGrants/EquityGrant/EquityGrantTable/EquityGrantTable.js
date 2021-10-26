@@ -14,7 +14,7 @@ const EquityGrantTable = ({ companyId, grantId }) => {
   useSetVestingData(companyId, grantId);
 
   const [ vestingSchedule, setVestingSchedule ] = useRecoilState(vestingScheduleState(grantId));
-  const equityGrant280GValue = useRecoilValue(total280GValueState(grantId));
+  const equityGrant280GValue = useRecoilValue(total280GValueState({ companyId, grantId }));
 
   const handleChange = async (vestingRow, vestingRowIndex) => {
     const newVestingSchedule = vestingSchedule.map((vestingDate, index) => (index === vestingRowIndex) ? vestingRow : vestingDate)
@@ -23,6 +23,8 @@ const EquityGrantTable = ({ companyId, grantId }) => {
   };
 
   const equityGrant280GValueText = `Value of equity grant for purposes of Section 280G: $${equityGrant280GValue}`;
+
+  console.log(equityGrant280GValue);
 
   return (
     <MultiLineLayout>

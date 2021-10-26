@@ -46,9 +46,7 @@ export const editGrant = async (req, res) => {
 
 export const deleteGrant = async (req, res) => {
   const { grantId: _id } = req.params;
-  
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
-
   await EquityGrant.findByIdAndDelete(_id);
   res.json({ message: "Grant Removed Successfully "});
 };

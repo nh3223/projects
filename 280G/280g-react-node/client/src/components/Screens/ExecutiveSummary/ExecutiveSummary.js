@@ -31,7 +31,7 @@ const ExecutiveSummary = () => {
         <AnalysisSummary companyId={ companyId } executiveId={ executiveId } />
         <BaseAmount executiveId={ executiveId } />
         <NonEquityPaymentSummary executiveId={ executiveId } />
-        <EquityGrantSummary executiveId={ executiveId } /> 
+        <EquityGrantSummary companyId={ companyId } executiveId={ executiveId } /> 
       </ExecutiveSummaryLayout>
 
     </>

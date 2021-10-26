@@ -22,6 +22,7 @@ const CliffPercentage = ({ grantId }) => {
   const validate = async (e) => {
     const cliffPercentage = Number(percentage);
     if ((cliffPercentage && cliffPercentage >= 0 && cliffPercentage <= 100) || cliffPercentage === 0) {
+      console.log(cliffPercentage);
       await editGrant(grantId, { cliffPercentage });
       setCompleted(true);
       setErrorMessage(null);

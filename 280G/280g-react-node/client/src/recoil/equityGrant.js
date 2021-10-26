@@ -116,6 +116,8 @@ export const total280GValueState = selectorFamily({
     const transactionData = { transactionDate, transactionPrice };
     const equityGrantData = { grantType, grantDate, exercisePrice, changeOfControl };
     const analysis = vestingSchedule.map((vestingDate) => calculate280GValue(transactionData, vestingDate, equityGrantData));
+    console.log(transactionData, equityGrantData);
+    console.log('analysis', analysis);
     return calculateTotal280GValue(analysis);
   }
 });

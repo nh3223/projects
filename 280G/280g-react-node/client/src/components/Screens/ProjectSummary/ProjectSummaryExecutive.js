@@ -16,7 +16,7 @@ const ProjectSummaryExecutive = ({ companyId, executiveId }) => {
   const { totalNonEquityPayments, totalEquityGrantPayments, totalPayments } = useRecoilValue(totalPaymentsState({ companyId, executiveId }));
   
   const { baseAmount, parachuteThreshold } = useRecoilValue(baseAmountState(executiveId));
-  const { waiverAmount, excessParachutePayment, exciseTax } = useRecoilValue(analysisState(executiveId));
+  const { waiverAmount, excessParachutePayment, exciseTax } = useRecoilValue(analysisState({ companyId, executiveId }));
 
   return (
     <MultiLineLayout>

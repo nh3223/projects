@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { transactionDateState } from '../recoil/company';
 
@@ -37,7 +37,7 @@ export const useSetVestingData = (companyId, grantId) => {
   const remainderType = useRecoilValue(remainderTypeState(grantId));
   const remainderPeriods = useRecoilValue(remainderPeriodsState(grantId));
 
-  const [ vestingSchedule, setVestingSchedule ] = useRecoilState(vestingScheduleState(grantId));
+  const setVestingSchedule = useSetRecoilState(vestingScheduleState(grantId));
 
   useEffect(() => {
 
@@ -58,9 +58,9 @@ export const useSetVestingData = (companyId, grantId) => {
       setVestingSchedule(newVestingSchedule);
       await editGrant(grantId, { vestingSchedule: newVestingSchedule });
     }
-    if (vestingSchedule.length === 0) createVestingSchedule();
-  
+    createVestingSchedule();
+
   }, [grantId, transactionDate, acceleration, accelerationPercentage, cliff, cliffDuration, cliffPercentage, grantDate,
-      numberShares, remainderPeriods, remainderType, vestingStartDate, vestingSchedule.length, setVestingSchedule])
+      numberShares, remainderPeriods, remainderType, vestingStartDate, setVestingSchedule])
 
 };

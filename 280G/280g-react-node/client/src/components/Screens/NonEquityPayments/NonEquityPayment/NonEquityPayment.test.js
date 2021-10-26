@@ -28,7 +28,7 @@ const component = (paymentId, paymentDescription, paymentAmount) => (
 test('should render name, title and delete button', () => {
   const { getByText } = render(component(paymentId, paymentDescription, paymentAmount));
   const name = getByText(paymentDescription);
-  const title = getByText(paymentAmount);
+  const title = getByText(`$${paymentAmount}`);
   const deleteButton = getByText(deleteButtonText);  
   expect(name).toBeInTheDocument();
   expect(title).toBeInTheDocument();

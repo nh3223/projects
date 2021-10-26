@@ -27,7 +27,6 @@ export const editExecutive = async (req, res) => {
   const executiveUpdates = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('Request Failed');
-
   const updatedExecutive = await Executive.findByIdAndUpdate(_id, executiveUpdates, { new: true });
   res.json(updatedExecutive);
 };

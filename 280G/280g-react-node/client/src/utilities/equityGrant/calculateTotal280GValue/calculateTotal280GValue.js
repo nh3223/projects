@@ -1,1 +1,1 @@
-export const calculateTotal280GValue = (analysis) => analysis.reduce((total280GValue, vestingDate) => total280GValue + vestingDate.parachutePayment, 0);
+export const calculateTotal280GValue = (analysis) => analysis.reduce((total280GValue, vestingDate) => total280GValue + vestingDate.totalPayment, 0);

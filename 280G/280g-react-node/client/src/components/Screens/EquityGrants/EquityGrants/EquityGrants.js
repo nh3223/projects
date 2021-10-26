@@ -13,6 +13,7 @@ import SubTitle from '../../../Elements/TextElements/SubTitle/SubTitle';
 import AddButton from '../../../Elements/Buttons/AddButton/AddButton';
 import EquityGrantsListItem from './EquityGrantsListItem';
 import { useLoadGrants } from '../../../../hooks/useLoadGrants';
+import { fetchGrants } from '../../../../api/equityGrant/fetchGrants';
 
 const EquityGrants = () => {
   
@@ -26,16 +27,19 @@ const EquityGrants = () => {
     const handleAdd = async () => {
       const newGrant = await createGrant(executiveId);
       setGrantIds([ ...grantIds, newGrant._id ]);
-      history.push(`/company/${companyId}/executive/${executiveId}/equity-grant/${newGrant._id}`)
+      history.push(`/company/${companyId}/executive/${executiveId}/equity-grants/${newGrant._id}`)
     };
 
-  const handleDelete = async (grantId) => {
-    await deleteGrant(grantId);
-    setGrantIds(grantIds.filter((id) => id !== grantId));
-  }
+  const handleDelete = async ({ target: { id }}) => {
+    await deleteGrant(id);
+    const grants = await fetchGrants(executiveId);
+    setGrantIds(grants.map((grant) => grant._id));
+  };
 
   if (status === 'loading') return <Loading component="EquityGrants" error={ error } />
   
+  console.log(grantIds);
+
   return (
 
     <>

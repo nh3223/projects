@@ -9,7 +9,7 @@ import ExecutiveSummaryBlock from '../../../Elements/Layouts/ExecutiveSummaryBlo
 import Description from '../../../Elements/TextElements/Description/Description';
 import EquityGrantSummaryItem from './EquityGrantSummaryItem';
 
-const EquityGrantSummary = ({ executiveId }) => {
+const EquityGrantSummary = ({ companyId, executiveId }) => {
 
   const grantIds = useRecoilValue(equityGrantIdsState(executiveId));
   const { loading, error } = useLoadGrants(executiveId);
@@ -20,7 +20,7 @@ const EquityGrantSummary = ({ executiveId }) => {
 
     <ExecutiveSummaryBlock>
       <Description text="Equity Grants" />
-      { grantIds.map((grantId) => <EquityGrantSummaryItem key={ grantId } grantId={ grantId } />) }
+      { grantIds.map((grantId) => <EquityGrantSummaryItem key={ grantId } companyId={ companyId } grantId={ grantId } />) }
     </ExecutiveSummaryBlock>
   )
 

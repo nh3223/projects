@@ -52,24 +52,26 @@ export const useLoadGrant = (grantId) => {
 
       try {
         const grant = await fetchGrant(grantId);
-        setGrantType(grant.grantType);
-        setGrantDate(grant.grantDate);
-        setNumberShares(grant.numberShares);
-        setExercisePrice(grant.exercisePrice);
-        setVestingStartDate(grant.vestingStartDate);
-        setCliff(grant.cliff);
-        setCliffDuration(grant.cliffDuration);
-        setCliffPercentage(grant.cliffPercentage);
-        setAcceleration(grant.acceleration);
-        setAccelerationPercentage(grant.accelerationPercentage);
-        setRemainderType(grant.remainderType);
-        setRemainderPeriods(grant.remainderPeriods);
-        setChangeOfControl(grant.changeOfControl);
-        setVestingSchedule(grant.vestingSchedule);
+        console.log('grant', grant);
+        setGrantType(grant.grantType || 'Restricted Stock');
+        setGrantDate(grant.grantDate || '');
+        setNumberShares(grant.numberShares || '');
+        setExercisePrice(grant.exercisePrice || '');
+        setVestingStartDate(grant.vestingStartDate || '');
+        setCliff(grant.cliff || false);
+        setCliffDuration(grant.cliffDuration || '');
+        setCliffPercentage(grant.cliffPercentage || '');
+        setAcceleration(grant.acceleration || false);
+        setAccelerationPercentage(grant.accelerationPercentage || '');
+        setRemainderType(grant.remainderType || 'Monthly');
+        setRemainderPeriods(grant.remainderPeriods || '');
+        setChangeOfControl(grant.changeOfControl || false);
+        setVestingSchedule(grant.vestingSchedule || []);
         setStatus('loaded');
       } 
       
       catch (e) {
+        console.log(e);
         setError(e.message)
       }
 

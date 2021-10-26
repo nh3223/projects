@@ -1,5 +1,4 @@
 import { getVestingDateData } from "../getVestingDateData/getVestingDateData";
-import { convertVestingData } from "../convertVestingData/convertVestingData";
 
 export const getRemainderData = (remainderShares, vestingSchedule, transactionDate, equityGrantData) => {
 
@@ -7,9 +6,9 @@ export const getRemainderData = (remainderShares, vestingSchedule, transactionDa
 
   for (let period = 1; period <= remainderPeriods; period++) {
     const vestingDateData = getVestingDateData(period, remainderShares, transactionDate, equityGrantData);
-    vestingSchedule.push(vestingDateData);
+    vestingSchedule.push(...vestingDateData);
   };
 
-  return convertVestingData(vestingSchedule);
+  return vestingSchedule;
 
 };

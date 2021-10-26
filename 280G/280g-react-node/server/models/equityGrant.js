@@ -50,8 +50,8 @@ const cliffDuration = {
   type: Number
 };
 
-const cliffMethod = {
-  type: String
+const cliffPercentage = {
+  type: Number
 };
 
 const remainderPeriods = {
@@ -83,7 +83,7 @@ const equityGrantProperties = {
   accelerationPercentage,
   cliff,
   cliffDuration,
-  cliffMethod,
+  cliffPercentage,
   remainderPeriods,
   remainderType,
   vestingSchedule

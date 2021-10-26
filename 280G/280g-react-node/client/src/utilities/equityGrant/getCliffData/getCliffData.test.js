@@ -1,21 +1,27 @@
 import { stringify } from '../../date/date'; 
 import { getCliffData } from './getCliffData';
 
-const vestingStartDate = stringify(new Date('July 1, 2018'));
+const vestingStartDate = stringify(new Date('July 1, 2021'));
 const numberShares = 100;
 const cliff = true;
-const cliffDuration1 = 3;
-const cliffDuration2 = 12;
+const cliffDuration = 12;
 const cliffPercentage = 25;
+const acceleration = true;
+const accelerationPercentage = 100;
 
 const transactionDate = stringify(new Date('December 1, 2021'))
+const oldVestingDate = stringify(new Date('July 1, 2022'));
+const cliffShares = numberShares * cliffPercentage / 100
+const remainderShares = numberShares - cliffShares
 
 const equityGrantData = {
   vestingStartDate,
   numberShares,
   cliff,
   cliffPercentage,
-  cliffDuration: cliffDuration1
+  cliffDuration,
+  acceleration,
+  accelerationPercentage
 };
 
 const defaultVestingData = {
@@ -23,42 +29,61 @@ const defaultVestingData = {
   remainderShares: numberShares
 };
 
-jest.mock('../percentageAccelerating/percentageAccelerating', () => ({
-  percentageAcceleratingCliffPeriod: () => 80
-}));
+const originalVestingSchedule = {
+  vestingSchedule: [{
+    oldVestingDate,
+    newVestingDate: oldVestingDate,
+    shares: cliffShares
+  }],
+  remainderShares
+};
 
-test('should return the correct vesting date and number of shares', () => {
-  
-  const remainderShares = numberShares * (100 - cliffPercentage) / 100;
+const fullAccelerationVestingSchedule = {
+  vestingSchedule: [{
+    oldVestingDate,
+    newVestingDate: transactionDate,
+    shares: cliffShares
+  }],
+  remainderShares
+};
 
-  const threeMonthCliffVestingData = [{
-    oldVestingDate: stringify(new Date('October 1, 2018')),
-    acceleratedVestingDate: transactionDate,
-    sharesNotAccelerating: 5,
-    sharesAccelerating: 20
-  }];
-
-  expect(getCliffData(transactionDate, equityGrantData)).toEqual({ 
-    cliffVestingData: threeMonthCliffVestingData,
-    remainderShares
-  });
-
-  equityGrantData.cliffDuration = cliffDuration2;
-  const twelveMonthCliffVestingData = [{
-    oldVestingDate: stringify(new Date('July 1, 2019')),
-    acceleratedVestingDate: transactionDate,
-    sharesNotAccelerating: 5,
-    sharesAccelerating: 20
-  }];
-
-  expect(getCliffData(transactionDate, equityGrantData)).toEqual({
-    cliffVestingData: twelveMonthCliffVestingData,
-    remainderShares
-  });
-
-});
+const partialAccelerationVestingSchedule = {
+  vestingSchedule: [
+    { oldVestingDate,
+      newVestingDate: transactionDate,
+      shares: cliffShares * 0.75
+    },
+    {
+      oldVestingDate,
+      newVestingDate: oldVestingDate,
+      shares: cliffShares * 0.25
+    }
+  ],
+  remainderShares
+};
 
 test('should return default vesting data if there is no cliff vesting', () => {
   equityGrantData.cliff = false;
   expect(getCliffData(transactionDate, equityGrantData)).toEqual(defaultVestingData);
+});
+
+test('should return original vesting schedule if vesting before transaction or no acceleration', () => {
+  equityGrantData.cliff = true;
+  const laterTransactionDate = stringify(new Date('December 1, 2025'));
+  expect(getCliffData(laterTransactionDate, equityGrantData)).toEqual(originalVestingSchedule);
+})
+
+test('should return original vesting schedule if no acceleration', () => {
+  equityGrantData.acceleration = false;
+  expect(getCliffData(transactionDate, equityGrantData)).toEqual(originalVestingSchedule);
+})
+
+test('should return the correct vesting date and number of shares with full acceleration', () => {
+  equityGrantData.acceleration = true;
+  expect(getCliffData(transactionDate, equityGrantData)).toEqual(fullAccelerationVestingSchedule);
+});
+
+test('should return correct vesting dates and number of shares with partial acceleration', () => {
+  equityGrantData.accelerationPercentage = 75;
+  expect(getCliffData(transactionDate, equityGrantData)).toEqual(partialAccelerationVestingSchedule);
 });
