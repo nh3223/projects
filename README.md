@@ -8,7 +8,7 @@
 
 # Other Projects
 
-- [Notedly as Flask](https://github.com/nh3223/projects/notedly_as_flask/)
+- [Notedly as Flask](https://github.com/nh3223/projects/tree/master/notedly_as_flask/)
 
 - [Covid Time Series and Visualization](https://github.com/nh3223/projects/tree/master/covid)
 

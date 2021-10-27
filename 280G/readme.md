@@ -18,7 +18,7 @@ In general, this is a very straightforward application with web forms for data i
 
     Automatic preparation of approval documenation
 
-# Technology Stack
+## Technology Stack
 
 Originally, I intended to develop this application with a back end written in Python using Flask with a SQLite database and front end with basic HTML, CSS and vanilla Javascript.  Javascript will only be used for interface enhancements, such as explanatory pop-ups.  Progress on this original version was never completed, but remains in the python_version folder.
 

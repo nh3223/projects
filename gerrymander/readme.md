@@ -10,6 +10,6 @@ The model uses US census data and Tiger shapefiles as a data source.  Its only c
 
 The original model was to create a constrained K means clustering model that ensured that each district had an equal population.  However, this proved unstable as the combination of the constraint and randomness failed to provide consistent results, even when considering an ensemble of different model runs.  The current iteration of the model is more repeatable.  It takes an outside/in approach by finding the furthest unassigned census tract from the center of population and assigning the closest neighbors until the target population is reached, at which point the next district repeats the process until all census tracts are assigned.  After this initial assignments an iterative process is used to ensure that all census tracts in a particular district are contiguous and all districts are close enough in population.
 
-# Technology Stack
+## Technology Stack
 
 The census data and Tiger shapefiles are imported into QGIS.  The base python script is adapted from the QGIS processing toolbox and the model uses an object oriented approach to develop the model.
