@@ -12,32 +12,12 @@ At the beginning of a level, all new problems will have a target time of 5 secon
 
 ## Features
 
-The primary special feature of this game will be that answers will be given verbally and recorded using speech recognition.  This will allow the focus to remain on answering the problems instead of the combined issue of answering and using a keyboard (or tapping the screen on a mobile device).  The initial plan is to utilize an existing speech recognition package, as opposed to reinventing the wheel.  I have not seen this feature in other math programs, but I also haven't done an exhaustive search of similar programs.
+Originally, the intent  of this app was to provide that will be given verbally and recorded using speech recognition.  This will allow the focus to remain on answering the problems instead of the combined issue of answering and using a keyboard (or tapping the screen on a mobile device).  The initial plan is to utilize an existing speech recognition package, as opposed to reinventing the wheel.  I have not seen this feature in other math programs, but I also haven't done an exhaustive search of similar programs.  In practice, I found the Speech Recognition module relatively unstable and so this feature is not provided in the final version of the application.
 
-There is a login procedure so different users can save their own unique progress.  The login process is largely taken from the process used in the various projects from the Harvard CS50 Web Programming with Python and Javascript MOOC.
-
-There will be a progress bar to measure the progress made in each level.  Fifty percent of the progress shown on the progress bar will be based on prior problems with the remaining 50 percent based on the problems new in each level.
+There is a login procedure so different users can save their own unique progress.  The login process is largely taken from the process used in the various projects from the Harvard CS50 Web Programming with Python and Javascript MOOC.  In the final version of the application, which uses Firebase, authentication/login uses google authorization.
 
 ## Technology Stack
 
-The back end will be written in python using Django with a SQlite database.  The front end will just use basic HTML, CSS and vanilla Javascript.
+The original version of this application (see the older_versions/dozenroses folder) was written in python using Django with a SQlite database.  The front end just used basic HTML, CSS and vanilla Javascript.  This version of the application included the speech recognition feature, but as noted above, I found that the Speech Recognition package was quite unstable.
 
-## Development Process
-
-1. Create Models
-2. Create Problems
-3. Add basic login features
-4. Update database upon new registration
-4. Develop basic templates
-5. Load problems
-6. Time answers
-7. Upload results and modify database
-----------> Currently Here <-----------
-8. Add progress bar
-9. Add speech recognition
-10. Move login to Navbar and add security for login process
-10. Add roses and prettify everything
-
-## Updated March 2021
-
-Shifting gears and rewriting the entire app.  First starting with the Front End using React, and will then implement a backend using either Firebase or MongoDB with Node.
+As I traveled further on my self-taught developer journey, I changed the front end to use ReactJS and the back end to use Firebase which is what is used in the final version.  This version is found in the dozen-roses folder.
