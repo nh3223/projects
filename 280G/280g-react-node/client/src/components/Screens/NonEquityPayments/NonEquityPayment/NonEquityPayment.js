@@ -21,8 +21,8 @@ const NonEquityPayment = ({ paymentId, removePaymentId }) => {
 
   return (
     <SingleLineLayout>
-      <PaymentDescription paymentId={ paymentId } />
-      <PaymentAmount paymentId={ paymentId } handleDelete={ handleDelete } />
+      <PaymentDescription paymentId={ paymentId } size={ 3 }/>
+      <PaymentAmount paymentId={ paymentId } size={ 4 } handleDelete={ handleDelete } />
     </SingleLineLayout>
   );
 

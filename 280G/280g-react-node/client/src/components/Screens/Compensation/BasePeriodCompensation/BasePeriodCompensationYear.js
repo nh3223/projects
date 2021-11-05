@@ -4,6 +4,7 @@ import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 import Description from '../../../Elements/TextElements/Description/Description';
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
+import { formatDollar } from '../../../../utilities/formatNumber';
 
 const BasePeriodCompensationYear = ({ year, compensation, handleSubmit}) => {
 
@@ -30,7 +31,7 @@ const BasePeriodCompensationYear = ({ year, compensation, handleSubmit}) => {
     <SingleLineLayout>
       <Description text={ `${ year }: ` } />
       { completed
-        ? <Identifier text={ `$${ annualCompensation}` } handleEdit={ handleEdit } />
+        ? <Identifier text={ formatDollar(annualCompensation) } handleEdit={ handleEdit } />
         : <InputForm value={ annualCompensation } handleChange={ handleChange } handleSubmit={ validate } errorMessage={ errorMessage } />
       }
     </SingleLineLayout>

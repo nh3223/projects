@@ -15,8 +15,10 @@ const StyledButton = styled.button`
   cursor: pointer;
   font-size: ${small};
   font-weight: ${mediumWeight};
+  margin: ${small};
   padding: ${tiny};
   text-decoration: none;
+  vertical-align: middle;
 `;
 
 export default StyledButton;

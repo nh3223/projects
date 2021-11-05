@@ -8,8 +8,9 @@ import Description from '../../../Elements/TextElements/Description/Description'
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
+import { formatDollar } from '../../../../utilities/formatNumber';
 
-const TransactionPrice = ({ companyId }) => {
+const TransactionPrice = ({ companyId, width }) => {
 
   const [ transactionPrice, setTransactionPrice ] = useRecoilState(transactionPriceState(companyId));
   const [ dealPrice, setDealPrice ] = useState(transactionPrice);
@@ -37,10 +38,10 @@ const TransactionPrice = ({ companyId }) => {
   }, [transactionPrice, setCompleted]);
 
   return (
-    <SingleLineLayout>
+    <SingleLineLayout width={ width }>
       <Description text="Transaction Price per Share: " />
       { (completed)
-      ? <Identifier text={ transactionPrice } handleEdit={ handleEdit }/>
+      ? <Identifier text={ formatDollar(transactionPrice, 6) } handleEdit={ handleEdit }/>
       : <InputForm value={ dealPrice } handleSubmit={ validate } handleChange={ handleChange } errorMessage={ errorMessage }/>
       } 
     </SingleLineLayout>

@@ -18,6 +18,8 @@ const CompanyInformation = () => {
   const { companyId } = useParams();
   const { loading, error } = useLoadCompany(companyId);
 
+  const rowWidth = '40%'
+
   if (loading) return <Loading component="Company Information" error={ error } />
 
   return (
@@ -27,10 +29,10 @@ const CompanyInformation = () => {
       
       <MultiLineLayout>
         <SubTitle text="Company Information" />
-        <ProjectName companyId={ companyId } />
-        <CompanyName companyId={ companyId }/>
-        <TransactionDate companyId={ companyId }/>
-        <TransactionPrice companyId={ companyId }/>
+        <ProjectName companyId={ companyId } width={ rowWidth} />
+        <CompanyName companyId={ companyId } width={ rowWidth} />
+        <TransactionDate companyId={ companyId } width={ rowWidth } />
+        <TransactionPrice companyId={ companyId } width={ rowWidth }/>
         <Executives companyId={ companyId }/>
       </MultiLineLayout>
     

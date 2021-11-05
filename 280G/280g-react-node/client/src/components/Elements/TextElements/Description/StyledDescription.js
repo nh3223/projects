@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { size } from '../../../Styles/theme';
 
 const StyledDescription = styled.h2`
+  flex: ${(props) => props.size};
   font-size: ${size.medium};
   margin: ${size.small};
   font-weight: 300;

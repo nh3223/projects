@@ -9,8 +9,9 @@ import Description from '../../../Elements/TextElements/Description/Description'
 import Identifier from '../../../Elements/Identifier/Identifier';
 import DeleteButton from '../../../Elements/Buttons/DeleteButton/DeleteButton';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
+import { formatDollar } from '../../../../utilities/formatNumber';
 
-const PaymentAmount = ({ paymentId, handleDelete }) => {
+const PaymentAmount = ({ paymentId, size, handleDelete }) => {
   
   const [ paymentAmount, setPaymentAmount ] = useRecoilState(nonEquityPaymentAmountState(paymentId));
   const [ payment, setPayment ] = useState(paymentAmount);
@@ -38,11 +39,11 @@ const PaymentAmount = ({ paymentId, handleDelete }) => {
   }, [paymentAmount, setCompleted, setPayment]);
   
   return (
-    <SingleLineLayout>
+    <SingleLineLayout size={ size }>
       <Description text="Payment Amount: " />
       { completed
         ? <>
-            <Identifier text={ `$${paymentAmount}` } handleEdit={ handleEdit } />
+            <Identifier text={ formatDollar(paymentAmount) } size={ size - 1 } handleEdit={ handleEdit } />
             <DeleteButton name={ `Delete Payment ${paymentId}` } text="Delete Payment" handleDelete={ handleDelete } />
           </>
         : <InputForm value={ payment } handleChange={ handleChange } handleSubmit={ validate } errorMessage={ errorMessage }/>

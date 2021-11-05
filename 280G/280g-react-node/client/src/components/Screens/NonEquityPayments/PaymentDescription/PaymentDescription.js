@@ -9,7 +9,7 @@ import Description from '../../../Elements/TextElements/Description/Description'
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const PaymentDescription = ({ paymentId }) => {
+const PaymentDescription = ({ paymentId, size }) => {
 
   const [ paymentDescription, setPaymentDescription ] = useRecoilState(nonEquityPaymentDescriptionState(paymentId));
   const [ description, setDescription ] = useState(paymentDescription);
@@ -30,10 +30,10 @@ const PaymentDescription = ({ paymentId }) => {
   }, [paymentDescription, setCompleted]);
 
   return (
-    <SingleLineLayout>
+    <SingleLineLayout size={ size }>
       <Description text="Payment Description: " />
       { completed
-        ? <Identifier text={ paymentDescription } handleEdit={ handleEdit } />
+        ? <Identifier text={ paymentDescription } size={ size - 1 } handleEdit={ handleEdit } />
         : <InputForm value={ description } handleChange={ handleChange } handleSubmit={ handleSubmit } />
       }
     </SingleLineLayout>

@@ -10,7 +10,7 @@ import Identifier from '../../../Elements/Identifier/Identifier';
 import DateForm from '../../../Elements/Forms/DateForm/DateForm';
 import SingleLineLayout from '../../../Elements/Layouts/SingleLineLayout';
 
-const TransactionDate = ({ companyId }) => {
+const TransactionDate = ({ companyId, width }) => {
   
   const [ date, setDate ] = useRecoilState(transactionDateState(companyId));
   const [ completed, setCompleted ] = useState((date) ? true : false);
@@ -29,7 +29,7 @@ const TransactionDate = ({ companyId }) => {
   }, [date, setCompleted])
 
   return (
-    <SingleLineLayout>
+    <SingleLineLayout width={ width }>
       <Description text={ 'Transaction Date: ' } />
       { (completed)
       ? <Identifier text={ (date) ? formatDate(date) : '' } handleEdit={ handleEdit }/>

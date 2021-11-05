@@ -9,7 +9,7 @@ import Description from '../../../Elements/TextElements/Description/Description'
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const ProjectName = ({ companyId }) => {
+const ProjectName = ({ companyId, width }) => {
   
     const [ projectName, setProjectName ] = useRecoilState(projectNameState(companyId))  
     const [ project, setProject ] = useState(projectName);
@@ -31,7 +31,7 @@ const ProjectName = ({ companyId }) => {
     }, [projectName, setProject])
 
     return (
-      <SingleLineLayout>
+      <SingleLineLayout width={ width }>
         <Description text="Project Name: " />
         { (completed)
         ? <Identifier text={ project } handleEdit={ handleEdit }/>

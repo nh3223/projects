@@ -9,7 +9,7 @@ import Description from '../../../Elements/TextElements/Description/Description'
 import Identifier from '../../../Elements/Identifier/Identifier';
 import InputForm from '../../../Elements/Forms/InputForm/InputForm';
 
-const CompanyName = ({ companyId }) => {
+const CompanyName = ({ companyId, width }) => {
   
     const [ companyName, setCompanyName ] = useRecoilState(companyNameState(companyId))
     const [ name, setName ] = useState(companyName);  
@@ -30,7 +30,7 @@ const CompanyName = ({ companyId }) => {
     }, [companyName, setCompleted]);
 
     return (
-      <SingleLineLayout>
+      <SingleLineLayout width={ width }>
         <Description text="Company Name: " />
         { (completed)
         ? <Identifier text={ companyName } handleEdit={ handleEdit }/>

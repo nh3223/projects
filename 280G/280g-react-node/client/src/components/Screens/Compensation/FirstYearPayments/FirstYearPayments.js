@@ -22,8 +22,7 @@ const FirstYearPayments = ({ executiveId }) => {
 
   const validate = async () => {
     const firstPayments = Number(payments);
-    console.log(firstPayments);
-    if (firstPayments && firstPayments > 0) {
+    if ((firstPayments && firstPayments > 0) || firstPayments === 0) {
       await editExecutive(executiveId, { firstYearPayments: payments });
       setFirstYearPayments(payments);
       setCompleted(true);
